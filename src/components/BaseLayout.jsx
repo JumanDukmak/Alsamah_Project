@@ -1,19 +1,19 @@
-import { DashboardOutlined, ShoppingCartOutlined, InboxOutlined, EnvironmentOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import { DashboardOutlined, ShoppingCartOutlined, InboxOutlined, EnvironmentOutlined, MenuUnfoldOutlined, MenuFoldOutlined
+    ,PieChartOutlined } from '@ant-design/icons';
 import { Button, Layout, Menu } from 'antd';
 import SubMenu from 'antd/es/menu/SubMenu';
 import { useState } from 'react';
-
 import { useNavigate } from 'react-router-dom';
-
 
 const { Header, Content, Sider } = Layout;
 
 const BaseLayout = (props) => {
+    
     const navigate = useNavigate();
 
     const [collapsed, setCollapsed] = useState(false);
     return (
-        <Layout style={{ height: '100vh' }} >
+        <Layout>
             <Sider
                 trigger={null}
                 collapsible
@@ -21,18 +21,20 @@ const BaseLayout = (props) => {
                 width={250}
                 style={{
                     background: 'white',
+                    boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+                    fontWeight: '700'
                 }}
-
             >
-                <div style={{ height: '40px' }}></div>
                 <Menu
                     mode="inline"
                     defaultSelectedKeys={['1']}
+                    defaultOpenKeys={['sub1']}
                     style={{
-                        height: '94%',
+                        padding: '60px 0 0 0',
+                        height: '100%',
                         borderRight: 0,
                         color: 'white',
-                        backgroundColor: 'white'
+                        backgroundColor: 'white',
                     }}
                 >
                     <Menu.Item key='1' onClick={() => navigate('/')}>
@@ -40,45 +42,56 @@ const BaseLayout = (props) => {
                         <span>لوحة التحكم</span>
                     </Menu.Item>
 
-                    <SubMenu
-                        key='sub1'
+                    <SubMenu key='sub1'
                         title={
                             <span>
                                 <InboxOutlined />
                                 <span>المنتجات</span>
                             </span>}
                     >
-                        <Menu.Item key='2' onClick={() => navigate('/Groups')}>المنتجات</Menu.Item>
-                        <Menu.Item key='3' onClick={() => navigate('/AddGroup')}>إضافة منتج</Menu.Item>
-                        <Menu.Item key='4' onClick={() => navigate('/Groups')}>الماركات</Menu.Item>
-                        <Menu.Item key='5' onClick={() => navigate('/AddGroup')}>الأصناف</Menu.Item>
+                        <Menu.Item key='2' 
+                        style={{ fontWeight: '600' }} 
+                        onClick={() => navigate('/Products')}>المنتجات</Menu.Item>
+                        <Menu.Item key='3' 
+                        style={{ fontWeight: '600' }}
+                        onClick={() => navigate('/brands')}>الماركات</Menu.Item>
+                        <Menu.Item key='4'
+                        style={{ fontWeight: '600' }}
+                        onClick={() => navigate('/categories')}>الأصناف</Menu.Item>
                     </SubMenu>
 
-                    <SubMenu
-                        key='sub2'
+                    <SubMenu key='sub2'
                         title={
                             <span>
                                 <EnvironmentOutlined />
                                 <span>المواقع</span>
                             </span>}
                     >
-                        <Menu.Item key='6' onClick={() => navigate('/Users')}>المدن</Menu.Item>
-                        <Menu.Item key='7' onClick={() => navigate('/Users')}>المحلات</Menu.Item>
-                        <Menu.Item key='8' onClick={() => navigate('/Users')}>المناطق</Menu.Item>
+                        <Menu.Item key='5' 
+                        style={{ fontWeight: '600' }}
+                        onClick={() => navigate('/Countries')}>المدن</Menu.Item>
+                        <Menu.Item key='6' 
+                        style={{ fontWeight: '600' }}
+                        onClick={() => navigate('/shops')}>المحلات</Menu.Item>
+                        <Menu.Item key='7' 
+                        style={{ fontWeight: '600' }}
+                        onClick={() => navigate('/Areas')}>المناطق</Menu.Item>
                     </SubMenu>
 
-                    <SubMenu
-                        key='sub3'
+                    <SubMenu key='sub3'
                         title={
                             <span>
                                 <ShoppingCartOutlined />
                                 <span>المبيعات</span>
                             </span>}
                     >
-                        <Menu.Item key='9' onClick={() => navigate('/Users')}>المبيعات المحلية</Menu.Item>
-                        <Menu.Item key='10' onClick={() => navigate('/Users')}>المبيعات المصدرة</Menu.Item>
+                        <Menu.Item key='8' 
+                        style={{ fontWeight: '600' }}
+                        onClick={() => navigate('/add/sales')}>إضافة المبيعات</Menu.Item>
+                        <Menu.Item key='9' 
+                        style={{ fontWeight: '600' }}
+                        onClick={() => navigate('/show/distractions')}>استعراض الانحرافات</Menu.Item>
                     </SubMenu>
-
                 </Menu>
             </Sider>
 
@@ -111,7 +124,7 @@ const BaseLayout = (props) => {
                     style={{
                         margin: 0,
                         minHeight: 280,
-                        background: '#e4ebf2',
+                        background: '#f0f2f5',
                     }}
                 >
                     {props.children}
