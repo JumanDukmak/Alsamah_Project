@@ -5,12 +5,20 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Cairo', sans-serif;
-  font-weight: 600;
   direction: rtl;
 }
 
 body {
   font-family: 'Roboto', sans-serif;
+}
+
+.conatiner_body{
+  color: #213242;
+  background-color: #f0f2f5;
+  padding: 50px;
+  height: calc(100vh - 5vh);
+  overflow-x: auto;
+  overflow-y: auto;
 }
 
 .container {
@@ -38,37 +46,6 @@ body {
   overflow-x: auto;
 }
 
-.conatiner_body{
-  background-color: #f0f2f5;
-  padding: 20px;
-  height: calc(100vh - 5vh);
-}
-
-.my_list_users{
-/* background-color: red; */
-  height: 25vh;
-  padding: 10px 3px 10px 3px;
-  display: flex;
-  overflow-x: auto;
-}
-
-.my_list_users::-webkit-scrollbar{
-  width: 0;
-  height: 0;
-}
-
-.my_list_files{
-  height: 45vh;
-  display: flex;
-  overflow-y: auto;
-  padding: 5px 3px;
-}
-
-.my_list_files::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-
 .div_login{
   width: 100vw;
   height: 100vh;
@@ -85,28 +62,19 @@ body {
   background-color: #f0f2f5;
 }
 
-.addGroupForm{
-  width: 500px;
-  background-color: transparent;
-  border-radius:16px;
-}
-
 .customButton{
   margin-top: 10px;
   height: 40px;
   border-radius: 12px;
 }
 
-.conatiner_register{
-  display: flex;
-  margin-top: 10px;
-  justify-content: center;
-  gap: 10px;
-  color: white;
-}
-
 .card_button{
   background-color:  rgb(1 50 67);
   margin-top: 10px;
   align-items: center;
+}
+
+.title{
+  display: flex;
+  justify-content: space-between;
 }
