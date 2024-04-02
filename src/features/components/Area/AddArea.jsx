@@ -107,7 +107,6 @@ export default function AddArea({ open, setOpen }) {
 
     const handleAddArea = () => {
         dispatch(addAreaStart(area))
-        console.log(`the area added is : ${area.name} -- the gov is : ${area.governorate} -- the salesperson: ${area.salesperson_id}`)
         setOpen(false);
     }
 
@@ -146,7 +145,7 @@ export default function AddArea({ open, setOpen }) {
                     <Row gutter={16}>
                         <Col span={12}>
                             <Form.Item
-                                name="اسم المنطقة"
+                                name="name"
                                 label="اسم المنطقة"
                                 rules={[
                                     {
@@ -160,7 +159,7 @@ export default function AddArea({ open, setOpen }) {
                         </Col>
                         <Col span={12}>
                             <Form.Item
-                                name="المحافظة"
+                                name="governorate"
                                 label="المحافظة"
                                 rules={[
                                     {
@@ -182,7 +181,7 @@ export default function AddArea({ open, setOpen }) {
                     <Row gutter={16} type="flex" align="middle">
                         <Col span={12}>
                             <Form.Item
-                                name="القطاع"
+                                name="salesperson_id"
                                 label="القطاع"
                                 rules={[
                                     {

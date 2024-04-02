@@ -8,6 +8,7 @@ import salesPersonSlice from './SalesPerson/salesPersonSlice';
 import categoriesSlice from './Category/categoriesSlice';
 import brandsSlice from './Brands/brandsSlice';
 import shopsSlice from './Shops/shopsSlice';
+import salesDistractionsSlice from './SalesReports/salesDistractionsSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -20,6 +21,7 @@ export const store = configureStore({
         salesPersons: salesPersonSlice,
         brands: brandsSlice,
         categories: categoriesSlice,
+        salesDistraction:salesDistractionsSlice
     },
     middleware: ()=>[sagaMiddleware],
 })
