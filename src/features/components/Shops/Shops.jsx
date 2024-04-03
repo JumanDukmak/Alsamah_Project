@@ -48,7 +48,7 @@ const Shops = () => {
                 </Button>
                 <AddShop 
                 open={open} 
-                setOpen={setOpen}
+                onClose={() => setOpen(false)}
                 />
             </div>
             <div className="container_child">
