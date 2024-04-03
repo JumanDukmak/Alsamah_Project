@@ -1,6 +1,6 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
-import { getExportSalesFailure, getExportSalesSuccess, getLocalSalesFailure, getLocalSalesSuccess } from "./salesDistractionsSlice";
-import { getExportSalesDistractionsApi, getLocalSalesDistractionsApi } from "../../api/salesDistractionApi";
+import { getExportSalesFailure, getExportSalesSuccess, getLocalSalesFailure, getLocalSalesSuccess, getTotalSalesFailure, getTotalSalesSuccess } from "./salesDistractionsSlice";
+import { getExportSalesDistractionsApi, getLocalSalesDistractionsApi, getTotalSalesDistractionsApi } from "../../api/salesDistractionApi";
 
 //-----------------------------getExportSalesSaga--------------------------------
 function* getExportSalesDistractionsSaga(action) {
@@ -39,10 +39,32 @@ function* getLocalSalesDistractionsSaga(action) {
     }
 }
 
+//-----------------------------------getTotalSalesSaga---------------------------------------
+function* getTotalSalesDistractionsSaga(action) {
+    try {
+        const response = yield call(getTotalSalesDistractionsApi,
+            action.payload.saletype
+            ,action.payload.brands_id,
+            action.payload.categories_id)
+        
+        console.log(`the response is : ${response.status}`);
+        
+         console.log(`the response is : ${JSON.stringify(response.data.data)}`);
+
+        yield put(getTotalSalesSuccess(response.data))
+    }
+    catch (error) {
+        yield put(getTotalSalesFailure({ 'error': error.response.data.message }))
+        
+    }
+}
 
 
 
 
+function* TotalSalesDistractionsWatcherSaga() {
+    yield takeEvery('salesDistraction/getTotalSalesStart', getTotalSalesDistractionsSaga)
+}
 
 
 function* LocalSalesDistractionsWatcherSaga() {
@@ -62,7 +84,7 @@ export default function* SalesDistractionsSaga() {
     yield all([
         ExportSalesDistractionsWatcherSaga(),
         LocalSalesDistractionsWatcherSaga(),
-
+        TotalSalesDistractionsWatcherSaga(),
        
     ])
 }

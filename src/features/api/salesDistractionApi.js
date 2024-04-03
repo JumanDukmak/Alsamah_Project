@@ -23,7 +23,6 @@ export const getExportSalesDistractionsApi = (saletype,brands_id,categories_id,c
 
 export const getLocalSalesDistractionsApi = (local_saletype,salesperson_id,areas_id,governorate,brands_id,categories_id) => {
    
-   console.log(`the type is :${local_saletype}`)
     return axios.get(`http://127.0.0.1:8000/api/sales/getLocalSaleReport`,
         {
             headers: {
@@ -44,4 +43,22 @@ export const getLocalSalesDistractionsApi = (local_saletype,salesperson_id,areas
 }
 //------------------------------Total-----------------------
 
-
+export const getTotalSalesDistractionsApi = (saletype,brands_id,categories_id) => {
+   
+    console.log(`the type is :${saletype}`)
+     return axios.get(`http://127.0.0.1:8000/api/sales/getTotalSalesReport`,
+         {
+             headers: {
+                 'Authorization': `Bearer ${''}`,
+                 'Content-Type': 'application/json'
+             },
+             params: {
+                 saletype: saletype,
+                 brands_id: brands_id,
+                 categories_id: categories_id,
+                
+ 
+             }
+         }
+     )
+ }
