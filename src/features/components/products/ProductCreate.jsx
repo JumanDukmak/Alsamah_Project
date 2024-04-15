@@ -3,46 +3,44 @@ import { UploadOutlined } from '@ant-design/icons';
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addProductsFetch, resetData, uploadFileFetch } from "../../redux/products/productSlice";
+import { getBrandsStart } from "../../redux/Brands/brandsSlice";
+import { getCategoriesStart } from "../../redux/Category/categoriesSlice";
 
 export default function ProductCreate({ open, onClose }) {
     const dispatch = useDispatch();
 
     const { Option } = Select;
     const [api, contextHolder] = message.useMessage();
+    const brands = useSelector((state) => state.brands)
+    const categories = useSelector((state) => state.categories)
     const { Title } = Typography;
 
     const products = useSelector((state) => state.products)
     useEffect(() => {
         if (products.message) {
-            message.success(products.message);
+            api.success(products.message);
             dispatch(resetData())
         }
         if (products.error) {
-            message.error(products.error);
+            api.error(products.error);
             dispatch(resetData())
         }
     }, [products.message, products.error]);
 
-    const files = useSelector((state) => state.files)
 
-    const List_brand = [
-        {
-            value: '4',
-            label: 'السماح',
-        },
-    ];
-
-    const List_category = [
-        {
-            value: '4',
-            label: 'نسائي',
-        },
-    ];
+    useEffect(() => {
+        dispatch(getBrandsStart())
+        dispatch(getCategoriesStart())
+    }, [])
 
     const List_piece = [
         {
             value: '1',
             label: 'قطعة',
+        },
+        {
+            value: '2',
+            label: 'دزينه',
         },
     ];
 
@@ -59,18 +57,13 @@ export default function ProductCreate({ open, onClose }) {
         excel_file: null
     });
 
-    const selected_brand = (selectedValue) => {
-        const selectedShop = List_brand.find(bra => bra.value === selectedValue);
-        if (selectedShop) {
-            setProduct(product => ({ ...product, brand_id: selectedShop.value }));
-        }
+
+    const selected_brand_id = (selectedValue) => {
+        setProduct(prevState => ({ ...prevState, brand_id: selectedValue }));
     };
 
-    const selected_category = (selectedValue) => {
-        const selectedShop2 = List_category.find(cat => cat.value === selectedValue);
-        if (selectedShop2) {
-            setProduct(product => ({ ...product, category_id: selectedShop2.value }));
-        }
+    const selected_category_id = (selectedValue) => {
+        setProduct(prevState => ({ ...prevState, category_id: selectedValue }));
     };
 
     const selected_piece = (selectedValue) => {
@@ -85,7 +78,7 @@ export default function ProductCreate({ open, onClose }) {
     };
 
     const onSubmit = (e) => {
-        let dataFile = {excel_file: excel_file}
+        let dataFile = { excel_file: excel_file }
         dispatch(uploadFileFetch(dataFile))
     };
 
@@ -194,11 +187,11 @@ export default function ProductCreate({ open, onClose }) {
                             >
                                 <Select
                                     placeholder="اختر المجموعة"
-                                    onChange={selected_category}
+                                    onChange={selected_category_id}
                                 >
-                                    {List_category.map((cat) => (
-                                        <Option key={cat.value} value={cat.value}>
-                                            {cat.label}
+                                    {categories.categories.map((cat) => (
+                                        <Option key={cat.id} value={cat.id}>
+                                            {cat.name}
                                         </Option>
                                     ))}
                                 </Select>
@@ -219,11 +212,11 @@ export default function ProductCreate({ open, onClose }) {
                             >
                                 <Select
                                     placeholder="اختر الماركة"
-                                    onChange={selected_brand}
+                                    onChange={selected_brand_id}
                                 >
-                                    {List_brand.map((bra) => (
-                                        <Option key={bra.value} value={bra.value}>
-                                            {bra.label}
+                                    {brands.brands.map((b) => (
+                                        <Option key={b.id} value={b.id}>
+                                            {b.name}
                                         </Option>
                                     ))}
                                 </Select>
@@ -263,50 +256,51 @@ export default function ProductCreate({ open, onClose }) {
                 </Form>
                 <Divider />
                 <Form
-                layout="horizental"
-                hideRequiredMark
-                style={{padding: '10px'}}
-                onFinish={onSubmit}
-                onFinishFailed={onFinishFailed}
+                    layout="horizental"
+                    hideRequiredMark
+                    style={{ padding: '10px' }}
+                    onFinish={onSubmit}
+                    onFinishFailed={onFinishFailed}
                 >
-                <Row>
-                    <Form.Item name="title">
-                        <Title 
-                        level={5} 
-                        style={{ fontFamily: 'Cairo',
-                        color: '#213242',
-                        }}
-                        >يمكن تحميل ملف خاص بالمنتجات</Title>
-                    </Form.Item>
-                </Row>
-                <Row gutter={16}>
-                    <Col span={12}>
-                        <Form.Item name="button">
-                            <Space align="start">
-                                <Upload
-                                beforeUpload={() => false}
-                                onChange={(e) => {
-                                    setFile(e.file);
-                                    console.log(e.file);
+                    <Row>
+                        <Form.Item name="title">
+                            <Title
+                                level={5}
+                                style={{
+                                    fontFamily: 'Cairo',
+                                    color: '#213242',
                                 }}
-                                >
-                                    <Button 
-                                    icon={<UploadOutlined />}
-                                    size='middle'
-                                    style={{ fontWeight: '600'}}
-                                    >تحميل من إكسل</Button>
-                                </Upload>
-                                <Button
-                                type="primary"
-                                htmlType="submit"
-                                onClick={onClose}
-                                >إرسال</Button>
-                            </Space>
+                            >يمكن تحميل ملف خاص بالمنتجات</Title>
                         </Form.Item>
-                    </Col>
-                </Row>
-            </Form>
-        </Drawer>
+                    </Row>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item name="button">
+                                <Space align="start">
+                                    <Upload
+                                        beforeUpload={() => false}
+                                        onChange={(e) => {
+                                            setFile(e.file);
+                                            console.log(e.file);
+                                        }}
+                                    >
+                                        <Button
+                                            icon={<UploadOutlined />}
+                                            size='middle'
+                                            style={{ fontWeight: '600' }}
+                                        >تحميل من إكسل</Button>
+                                    </Upload>
+                                    <Button
+                                        type="primary"
+                                        htmlType="submit"
+                                        onClick={onClose}
+                                    >إرسال</Button>
+                                </Space>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                </Form>
+            </Drawer>
         </div >
     )
 }

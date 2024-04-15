@@ -7,6 +7,8 @@ import salesPersonsSaga from './SalesPerson/salesPersonSaga';
 import categoriesSaga from './Category/categoriesSaga';
 import brandsSaga from './Brands/brandsSaga';
 import SalesDistractionsSaga from './SalesReports/salesDistractionsSaga';
+import SalesSaga from './Sales/salesSaga';
+import SalesChartsSaga from './SalesReports/salesChartsSaga';
 
 export default function* rootSaga() {
     yield all([
@@ -17,6 +19,8 @@ export default function* rootSaga() {
         fork(salesPersonsSaga),
         fork(categoriesSaga),
         fork(brandsSaga),
-        fork(SalesDistractionsSaga)
+        fork(SalesDistractionsSaga),
+        fork(SalesSaga),
+        fork(SalesChartsSaga),
     ]);
 }

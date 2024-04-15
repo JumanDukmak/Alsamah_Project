@@ -5,6 +5,7 @@ const productSlice = createSlice({
     initialState: {
         products: [],
         files: [],
+        meta: [],
         isLoading: false,
         done: false,
         id: 0,
@@ -47,8 +48,11 @@ const productSlice = createSlice({
         },
 
         getProductsSuccess: (state, action) => {
+            console.log("action1:"+ action.payload.meta);
+            console.log("action2:"+ action.payload.products);
             state.isLoading = false;
             state.products = action.payload.products;
+            state.meta = action.payload.meta;
             state.error = null;
         },
 
