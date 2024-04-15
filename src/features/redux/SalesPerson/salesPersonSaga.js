@@ -29,7 +29,6 @@ function* addSalesPersonSaga(action) {
 }
 
 function* addsalesPersonWatcherSaga() {
-    console.log('herowatttttchhhhh')
     yield takeEvery('salesPersons/addSalesPersonStart', addSalesPersonSaga)
 }
 

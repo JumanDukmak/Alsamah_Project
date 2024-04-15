@@ -21,13 +21,15 @@ function* addProductSaga(action) {
     }
 }
 
-function* getProductSaga() {
-    try{
-        const response = yield call(getProductsApi)
-        yield put(getProductsSuccess({'products': response.data.data}))
-    } 
-    catch(error) {
-        yield put(getProductsFailure({'error': error.message}))
+function* getProductSaga(action) {
+    console.log("from saga:"+ action.payload);
+    const response = yield call(getProductsApi, action.payload)
+    
+    if(response.status == 200 || response.status == 201) {
+        console.log("response:" +response);
+        yield put(getProductsSuccess({'products': response.data.data, 'meta': response.data.meta}))
+    } else {
+        yield put(getProductsFailure({'error': response}))
     }
 }
 

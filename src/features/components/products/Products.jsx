@@ -1,9 +1,10 @@
-import { Button, Col, Row, Table } from 'antd';
+import { Button, Col, Pagination, Row, Table } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import ProductCreate from './ProductCreate';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsFetch } from '../../redux/products/productSlice';
+import { useNavigate } from 'react-router-dom';
 
 const columns = [
     {
@@ -36,16 +37,25 @@ const columns = [
         dataIndex: 'price',
         key: 'price',
     },
+    //للتجريب فقط
+    {
+        title: 'id',
+        dataIndex: 'id',
+        key: 'id',
+    },
 ];
 
 const Products = () => {
     const [open, setOpen] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products)
-    useEffect(() => {
-        dispatch(getProductsFetch())
-    }, [dispatch])
+    
+    const onChange = (page) => {
+        setCurrentPage(page); // Update current page
+        dispatch(getProductsFetch(page))
+    };
 
     return (
         <div className='conatiner_body'>
@@ -73,17 +83,21 @@ const Products = () => {
             pagination={false}
             />
             <div style={{ height: '50px' }} />
-            {/* <Pagination 
-            defaultCurrent={1} 
-            total={1000} 
-            pageSize={20}/> */}
+            <Pagination 
+                current={products.meta.current_page_number} 
+                total={products.meta.total_item_count} 
+                showTotal={(total) => `${total} منتج`}
+                showSizeChanger={false}
+                pageSize={products.meta.items_per_page}
+                onChange={onChange}
+                style={{direction: 'ltr'}}
+            />
             <ProductCreate
             open={open}
             onClose={() => setOpen(false)}
             />
-            <div style={{ height: '50px' }} />
         </div>
     )
 }
 
-export default Products
+export default Products;

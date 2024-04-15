@@ -16,9 +16,17 @@ body {
   color: #213242;
   background-color: #f0f2f5;
   padding: 50px;
-  height: calc(100vh - 5vh);
+  height: calc(100vh - 6vh);
   overflow-x: auto;
   overflow-y: auto;
+}
+
+.icon {
+  background-color: #f0f2f5;
+  border-radius: 22px;
+  padding: 10px;
+  font-size: 24px;
+  color: #213242;
 }
 
 .container {

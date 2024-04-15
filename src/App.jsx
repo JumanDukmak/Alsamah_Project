@@ -11,6 +11,7 @@ import Categories from './features/components/Category/Categories'
 import Brands from './features/components/Brands/Brands'
 import AddSales from './features/components/Sales/AddSales'
 import ShowDistractions from './features/components/Sales/ShowDistractions'
+import Distractions from './features/components/Sales/Distractions'
 
 function App() {
   return (  
@@ -32,6 +33,7 @@ function App() {
             <Route exact path="/brands" element={<Brands />} />
             <Route exact path='/add/sales' element={<AddSales />} />
             <Route exact path='/show/distractions' element={<ShowDistractions />} />
+            <Route exact path='/distractions' element={<Distractions />} />
         </Routes>
     </BaseLayout>
   </ConfigProvider>
