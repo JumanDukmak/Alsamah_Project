@@ -63,7 +63,6 @@ export const getSalesChartsApi = (from,to,categories) => {
             from:from,
             to: to,
             categories: categories,
-           
         }
     }).then(response => (response)).catch(error =>(error.response.data.message))
 }
@@ -82,3 +81,4 @@ export const getProductsChartsApi = (year,month) => {
         }
     }).then(response => (response)).catch(error =>(error.response.data.message))
 }
+

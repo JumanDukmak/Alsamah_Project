@@ -25,7 +25,7 @@ function* getExportSalesDistractionsSaga(action) {
             action.payload.country_id
         );
 
-        console.log(`the response is : ${JSON.stringify(response.data.data)}`);
+        //console.log(`the response is : ${JSON.stringify(response.data.data)}`);
 
         yield put(getExportSalesSuccess(response.data));
     } catch (error) {
@@ -71,24 +71,15 @@ function* getTotalSalesDistractionsSaga(action) {
 }
 
 function* TotalSalesDistractionsWatcherSaga() {
-    yield takeEvery(
-        "salesDistraction/getTotalSalesStart",
-        getTotalSalesDistractionsSaga
-    );
+    yield takeEvery("salesDistraction/getTotalSalesStart",getTotalSalesDistractionsSaga);
 }
 
 function* LocalSalesDistractionsWatcherSaga() {
-    yield takeEvery(
-        "salesDistraction/getLocalSalesStart",
-        getLocalSalesDistractionsSaga
-    );
+    yield takeEvery("salesDistraction/getLocalSalesStart",getLocalSalesDistractionsSaga);
 }
 
 function* ExportSalesDistractionsWatcherSaga() {
-    yield takeEvery(
-        "salesDistraction/getExportSalesStart",
-        getExportSalesDistractionsSaga
-    );
+    yield takeEvery("salesDistraction/getExportSalesStart",getExportSalesDistractionsSaga);
 }
 
 //-----------------------------salessonsSaga--------------------------------

@@ -1,4 +1,5 @@
 import { Row, Table } from "antd"
+import { ArrowDownOutlined, ArrowUpOutlined, } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
@@ -28,14 +29,17 @@ const Distractions = () => {
             key: 'نسبة_التحسن_الشهري',
             render: (text) => {
                 const value = parseFloat(text); // Convert text to a number
-                let color = ''; // Default color
+                let color = '';
+                let arrowIcon = null; 
                 
                 if (value > 0) {
-                  color = 'green'; // Apply green color for positive values
+                    color = 'green';
+                    arrowIcon = <ArrowUpOutlined />;
                 } else if (value < 0) {
-                  color = 'red'; // Apply red color for negative values
+                    color = 'red';
+                    arrowIcon = <ArrowDownOutlined />;
                 }
-                return <span style={{ color }}>{text}</span>; // Apply the determined color
+                return <span style={{ color }}>{arrowIcon} {text}</span>;
             },
         },
         {
@@ -45,14 +49,16 @@ const Distractions = () => {
             render: (text) => {
                 const value = parseFloat(text);
                 let color = '';
+                let arrowIcon = null; 
                 
                 if (value > 0) {
                     color = 'green';
+                    arrowIcon = <ArrowUpOutlined />;
                 } else if (value < 0) {
-                    color = 'red'; 
+                    color = 'red';
+                    arrowIcon = <ArrowDownOutlined />;
                 }
-                
-                return <span style={{ color }}>{text}</span>;
+                return <span style={{ color }}>{arrowIcon} {text}</span>;
             },
         },
     ];
@@ -65,7 +71,8 @@ const Distractions = () => {
             <div style={{ height: '20px' }}></div>
             <Table 
             rowKey='id'
-            columns={columns} 
+            columns={columns}
+            bordered
             dataSource={distractions.distractions}
             pagination={false}
             >

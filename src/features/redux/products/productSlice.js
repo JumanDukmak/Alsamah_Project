@@ -42,14 +42,15 @@ const productSlice = createSlice({
             state.error = null;
         },
         //get products slice
-        getProductsFetch: (state) => {
+        getProductsFetch: (state, action) => {
             state.isLoading = true;
             state.error = null;
+            state.products = [];
         },
 
         getProductsSuccess: (state, action) => {
-            console.log("action1:"+ action.payload.meta);
-            console.log("action2:"+ action.payload.products);
+            // console.log("action1:"+ action.payload.meta);
+            // console.log("action2:"+ action.payload.products);
             state.isLoading = false;
             state.products = action.payload.products;
             state.meta = action.payload.meta;
@@ -59,6 +60,7 @@ const productSlice = createSlice({
         getProductsFailure: (state, action) => {
             state.isLoading = false;
             state.error = action.payload.error;
+            state.products = [];
         },
         //uploud file to add products from excel
         uploadFileFetch: (state) => {
