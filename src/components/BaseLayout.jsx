@@ -91,7 +91,27 @@ const BaseLayout = (props) => {
                         <Menu.Item key='9' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/show/distractions')}>استعراض الانحرافات</Menu.Item>
-                    </SubMenu>
+
+           </SubMenu>
+           
+               
+         <SubMenu key='sub4'
+                        title={
+                            <span>
+                                <InboxOutlined />
+                                <span>التكاليف</span>
+                            </span>}
+                    >
+
+<Menu.Item key='10' 
+                        style={{ fontWeight: '600' }}
+                        onClick={() => navigate('/Indirect_industrialExpense')}>المصاريف الصناعية  </Menu.Item>
+         
+
+                         </SubMenu>
+
+               
+               
                 </Menu>
             </Sider>
 

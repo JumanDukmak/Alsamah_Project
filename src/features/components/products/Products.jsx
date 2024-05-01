@@ -52,6 +52,9 @@ const Products = () => {
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products)
     
+    useEffect(()=>{
+        dispatch(getProductsFetch(currentPage))
+    },[])
     const onChange = (page) => {
         setCurrentPage(page); // Update current page
         dispatch(getProductsFetch(page))

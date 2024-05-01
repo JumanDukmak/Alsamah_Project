@@ -12,6 +12,7 @@ import Brands from './features/components/Brands/Brands'
 import AddSales from './features/components/Sales/AddSales'
 import ShowDistractions from './features/components/Sales/ShowDistractions'
 import Distractions from './features/components/Sales/Distractions'
+import Indirect_industrialExpense from './features/components/Indirect_IndustrialExpense/IndustrialExpense'
 
 function App() {
   return (  
@@ -34,6 +35,7 @@ function App() {
             <Route exact path='/add/sales' element={<AddSales />} />
             <Route exact path='/show/distractions' element={<ShowDistractions />} />
             <Route exact path='/distractions' element={<Distractions />} />
+            <Route exact path='/Indirect_industrialExpense' element={<Indirect_industrialExpense />} />
         </Routes>
     </BaseLayout>
   </ConfigProvider>
