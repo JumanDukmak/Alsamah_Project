@@ -12,7 +12,6 @@ function* addProductSaga(action) {
         action.payload.unit,
         action.payload.brand_id,
         action.payload.category_id)
-
     if (response.status == 200 || response.status == 201) {
         yield put(addProductsSuccess(response.data))
     }
@@ -22,11 +21,9 @@ function* addProductSaga(action) {
 }
 
 function* getProductSaga(action) {
-    console.log("from saga:"+ action.payload);
     const response = yield call(getProductsApi, action.payload)
-    
+    //console.log(`the response is : ${JSON.stringify(response.data)}`);
     if(response.status == 200 || response.status == 201) {
-        console.log("response:" +response);
         yield put(getProductsSuccess({'products': response.data.data, 'meta': response.data.meta}))
     } else {
         yield put(getProductsFailure({'error': response}))

@@ -1,10 +1,9 @@
-import { Button, Col, Pagination, Row, Table } from 'antd';
+import { Button, Col, Pagination, Row, Table, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import ProductCreate from './ProductCreate';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductsFetch } from '../../redux/products/productSlice';
-import { useNavigate } from 'react-router-dom';
+import { getProductsFetch, resetData } from '../../redux/products/productSlice';
 
 const columns = [
     {
@@ -38,30 +37,38 @@ const columns = [
         key: 'price',
     },
     //للتجريب فقط
-    {
-        title: 'id',
-        dataIndex: 'id',
-        key: 'id',
-    },
+    // {
+    //     title: 'id',
+    //     dataIndex: 'id',
+    //     key: 'id',
+    // },
 ];
 
 const Products = () => {
     const [open, setOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products)
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         dispatch(getProductsFetch(currentPage))
-    },[])
-    const onChange = (page) => {
-        setCurrentPage(page); // Update current page
-        dispatch(getProductsFetch(page))
-    };
+    }, [])
+
+    const [api, contextHolder] = message.useMessage();
+    useEffect(() => {
+        if (products.message != null) {
+            api.success(products.message);
+            dispatch(resetData())
+        }
+        if (products.error != null) {
+            api.error(products.error);
+            dispatch(resetData())
+        }
+    }, [products.message, products.error]);
 
     return (
         <div className='conatiner_body'>
+            {contextHolder}
             <Row>
                 <Col span={6}>
                     <h2>المنتجات</h2>
@@ -81,6 +88,7 @@ const Products = () => {
             <div style={{ height: '20px' }} />
             <Table 
             rowKey='id'
+            bordered
             columns={columns} 
             dataSource={products.products}
             pagination={false}
@@ -88,11 +96,15 @@ const Products = () => {
             <div style={{ height: '50px' }} />
             <Pagination 
                 current={products.meta.current_page_number} 
-                total={products.meta.total_item_count} 
+                total={products.meta.total_item_count}
                 showTotal={(total) => `${total} منتج`}
                 showSizeChanger={false}
                 pageSize={products.meta.items_per_page}
-                onChange={onChange}
+                onChange={ (page) => {
+                    setCurrentPage(page); // Update current page
+                    dispatch(getProductsFetch(page))
+                }
+            }
                 style={{direction: 'ltr'}}
             />
             <ProductCreate

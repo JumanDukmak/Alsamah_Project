@@ -72,13 +72,12 @@ const Areas = () => {
                     </Avatar>
                   }
                   title={area.name}
-                  description={` المحافظة  : ${area.governorate} `}
+                  description={`المحافظة : ${area.governorate}`}
                 />
-                  <Meta
-                  
-    description={`اسم القطاع : ${area.salesperson.full_name}`}
-    style={{ textAlign: "center" }}
-  />
+                <Meta             
+                  description={`اسم القطاع : ${area.salesperson.full_name}`}
+                  style={{ textAlign: "center" }}
+                />
               </Card>
             </Col>
           ))}

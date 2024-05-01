@@ -2,7 +2,7 @@ import { Button, Col, Input, Row, Form, Select, Space, Drawer, InputNumber, mess
 import { UploadOutlined } from '@ant-design/icons';
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addProductsFetch, resetData, uploadFileFetch } from "../../redux/products/productSlice";
+import { addProductsFetch, getProductsFetch, resetData, uploadFileFetch } from "../../redux/products/productSlice";
 import { getBrandsStart } from "../../redux/Brands/brandsSlice";
 import { getCategoriesStart } from "../../redux/Category/categoriesSlice";
 
@@ -26,7 +26,6 @@ export default function ProductCreate({ open, onClose }) {
             dispatch(resetData())
         }
     }, [products.message, products.error]);
-
 
     useEffect(() => {
         dispatch(getBrandsStart())

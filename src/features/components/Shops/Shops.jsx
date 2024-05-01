@@ -69,7 +69,6 @@ const Shops = () => {
                                                 {shop.name.charAt(0).toUpperCase()}
                                                 </Avatar>}
                                         title={shop.name}
-                                        // description={`  المحافظة: ${shop.governorate}`}
                                     />
                                 </Card>
                             </Col>

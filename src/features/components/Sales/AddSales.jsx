@@ -60,7 +60,6 @@ const AddSales = () => {
                         beforeUpload={() => false}
                         onChange={(e) => {
                             setFile(e.file);
-                            console.log(e.file);
                         }}
                     >
                         <Button

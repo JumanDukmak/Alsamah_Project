@@ -19,7 +19,6 @@ export function addProductsApi( name, code, price, unit, brand_id, category_id )
 }
 
 export function getProductsApi(page) {
-    console.log("from api:"+ page);
     return axios.get(`http://127.0.0.1:8000/api/sales/show_products?page=${page}`,
             // {
             //     headers: {
@@ -27,7 +26,7 @@ export function getProductsApi(page) {
             //         "Content-Type": "application/json",
             //     },
             // }
-    ).then(response => (response)).catch(error => (error.response.data.message));
+    )
 }
 
 export function uploadFileApi(formData) {
