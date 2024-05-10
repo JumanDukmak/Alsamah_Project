@@ -15,6 +15,8 @@ import salesDistractionsSlice from './SalesReports/salesDistractionsSlice';
 import salesSlice from './Sales/salesSlice';
 import salesChartsSlice from './SalesReports/salesChartsSlice';
 import IndustrialExpenseSlice from './Indirect_IndustrialExpense/IndustrialExpenseSlice';
+import PigmentCostsSlice from './PigmentCosts/PigmentCostsSlice';
+import GeneralDataSlice from './GeneralData/GeneralDataSlice';
 
 const persistConfig = {
     key: 'root',
@@ -33,6 +35,8 @@ const reducer = combineReducers({
     sales: salesSlice,
     salesCharts: salesChartsSlice,
     IndustrialExpense:IndustrialExpenseSlice,
+    pigmentCosts:PigmentCostsSlice,
+    GeneralData:GeneralDataSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

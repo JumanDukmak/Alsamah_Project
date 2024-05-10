@@ -10,6 +10,8 @@ import SalesDistractionsSaga from './SalesReports/salesDistractionsSaga';
 import SalesSaga from './Sales/salesSaga';
 import SalesChartsSaga from './SalesReports/salesChartsSaga';
 import industrialExpenseSaga from './Indirect_IndustrialExpense/IndustrialExpenseSaga';
+import pigmentCostsSaga from './PigmentCosts/PigmentCostsSaga';
+import generalDataSaga from './GeneralData/GeneralDataSaga';
 
 export default function* rootSaga() {
     yield all([
@@ -23,6 +25,8 @@ export default function* rootSaga() {
         fork(SalesDistractionsSaga),
         fork(SalesSaga),
         fork(SalesChartsSaga),
-        fork(industrialExpenseSaga)
+        fork(industrialExpenseSaga),
+        fork(pigmentCostsSaga),
+        fork(generalDataSaga)
     ]);
 }

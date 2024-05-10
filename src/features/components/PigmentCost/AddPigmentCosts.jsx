@@ -1,37 +1,35 @@
 import { useEffect, useState } from "react";
-import { Button, Cascader, Col, Form,Select, Input, InputNumber, Modal, Row, Space, message } from "antd";
+import { Button, Col, Form, Input, InputNumber, Modal, Row, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addIndustrialExpenseStart,
-  resetData_IndustrialExpense,
-} from "../../redux/Indirect_IndustrialExpense/IndustrialExpenseSlice";
+
+import { addPigmentCostsStart, resetData_pigmentCosts } from "../../redux/PigmentCosts/PigmentCostsSlice";
 
 
 
-export default function Add_IndustrialExpense({ open, onClose }) {
+export default function Add_PigmentCosts({ open, onClose }) {
   const dispatch = useDispatch();
 
-  const industrialExpense = useSelector((state) => state.IndustrialExpense);
+  const pigmentCosts = useSelector((state) => state.pigmentCosts);
 
-  const [oneIndustrialExpense, setOneIndustrialExpense] = useState({
-    name: "",
-    monthlyD: "",
+  const [onePigmentCosts, setOnePigmentCosts] = useState({
+    measure: "",
+    value: "",
   });
 
   const [api, contextHolder] = message.useMessage();
   useEffect(() => {
-    if (industrialExpense.message != null) {
-      api.success(industrialExpense.message);
-      dispatch(resetData_IndustrialExpense());
+    if (pigmentCosts.message != null) {
+      api.success(pigmentCosts.message);
+      dispatch(resetData_pigmentCosts());
     }
-    if (industrialExpense.error != null) {
-      api.error(industrialExpense.error);
-      dispatch(resetData_IndustrialExpense());
+    if (pigmentCosts.error != null) {
+      api.error(pigmentCosts.error);
+      dispatch(resetData_pigmentCosts());
     }
-  }, [industrialExpense.message, industrialExpense.error]);
+  }, [pigmentCosts.message, pigmentCosts.error]);
 
   const onFinish = (e) => {
-    dispatch(addIndustrialExpenseStart(oneIndustrialExpense));
+    dispatch(addPigmentCostsStart(onePigmentCosts));
     onClose();
   };
   const onFinishFailed = (errorInfo) => {
@@ -42,14 +40,12 @@ export default function Add_IndustrialExpense({ open, onClose }) {
       {contextHolder}
       <Modal
         open={open}
-        title="إضافة مصاريف صناعية"
+        title="إضافة مصاريف صباغية"
         onCancel={onClose}
         footer={null}
       >
         <Form
-          
-          className='Add_IndustrialExpense'
-
+          name="basic"
           labelCol={{
             span: 8,
           }}
@@ -69,19 +65,19 @@ export default function Add_IndustrialExpense({ open, onClose }) {
         >
           <Form.Item
             label="الاسم"
-            name="name_"
+            name="measure"
             rules={[
               {
                 required: true,
-                message: "ادخل اسم المصاريف الصناعية !",
+                message: "ادخل اسم التكاليف الصباغية !",
               },
             ]}
           >
             <Input
               onChange={(e) =>
-                setOneIndustrialExpense({
-                  ...oneIndustrialExpense,
-                  name: e.target.value,
+                setOnePigmentCosts({
+                  ...onePigmentCosts,
+                  measure: e.target.value,
                 })
               }
             />
@@ -89,23 +85,25 @@ export default function Add_IndustrialExpense({ open, onClose }) {
 
 
 <Form.Item 
-label="التكاليف الشهرية"
-name="monthlyD_"
+label="نسبة الصباغ "
+name="value"
 rules={[
   {
     required: true,
-    message: "ادخل التكلفة الشهرية !",
+    message: "ادخل  نسبة الصباغ !",
   },
 ]}
 >
 
 
-    <InputNumber  addonAfter="$" onChange={(e) =>
+    <InputNumber  addonAfter="%" onChange={(e) =>
   
-                setOneIndustrialExpense({
-                  ...oneIndustrialExpense,
-                  monthlyD: e,
-                })
+  setOnePigmentCosts({
+    ...onePigmentCosts,
+    value: e,
+  })
+
+               
               
               } />
   
@@ -123,7 +121,7 @@ rules={[
 
             <Col>
               <Button type="primary" htmlType="submit">
-                إضافة مصاريف صناعية
+                إضافة مصاريف صباغية
               </Button>
             </Col>
           </Row>

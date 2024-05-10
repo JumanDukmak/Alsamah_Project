@@ -111,10 +111,10 @@ const BaseLayout = (props) => {
                         onClick={() => navigate('')}>النفقات المالية</Menu.Item>
                         <Menu.Item key='13' 
                         style={{ fontWeight: '600' }}
-                        onClick={() => navigate('/add/sales')}>معطيات عامة</Menu.Item>
+                        onClick={() => navigate('/GeneralData')}>معطيات عامة</Menu.Item>
                         <Menu.Item key='14' 
                         style={{ fontWeight: '600' }}
-                        onClick={() => navigate('/add/sales')}>تكاليف الصباغ</Menu.Item>
+                        onClick={() => navigate('/PigmentCosts')}>تكاليف الصباغ</Menu.Item>
                     </SubMenu>
                 </Menu>
             </Sider>

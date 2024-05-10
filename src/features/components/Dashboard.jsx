@@ -74,6 +74,7 @@ const data2 = {
 function Dashboard() {
   const dispatch = useDispatch();
   const salesCharts = useSelector((state) => state.salesCharts.salesCharts);
+  const productsCharts = useSelector((state) => state.salesCharts.productsCharts);
 
   const [data_filtering2, setData_filtering2] = useState({
     from: "",
@@ -117,10 +118,87 @@ month: data_filtering1.month ? parseInt(data_filtering1.month.format('MM'), 10) 
   // Extracting the years from the response data
   const years = Object.keys(salesCharts);
   // console.log(`the years are ${JSON.stringify(years)}`)
-
+const catgs=Object.keys(productsCharts)
+ console.log(`the data are ${JSON.stringify(catgs)}`)
   // Initialize an empty array to store datasets
   const datasets = [];
 const datasets1=[];
+
+ // Loop through each year in the data
+ catgs.forEach((catg) => {
+  // Extract the sales data for the current year
+  const productData = productsCharts[catg];
+  // console.log(`the years are ${JSON.stringify(salesData)}`)
+  // Initialize arrays to store sales data for each type
+ 
+  const Alsamah = [];
+  const Latnyana = [];
+  const Bali = [];
+  const total_brands=[];
+
+  // Loop through the sales data for the current year
+  productData.forEach((sale) => {
+    // Check the type of sale and push the sales sum to the corresponding array
+    switch (sale.brand) {
+      case "السماح":
+        Alsamah.push(parseFloat(sale.sales_sum));
+       
+        break;
+      case "لاتنيانا":
+        Latnyana.push(parseFloat(sale.sales_sum));
+        break;
+      case "بالي":
+        Bali.push(parseFloat(sale.sales_sum));
+        
+        case "إجمالي الماركات":
+          total_brands.push(parseFloat(sale.sales_sum));
+        break;
+     
+      default:
+        break;
+    }
+
+  });
+
+  const catgoriesColors = {
+    نسائي: "rgba(215, 135, 255, 0.6)",
+    داخلي : "rgba(35, 137, 255, 0.6)",
+    سملس: "rgba(13, 204, 204, 0.6)",
+    إجمالي_الأصناف: "rgba(241, 142, 86, 0.6)",
+   
+  
+  };
+
+  const borderColors = {
+    نسائي: "rgba(215, 135, 255, 1)",
+    داخلي: "rgba(35, 137, 255, 1)",
+    سملس: "rgba(13, 204, 204, 1)",
+    إجمالي_الأصناف: "rgba(241, 142, 86, 1)",
+   
+   
+  };
+
+
+  // Create a dataset object for the current year
+  const dataset = {
+    label: catg,
+    data: [
+      Alsamah.reduce((a, b) => a + b, 0),
+      Latnyana.reduce((a, b) => a + b, 0),
+      Bali.reduce((a, b) => a + b, 0),
+      total_brands.reduce((a, b) => a + b, 0),
+    ],
+    backgroundColor: catgoriesColors[catg],
+      borderColor: borderColors[catg],
+      borderWidth: 1,
+
+  };
+
+  // Push the dataset object to the datasets array
+  datasets1.push(dataset);
+});
+
+
 
   // Loop through each year in the data
   years.forEach((year) => {
@@ -193,7 +271,7 @@ const datasets1=[];
 
   // Create the chart data object
   const chartData1 = {
-    labels: ["السماح", "لاتنيانا", "بالي"],
+    labels: ["السماح", "لاتنيانا", "بالي" ,"إجمالي الأصناف"],
     datasets: datasets1,
   };
   const chartData2 = {
@@ -440,7 +518,7 @@ const datasets1=[];
         </Col>
         <Col span={16}>
           <Card style={{ borderRadius: 2 }}>
-            <Bar options={options} data={chartData2} />
+            <Bar options={options} data={chartData1} />
           </Card>
         </Col>
       </Row>

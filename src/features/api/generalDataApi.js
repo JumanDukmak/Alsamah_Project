@@ -1,8 +1,8 @@
 import axios from "axios";
 
 //-----------------------getIndirect_IndustrialExpeseApi------------------
-export const getIndustrialExpenseApi = () => {
-    return axios.get('http://127.0.0.1:8000/api/costs/getIndustrialExpense',
+export const getGeneralDataApi = () => {
+    return axios.get('http://127.0.0.1:8000/api/costs/getGeneralData',
         {
             headers: {
                 'Authorization': `Bearer ${''}`,
@@ -13,10 +13,10 @@ export const getIndustrialExpenseApi = () => {
 }
 
 //-----------------------getIndirect_IndustrialExpeseApi------------------
-export const addIndustrialExpenseApi = (name,monthlyD) => {
-    return axios.post('http://127.0.0.1:8000/api/costs/storeIndustrialExpense', {
+export const addGeneralDataApi = (name,value) => {
+    return axios.post('http://127.0.0.1:8000/api/costs/storeGeneralData', {
         name: name,
-        monthlyD:monthlyD
+        value:value
     },
         {
             headers: {
@@ -27,10 +27,10 @@ export const addIndustrialExpenseApi = (name,monthlyD) => {
     )
 }
 
-export const updateIndustrialExpenseApi = (name,monthlyD,id) => {
-    return axios.post('http://127.0.0.1:8000/api/costs/updateIndustrialExpense', {
+export const updateGeneralDataApi = (name,value,id) => {
+    return axios.post('http://127.0.0.1:8000/api/costs/updateGeneralData', {
         name: name,
-        monthlyD:monthlyD,
+        value:value,
         id:id
     },
         {

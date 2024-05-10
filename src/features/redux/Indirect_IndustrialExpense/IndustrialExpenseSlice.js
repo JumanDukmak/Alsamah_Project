@@ -55,38 +55,44 @@ const IndustrialExpenseSlice = createSlice({
       state.message = null;
       state.error = action.payload.error;
     },
+
+//---------------------------------update-IndustrialExpense------------------------
+
+    updateIndustrialExpenseStart:(state)=>{
+      console.log('the hhhhhhhhhh')
+      state.loading=true;
+      state.error=null;
+      state.message=null;
+      },
+      
+      updateIndustrialExpenseSuccess:(state,action)=>{
+        
+      state.loading=false;
+      state.error=null;
+      state.message=action.payload.message
+          const index = state.IndustrialExpense.findIndex(Indus => Indus.id == action.payload.data.id);
+          
+          console.log("The index is : "+index)
+          if (index !== -1) {
+              state.IndustrialExpense[index] = action.payload.data;
+          }},
+      
+      updateIndustrialExpenseFailure:(state,action) =>{
+      
+          state.loading=false;
+          state.message=null;
+      state.error=action.payload.error;
+      
+      },
+
+
+
   },
 
-//---------------------------------Update-Group------------------------
 
-// updateGroupStart:(state)=>{
-//   state.loading=true;
-//   state.error=null;
-//   state.done=false;
-//   state.message=null;
-//   },
-  
-//   updateGroupSuccess:(state,action)=>{
-    
-//   state.loading=false;
-//   state.error=null;
-//   state.done=true;
-//   state.message=action.payload.message
-//       const index = state.groups.findIndex(group => group.id == action.payload.data.id);
-      
-//       console.log("The index is : "+index)
-//       if (index !== -1) {
-//           state.groups[index] = action.payload.data;
-//       }},
-  
-//   updateGroupFailure:(state,action) =>{
-  
-//       state.loading=false;
-//       state.done=false;
-//       state.message=null;
-//   state.error=action.payload.error;
-  
-//   },
+
+
+
 
 });
 
@@ -95,6 +101,8 @@ export const {
   getIndustrialExpenseSuccess,
   getIndustrialExpenseFailure,
   addIndustrialExpenseStart,addIndustrialExpenseSuccess,addIndustrialExpenseFailure,
+  updateIndustrialExpenseStart,updateIndustrialExpenseSuccess,updateIndustrialExpenseFailure,
   resetData_IndustrialExpense,
+
 } = IndustrialExpenseSlice.actions;
 export default IndustrialExpenseSlice.reducer;

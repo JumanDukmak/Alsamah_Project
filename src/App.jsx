@@ -14,6 +14,8 @@ import ShowDistractions from './features/components/Sales/ShowDistractions'
 import Distractions from './features/components/Sales/Distractions'
 import Indirect_industrialExpense from './features/components/Indirect_IndustrialExpense/IndustrialExpense'
 import AddProductionRates from './features/components/ProductionRates/AddProductionRates'
+import PigmentCosts from './features/components/PigmentCost/PigmentCosts'
+import GeneralData from './features/components/GeneralData/GeneralData'
 
 function App() {
   return (  
@@ -38,6 +40,9 @@ function App() {
             <Route exact path='/distractions' element={<Distractions />} />
             <Route exact path='/Indirect_industrialExpense' element={<Indirect_industrialExpense />} />
             <Route exact path='/add/productionRates' element={<AddProductionRates />} />
+            <Route exact path='/PigmentCosts' element={<PigmentCosts />} />
+            <Route exact path='/GeneralData' element={<GeneralData />} />
+
         </Routes>
     </BaseLayout>
   </ConfigProvider>

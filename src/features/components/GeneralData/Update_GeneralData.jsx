@@ -1,38 +1,35 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Form, Input, InputNumber, Modal, Row, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import {
 
-  resetData_IndustrialExpense,
-  updateIndustrialExpenseStart,
-} from "../../redux/Indirect_IndustrialExpense/IndustrialExpenseSlice";
+import { resetData_GeneralData, updateGeneralDataStart } from "../../redux/GeneralData/GeneralDataSlice";
 
 
 
-export default function Update_IndustrialExpense({ open, onClose,id }) {
+export default function Update_GeneralData({ open, onClose,id }) {
   const dispatch = useDispatch();
-  const industrialExpense = useSelector((state) => state.IndustrialExpense);
-  const [oneIndustrialExpense, setOneIndustrialExpense] = useState({
+  const generalData = useSelector((state) => state.GeneralData);
+  const [oneGeneralData, setOneGeneralData] = useState({
     name: "",
-    monthlyD: "",
+    value: "",
     id:id
   });
 
 
   const [api, contextHolder] = message.useMessage();
   useEffect(() => {
-    if (industrialExpense.message != null) {
-      api.success(industrialExpense.message);
-      dispatch(resetData_IndustrialExpense());
+    if (generalData.message != null) {
+      api.success(generalData.message);
+      dispatch(resetData_GeneralData());
     }
-    if (industrialExpense.error != null) {
-      api.error(industrialExpense.error);
-      dispatch(resetData_IndustrialExpense());
+    if (generalData.error != null) {
+      api.error(generalData.error);
+      dispatch(resetData_GeneralData());
     }
-  }, [industrialExpense.message, industrialExpense.error]);
+  }, [generalData.message, generalData.error]);
 
   const onFinish = (e) => {
-     dispatch(updateIndustrialExpenseStart(oneIndustrialExpense));
+     dispatch(updateGeneralDataStart(oneGeneralData));
     console.log(`the helllllooooo`);
     onClose();
   };
@@ -46,13 +43,13 @@ export default function Update_IndustrialExpense({ open, onClose,id }) {
       {contextHolder}
       <Modal
         open={open}
-        title="تعديل المصاريف صناعية"
+        title="تعديل المعطيات العامة "
         onCancel={onClose}
         footer={null}
       >
         <Form
 
-className='Update_IndustrialExpense'
+className='Update_GeneralData'
 
           labelCol={{
             span: 8,
@@ -71,55 +68,47 @@ className='Update_IndustrialExpense'
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-          <Form.Item
+         <Form.Item
             label="الاسم"
-            name="name"
+            name="name_"
             rules={[
               {
                 required: true,
-                message: "ادخل اسم المصاريف الصناعية !",
+                message: "ادخل عنوان المعطيات الصناعية !",
               },
             ]}
           >
             <Input
               onChange={(e) =>
-                setOneIndustrialExpense({
-                  ...oneIndustrialExpense,
+                setOneGeneralData({
+                  ...oneGeneralData,
                   name: e.target.value,
                 })
               }
             />
           </Form.Item>
 
-
-<Form.Item 
-label="التكاليف الشهرية"
-name="monthlyD"
-rules={[
-  {
-    required: true,
-    message: "ادخل التكلفة الشهرية !",
-  },
-]}
->
-
-
-    <InputNumber  addonAfter="$" onChange={(e) =>
-  
-                setOneIndustrialExpense({
-                  ...oneIndustrialExpense,
-                  monthlyD: e,
-                })
+          <Form.Item
+            label=" القيمة"
+            name="value"
+            rules={[
+              {
+                required: true,
+                message: "ادخل القيمة !",
+              },
+            ]}
+          >
+            <InputNumber
               
-              } />
-  
-  
+              onChange={(e) =>
+                setOneGeneralData({
+                  ...oneGeneralData,
+                  value: e,
+                })
+              }
+            />
+          </Form.Item>
 
-
-</Form.Item>
-
-
-        
           <Row gutter={16} justify="end">
             <Col>
               <Button onClick={onClose}>إغلاق</Button>
@@ -127,7 +116,7 @@ rules={[
 
             <Col>
               <Button type="primary" htmlType="submit">
-          تعديل مصاريف صناعية
+                تعديل المعطيات العامة
               </Button>
             </Col>
           </Row>
