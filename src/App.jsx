@@ -16,6 +16,12 @@ import Indirect_industrialExpense from './features/components/Indirect_Industria
 import AddProductionRates from './features/components/ProductionRates/AddProductionRates'
 import PigmentCosts from './features/components/PigmentCost/PigmentCosts'
 import GeneralData from './features/components/GeneralData/GeneralData'
+import ProductionRates from './features/components/ProductionRates/ProductionRates'
+import AddFinancialExpenses from './features/components/FinancialExpenses/AddFinancialExpenses'
+import FinancialExpenses from './features/components/FinancialExpenses/FinancialExpenses'
+import AddInitialMaterial from './features/components/InitialMaterial/AddInitialMaterial'
+import InitialMaterials from './features/components/InitialMaterial/InitialMaterials'
+import ShowProduct from './features/components/products/ShowProduct'
 
 function App() {
   return (  
@@ -25,6 +31,7 @@ function App() {
         colorPrimary: '#02e079',
       },
     }}
+    direction='rtl'
   >
     <BaseLayout>
         <Routes>
@@ -39,10 +46,15 @@ function App() {
             <Route exact path='/show/distractions' element={<ShowDistractions />} />
             <Route exact path='/distractions' element={<Distractions />} />
             <Route exact path='/Indirect_industrialExpense' element={<Indirect_industrialExpense />} />
+            <Route exact path='/productionRates' element={<ProductionRates />} />
             <Route exact path='/add/productionRates' element={<AddProductionRates />} />
             <Route exact path='/PigmentCosts' element={<PigmentCosts />} />
             <Route exact path='/GeneralData' element={<GeneralData />} />
-
+            <Route exact path='/add/financialExpenses' element={<AddFinancialExpenses />} />
+            <Route exact path='/financialExpenses' element={<FinancialExpenses />} />
+            <Route exact path='/add/initialMaterials' element={<AddInitialMaterial />} />
+            <Route exact path='/initialMaterials' element={<InitialMaterials />} />
+            <Route exact path='/show/product/:id' element={<ShowProduct />} />
         </Routes>
     </BaseLayout>
   </ConfigProvider>

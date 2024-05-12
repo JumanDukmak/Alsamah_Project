@@ -6,6 +6,7 @@ const productSlice = createSlice({
         products: [],
         files: [],
         meta: [],
+        product: null,
         isLoading: false,
         done: false,
         id: 0,
@@ -41,16 +42,15 @@ const productSlice = createSlice({
             state.message = null;
             state.error = null;
         },
+
         //get products slice
-        getProductsFetch: (state, action) => {
+        getProductsFetch: (state) => {
             state.isLoading = true;
             state.error = null;
             state.products = [];
         },
 
         getProductsSuccess: (state, action) => {
-            // console.log("action1:"+ action.payload.meta);
-            // console.log("action2:"+ action.payload.products);
             state.isLoading = false;
             state.products = action.payload.products;
             state.meta = action.payload.meta;
@@ -62,6 +62,7 @@ const productSlice = createSlice({
             state.error = action.payload.error;
             state.products = [];
         },
+
         //uploud file to add products from excel
         uploadFileFetch: (state) => {
             state.isLoading = true;
@@ -84,6 +85,25 @@ const productSlice = createSlice({
             state.error = action.payload.error;
             state.done = false;
         },
+
+        //get product card slice
+        getProductCardFetch: (state) => {
+            state.isLoading = true;
+            state.error = null;
+            state.product = null;
+        },
+
+        getProductCardSuccess: (state, action) => {
+            state.isLoading = false;
+            state.product = action.payload.products;
+            state.error = null;
+        },
+
+        getProductCardFailure: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload.error;
+            state.product = null;
+        },
     },
 });
 
@@ -97,6 +117,9 @@ export const {
     getProductsFailure,
     uploadFileFetch,
     uploadFileSuccess,
-    uploadFileFailure
+    uploadFileFailure,
+    getProductCardFetch,
+    getProductCardSuccess,
+    getProductCardFailure,
 } = productSlice.actions;
 export default productSlice.reducer;
