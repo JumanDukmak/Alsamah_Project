@@ -1,8 +1,12 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
-import { addInitialMaterialsFailure, addInitialMaterialsSuccess,
+import { addInitialMaterialsFailure, addInitialMaterialsProductFailure, addInitialMaterialsProductSuccess, addInitialMaterialsSuccess,
     getInitialMaterialsFailure, getInitialMaterialsSuccess,
-    uploadInitialMaterialsFileFailure, uploadInitialMaterialsFileSuccess } from "./initialMaterialsSlice";
-import { addInitialMaterialsApi, getInitialMaterialsApi, uploadInitialMaterialsFileApi } from "../../api/initialMaterialsApi";
+    updateInitialMaterialsProductFailure,
+    updateInitialMaterialsProductSuccess,
+    uploadInitialMaterialsFileFailure, uploadInitialMaterialsFileSuccess, 
+    uploadInitialMaterialsProductFailure, 
+    uploadInitialMaterialsProductSuccess} from "./initialMaterialsSlice";
+import { addInitialMaterialsApi, addInitialMaterialsProductApi, getInitialMaterialsApi, updateInitialMaterialsProductApi, uploadInitialMaterialsFileApi, uploadInitialMaterialsProductApi } from "../../api/initialMaterialsApi";
 
 function* getInitialMaterialsSaga() {
     try {
@@ -38,6 +42,49 @@ function* uploadInitialMaterialsFileSaga(action) {
     }
 }
 
+//-----------------------------------------------------------------------------
+function* addInitialMaterialsProductSaga(action) {
+    try {
+        const response = yield call(addInitialMaterialsProductApi, 
+            action.payload.initial_materials_code,
+            action.payload.quantity,
+            action.payload.productId,
+            )
+        yield put(addInitialMaterialsProductSuccess(response.data))
+    } catch (error) {
+        yield put(addInitialMaterialsProductFailure({ 'error': error.response }))
+    }
+}
+
+function* updateInitialMaterialsProductSaga(action) {
+    try {
+        const response = yield call(updateInitialMaterialsProductApi, 
+            action.payload.initial_materials_code,
+            action.payload.quantity,
+            action.payload.productId,)
+        yield put(updateInitialMaterialsProductSuccess(response.data))
+    } catch (error) {
+        yield put(updateInitialMaterialsProductFailure({ 'error': error.response }))
+    }
+}
+
+
+
+
+
+function* uploadInitialMaterialsProductSaga(action) {
+    const formData = new FormData();
+    formData.append("excel_file", action.payload.excel_file)
+    const response= yield call(uploadInitialMaterialsProductApi, formData)
+    if(response.status == 200 || response.status == 201) {
+        yield put(uploadInitialMaterialsProductSuccess(response.data))
+    } else{
+        yield put(uploadInitialMaterialsProductFailure({ 'error': response }))
+    }
+}
+
+
+
 function* initialMaterialsWatcherSaga() {
     yield takeEvery('initialMaterials/getInitialMaterialsFetch', getInitialMaterialsSaga)
 }
@@ -50,10 +97,32 @@ function* uploadInitialMaterialsFileWatcherSaga() {
     yield takeEvery('initialMaterials/uploadInitialMaterialsFileFetch', uploadInitialMaterialsFileSaga)
 }
 
+//-----------------------------for-product--------------------------------
+
+function* uploadInitialMaterialsProductWatcherSaga() {
+    yield takeEvery('initialMaterials/uploadInitialMaterialsProductFetch', uploadInitialMaterialsProductSaga)
+}
+
+function* addInitialMaterialsProductWatcherSaga() {
+    yield takeEvery('initialMaterials/addInitialMaterialsProductFetch', addInitialMaterialsProductSaga)
+}
+
+function* updateInitialMaterialsProductWatcherSaga() {
+    yield takeEvery('initialMaterials/updateInitialMaterialsProductFetch', updateInitialMaterialsProductSaga)
+}
+
+
+
+
+
 export default function* InitialMaterialsSaga() {
     yield all([
         initialMaterialsWatcherSaga(),
         addInitialMaterialsWatcherSaga(),
-        uploadInitialMaterialsFileWatcherSaga()
+        uploadInitialMaterialsFileWatcherSaga(),
+        uploadInitialMaterialsProductWatcherSaga(),
+        addInitialMaterialsProductWatcherSaga(),
+        updateInitialMaterialsProductWatcherSaga()
+
     ])
 }

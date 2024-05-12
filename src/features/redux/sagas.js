@@ -15,6 +15,7 @@ import generalDataSaga from './GeneralData/GeneralDataSaga';
 import ProductionRatesSaga from './ProductionRates/productionRatesSaga';
 import FinancialExpensesSaga from './FinancialExpenses/financialExpensesSaga';
 import InitialMaterialsSaga from './InitialMaterials/initialMaterialsSaga';
+import DirectWorkSaga from './directWork/directWorkSaga';
 
 export default function* rootSaga() {
     yield all([
@@ -34,5 +35,6 @@ export default function* rootSaga() {
         fork(ProductionRatesSaga),
         fork(FinancialExpensesSaga),
         fork(InitialMaterialsSaga),
+        fork(DirectWorkSaga),
     ]);
 }

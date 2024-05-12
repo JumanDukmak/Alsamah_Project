@@ -20,6 +20,7 @@ import GeneralDataSlice from './GeneralData/GeneralDataSlice';
 import productionRatesSlice from './ProductionRates/productionRatesSlice';
 import financialExpensesSlice from './FinancialExpenses/financialExpensesSlice';
 import initialMaterialsSlice from './InitialMaterials/initialMaterialsSlice';
+import directWorkSlice from './directWork/directWorkSlice';
 
 const persistConfig = {
     key: 'root',
@@ -43,6 +44,7 @@ const reducer = combineReducers({
     productionRates: productionRatesSlice,
     financialExpenses: financialExpensesSlice,
     initialMaterials: initialMaterialsSlice,
+    directWork:directWorkSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

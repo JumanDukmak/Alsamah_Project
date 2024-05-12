@@ -5,6 +5,7 @@ const initialMaterialsSlice = createSlice({
     initialState: {
         initialMaterials: [],
         loading: false,
+        InitialMaterialsProduct:null,
         done: false,
         error: null,
         message: null,
@@ -78,6 +79,84 @@ const initialMaterialsSlice = createSlice({
             state.error = action.payload.error;
             state.done = false;
         },
+
+        //-------------------------------UPLOAD ------------------------------------
+         uploadInitialMaterialsProductFetch: (state) => {
+            state.loading = true;
+            state.error = null;
+            state.message = null;
+            state.done = false;
+        },
+        
+        uploadInitialMaterialsProductSuccess: (state, action) => {
+            state.loading = false;
+            state.error = null;
+            state.InitialMaterialsProduct = action.payload.InitialMaterialsProduct;
+            state.done = true;
+            state.message = action.payload.message;
+        },
+        
+        uploadInitialMaterialsProductFailure: (state, action) => {
+            state.loading = false;
+            state.message = null;
+            state.error = action.payload.error;
+            state.done = false;
+        },
+
+
+
+        //-------------------------------ADD ------------------------------------
+        addInitialMaterialsProductFetch: (state) => {
+            state.loading = true;
+            state.error = null;
+            state.message = null;
+            state.done = false;
+        },
+        
+        addInitialMaterialsProductSuccess: (state, action) => {
+            state.loading = false;
+            state.error = null;
+            state.InitialMaterialsProduct = action.payload.InitialMaterialsProduct;
+            state.done = true;
+            state.message = action.payload.message;
+        },
+        
+        addInitialMaterialsProductFailure: (state, action) => {
+            state.loading = false;
+            state.message = null;
+            state.error = action.payload.error;
+            state.done = false;
+        },
+
+
+
+        //-------------------------------Update ------------------------------------
+        updateInitialMaterialsProductFetch: (state) => {
+            state.loading = true;
+            state.error = null;
+            state.message = null;
+            state.done = false;
+        },
+        
+        updateInitialMaterialsProductSuccess: (state, action) => {
+            state.loading = false;
+            state.error = null;
+            state.InitialMaterialsProduct = action.payload.InitialMaterialsProduct;
+            state.done = true;
+            state.message = action.payload.message;
+        },
+        
+        updateInitialMaterialsProductFailure: (state, action) => {
+            state.loading = false;
+            state.message = null;
+            state.error = action.payload.error;
+            state.done = false;
+        },
+
+
+
+
+
     }
 })
 
@@ -91,6 +170,16 @@ export const {
     uploadInitialMaterialsFileFetch,
     uploadInitialMaterialsFileSuccess,
     uploadInitialMaterialsFileFailure,
-    resetData_initialMaterials
+    resetData_initialMaterials,
+    uploadInitialMaterialsProductFailure,
+    uploadInitialMaterialsProductSuccess,
+    uploadInitialMaterialsProductFetch,
+    addInitialMaterialsProductFetch,
+    addInitialMaterialsProductSuccess,
+    addInitialMaterialsProductFailure,
+    updateInitialMaterialsProductFetch,
+    updateInitialMaterialsProductSuccess,
+    updateInitialMaterialsProductFailure
+
 } = initialMaterialsSlice.actions;
 export default initialMaterialsSlice.reducer;

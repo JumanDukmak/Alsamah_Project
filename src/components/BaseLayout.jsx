@@ -123,10 +123,10 @@ const BaseLayout = (props) => {
                                 <span>المواد الأولية</span>
                             </span>}
                     >
-                        <Menu.Item key='10' 
+                        <Menu.Item key='15' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/initialMaterials')}>المواد الأولية</Menu.Item>
-                        <Menu.Item key='11' 
+                        <Menu.Item key='16' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/initialMaterials')}>المواد الأولية للمنتج</Menu.Item>
                     </SubMenu>

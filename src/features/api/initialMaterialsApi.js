@@ -37,3 +37,47 @@ export function uploadInitialMaterialsFileApi(formData) {
     )
 }
 
+
+export function uploadInitialMaterialsProductApi(formData) {
+    return axios.post('http://127.0.0.1:8000/api/costs/add-InitialMaterialsProduct', formData, 
+    {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }, 
+    }
+    )
+}
+
+export function addInitialMaterialsProductApi(initial_materials_code, quantity, productId) {
+    return axios.post('http://127.0.0.1:8000/api/costs/add-InitialMaterialsProduct', {
+        initial_materials_code: initial_materials_code,
+        quantity: quantity,
+        productId: productId,
+     
+    },
+        {
+            headers: {
+                'Authorization': `Bearer ${''}`,
+                'Content-Type': 'application/json'
+            },
+        }
+    )
+}
+
+
+export function updateInitialMaterialsProductApi(initial_materials_code, quantity, productId) {
+    return axios.post('http://127.0.0.1:8000/api/costs/update-InitialMaterialsProduct', {
+        initial_materials_code: initial_materials_code,
+        quantity: quantity,
+        productId: productId,
+     
+    },
+        {
+            headers: {
+                'Authorization': `Bearer ${''}`,
+                'Content-Type': 'application/json'
+            },
+        }
+    )
+}
+
