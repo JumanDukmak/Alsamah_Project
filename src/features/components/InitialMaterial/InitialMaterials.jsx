@@ -2,62 +2,67 @@ import { Button, Col, Row, Table, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import AddProductionRates from './AddProductionRates';
-import { getProductionRatesFetch, resetData_productionRates } from '../../redux/ProductionRates/productionRatesSlice';
+import AddInitialMaterial from './AddInitialMaterial';
+import { getInitialMaterialsFetch, resetData_initialMaterials } from '../../redux/InitialMaterials/initialMaterialsSlice';
 
 const columns = [
     {
-        title: 'رقم العمل',
-        dataIndex: 'working_number',
-        key: 'working_number',
+        title: 'رقم المادة',
+        dataIndex: 'material_number',
+        key: 'material_number',
     },
     {
-        title: 'نوع العمل',
-        dataIndex: 'working_type',
-        key: 'working_type',
+        title: 'اسم المادة',
+        dataIndex: 'material_name',
+        key: 'material_name',
     },
     {
-        title: 'الانتاج اليومي',
-        dataIndex: 'daily_production',
-        key: 'daily_production',
+        title: 'النوع',
+        dataIndex: 'type',
+        key: 'type',
     },
     {
-        title: 'فئة العمل',
-        dataIndex: 'working_category',
-        key: 'working_category',
+        title: 'السعر ( ل س )',
+        dataIndex: 'SYP',
+        key: 'SYP',
+    },
+    {
+        title: 'السعر ( $ )',
+        dataIndex: 'priceD',
+        key: 'priceD',
     },
 ];
 
-const ProductionRates = () => {
+const InitialMaterials = () => {
     const dispatch = useDispatch();
-    const productionRates = useSelector((state) => state.productionRates);
+    const initialMaterials = useSelector((state) => state.initialMaterials);
+
     useEffect(() => {
-        dispatch(getProductionRatesFetch());
+        dispatch(getInitialMaterialsFetch());
     }, []);
 
     const [api, contextHolder] = message.useMessage();
     useEffect(() => {
-        if (productionRates.message) {
-            api.success(productionRates.message);
-            dispatch(resetData_productionRates());
+        if (initialMaterials.message) {
+            api.success(initialMaterials.message);
+            dispatch(resetData_initialMaterials());
         }
-        if (productionRates.error) {
-            api.error(productionRates.error);
-            dispatch(resetData_productionRates());
+        if (initialMaterials.error) {
+            api.error(initialMaterials.error);
+            dispatch(resetData_initialMaterials());
         }
-    }, [productionRates.message, productionRates.error]);
+    }, [initialMaterials.message, initialMaterials.error]);
 
     const [open, setOpen] = useState(false);
     const showModal = () => {
         setOpen(true);
     };
-
     return (
         <div className='conatiner_body'>
             {contextHolder}
             <Row>
                 <Col span={6}>
-                    <h2>معدلات الإنتاج</h2>
+                    <h2>المواد الأولية</h2>
                 </Col>
                 <Col span={12} />
                 <Col span={6} style={{textAlign: 'center'}}>
@@ -67,9 +72,9 @@ const ProductionRates = () => {
                     style={{ fontWeight: '700' }}
                     onClick={showModal}
                     icon={<PlusOutlined />}
-                    >إضافة معدلات الإنتاج
+                    >إضافة المواد الأولية
                     </Button>
-                    <AddProductionRates
+                    <AddInitialMaterial
                     open={open}
                     onClose={() => {
                         setOpen(false);
@@ -82,7 +87,7 @@ const ProductionRates = () => {
             rowKey='id'
             bordered
             columns={columns} 
-            dataSource={productionRates.productionRates}
+            dataSource={initialMaterials.initialMaterials}
             pagination={false}
             />
             <div style={{ height: '50px' }} />
@@ -90,4 +95,4 @@ const ProductionRates = () => {
     )
 }
 
-export default ProductionRates
+export default InitialMaterials

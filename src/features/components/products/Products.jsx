@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import ProductCreate from './ProductCreate';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsFetch, resetData } from '../../redux/products/productSlice';
+import { useNavigate } from 'react-router-dom';
+import ShowProduct from './ShowProduct';
 
 const columns = [
     {
@@ -32,22 +34,23 @@ const columns = [
         key: 'brand_name',
     },
     {
+        title: 'زمن الفردة',
+        dataIndex: 'time_per_piece',
+        key: 'time_per_piece',
+    },
+    {
         title: 'السعر المحلي',
         dataIndex: 'price',
         key: 'price',
     },
-    //للتجريب فقط
-    // {
-    //     title: 'id',
-    //     dataIndex: 'id',
-    //     key: 'id',
-    // },
 ];
 
 const Products = () => {
     const [open, setOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedItemId, setSelectedItemId] = useState(null);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const products = useSelector((state) => state.products)
 
     useEffect(() => {
@@ -65,6 +68,12 @@ const Products = () => {
             dispatch(resetData())
         }
     }, [products.message, products.error]);
+
+    useEffect(() => {
+        selectedItemId && (
+            navigate('/show/product/'+ selectedItemId, { state: selectedItemId })
+        )
+    }, [selectedItemId])
 
     return (
         <div className='conatiner_body'>
@@ -92,6 +101,13 @@ const Products = () => {
             columns={columns} 
             dataSource={products.products}
             pagination={false}
+            onRow={(record, rowIndex) => {
+                return {
+                    onClick: () => {
+                        setSelectedItemId(record.id)
+                    } 
+                };
+            }}
             />
             <div style={{ height: '50px' }} />
             <Pagination 
@@ -105,11 +121,11 @@ const Products = () => {
                     dispatch(getProductsFetch(page))
                 }
             }
-                style={{direction: 'ltr'}}
             />
             <ProductCreate
             open={open}
             onClose={() => setOpen(false)}
+            currentPage={currentPage}
             />
         </div>
     )

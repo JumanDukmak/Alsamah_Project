@@ -2,48 +2,52 @@ import { useEffect, useState } from "react";
 import { Button, Col, Divider, Form, Input, Modal, Row, Space, Upload, message, Typography, InputNumber, Select } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from "react-redux";
-import { addProductionRatesFetch, getProductionRatesFetch, resetData_productionRates, uploadProductionRatesFileFetch } from "../../redux/ProductionRates/productionRatesSlice";
+import { addInitialMaterialsFetch, getInitialMaterialsFetch, resetData_initialMaterials, uploadInitialMaterialsFileFetch } from "../../redux/InitialMaterials/initialMaterialsSlice";
 
-const AddProductionRates = ({ open, onClose }) => {
+const AddInitialMaterial = ({ open, onClose }) => {
     const { Title } = Typography;
     const dispatch = useDispatch();
-    const productionRates = useSelector((state) => state.productionRates);
+    const initialMaterials = useSelector((state) => state.initialMaterials);
 
-    const List_working_category = [
+    const List_of_type = [
         {
             value: '1',
-            label: 'حبكة',
+            label: 'خيوط',
         },
         {
             value: '2',
-            label: 'فرق',
+            label: 'أصبغة',
+        },
+        {
+            value: '3',
+            label: 'مواد التعبئة',
         },
     ];
 
     const [api, contextHolder] = message.useMessage();
     useEffect(() => {
-    if (productionRates.message) {
-        api.success(productionRates.message);
-        dispatch(resetData_productionRates());
+    if (initialMaterials.message) {
+        api.success(initialMaterials.message);
+        dispatch(resetData_initialMaterials());
     }
-    if (productionRates.error) {
-        api.error(productionRates.error);
-        dispatch(resetData_productionRates());
+    if (initialMaterials.error) {
+        api.error(initialMaterials.error);
+        dispatch(resetData_initialMaterials());
     }
-    }, [productionRates.message, productionRates.error]);
+    }, [initialMaterials.message, initialMaterials.error]);
 
     const selected_working_category = (selectedValue) => {
-        const selectedCategory = List_working_category.find(cate => cate.value === selectedValue);
-        if (selectedCategory) {
-            setproductionRates(productionRate => ({ ...productionRate, working_category: selectedCategory.label }));
+        const selectedType = List_of_type.find(ty => ty.value === selectedValue);
+        if (selectedType) {
+            setinitialMaterials(initialMaterial => ({ ...initialMaterial, type: selectedType.label }));
         }
     };
 
-    const [productionRate, setproductionRates] = useState({
-        working_number: null,
-        working_type: "",
-        daily_production: null,
-        working_category: "",
+    const [initialMaterial, setinitialMaterials] = useState({
+        number: null,
+        name: "",
+        type: "",
+        priceD: null,
     });
 
     const [excel_file, setFile] = useState({
@@ -52,23 +56,23 @@ const AddProductionRates = ({ open, onClose }) => {
 
     const onSubmit = (e) => {
         let dataFile = { excel_file: excel_file }
-        dispatch(uploadProductionRatesFileFetch(dataFile))
-        dispatch(getProductionRatesFetch())
+        dispatch(uploadInitialMaterialsFileFetch(dataFile))
+        dispatch(getInitialMaterialsFetch())
     };
 
     const onFinish = (e) => {
-        dispatch(addProductionRatesFetch(productionRate));
+        dispatch(addInitialMaterialsFetch(initialMaterial));
         onClose();
     };
 
     const onFinishFailed = (errorInfo) => {
         console.log("Failed:", errorInfo);
     };
-    
+
     return (
         <div>
         {contextHolder}
-        <Modal open={open} title="إضافة معدلات الإنتاج" onCancel={onClose} footer={null} width={700}>
+        <Modal open={open} title="إضافة المواد الأولية" onCancel={onClose} footer={null} width={700}>
             <Form
             name="basic"
             labelCol={{ span: 8 }}
@@ -81,72 +85,72 @@ const AddProductionRates = ({ open, onClose }) => {
             onFinishFailed={onFinishFailed}
             >
             <Form.Item
-                label="رقم العمل"
-                name="رقم العمل"
+                label="رقم المادة"
+                name="رقم المادة"
                 rules={[
                 {
                     required: true,
-                    message: "ادخل رقم العمل !",
-                },
-                ]}
-            >
-                <InputNumber
-                placeholder='رقم العمل'
-                style={{ width: '100%' }}
-                onChange={(e) => setproductionRates({ ...productionRate, working_number: e })}
-                />
-            </Form.Item>
-            <Form.Item
-                label="نوع العمل"
-                name="نوع العمل"
-                rules={[
-                {
-                    required: true,
-                    message: "ادخل نوع العمل !",
+                    message: "ادخل رقم المادة !",
                 },
                 ]}
             >
                 <Input
-                placeholder='نوع العمل'
-                onChange={(e) => setproductionRates({ ...productionRate, working_type: e.target.value })}
+                placeholder='رقم المادة'
+                onChange={(e) => setinitialMaterials({ ...initialMaterial, number: e.target.value })}
                 />
             </Form.Item>
             <Form.Item
-                label="الإنتاج اليومي"
-                name="الإنتاج اليومي"
+                label="اسم المادة"
+                name="اسم المادة"
                 rules={[
                 {
                     required: true,
-                    message: "ادخل الإنتاج اليومي !",
+                    message: "ادخل اسم المادة !",
                 },
                 ]}
             >
-                <InputNumber
-                placeholder='الأنتاج اليومي'
-                style={{ width: '100%' }}
-                onChange={(e) => setproductionRates({ ...productionRate, daily_production: e })}
+                <Input
+                placeholder='اسم المادة'
+                onChange={(e) => setinitialMaterials({ ...initialMaterial, name: e.target.value })}
                 />
             </Form.Item>
             <Form.Item
-                label="فئة العمل"
-                name="فئة العمل"
+                label="النوع"
+                name="النوع"
                 rules={[
                 {
                     required: true,
-                    message: "ادخل فئة العمل !",
+                    message: "ادخل النوع !",
                 },
                 ]}
             >
                 <Select
-                    placeholder="اختر الفئة"
+                    placeholder="اختر النوع"
                     onChange={selected_working_category}
                 >
-                    {List_working_category.map((cate) => (
-                        <Select.Option key={cate.value} value={cate.value}>
-                            {cate.label}
+                    {List_of_type.map((ty) => (
+                        <Select.Option key={ty.value} value={ty.value}>
+                            {ty.label}
                         </Select.Option>
                     ))}
                 </Select>
+            </Form.Item>
+            <Form.Item
+                label="السعر"
+                name="السعر"
+                rules={[
+                {
+                    required: true,
+                    message: "ادخل السعر !",
+                },
+                ]}
+            >
+                <InputNumber
+                placeholder='السعر'
+                addonAfter="$"
+                style={{ width: '100%' }}
+                onChange={(e) => setinitialMaterials({ ...initialMaterial, priceD: e })}
+                />
             </Form.Item>
             <Row gutter={16} justify="end">
                 <Col>
@@ -156,7 +160,7 @@ const AddProductionRates = ({ open, onClose }) => {
                 </Col>
                 <Col>
                 <Button type="primary" htmlType="submit">
-                    إضافة معدل الإنتاج{" "}
+                    إضافة المادة{" "}
                 </Button>
                 </Col>
             </Row>
@@ -176,7 +180,7 @@ const AddProductionRates = ({ open, onClose }) => {
                             style={{
                                 fontFamily: 'Cairo',
                             }}
-                        >يمكن تحميل ملف خاص بمعدلات الإنتاج</Title>
+                        >يمكن تحميل ملف خاص بالمواد الأولية</Title>
                     </Form.Item>
                 </Row>
                 <Row>
@@ -211,4 +215,4 @@ const AddProductionRates = ({ open, onClose }) => {
     )
 }
 
-export default AddProductionRates
+export default AddInitialMaterial

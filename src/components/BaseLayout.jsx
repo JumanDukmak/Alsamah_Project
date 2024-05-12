@@ -1,5 +1,5 @@
 import { DashboardOutlined, ShoppingCartOutlined, InboxOutlined, EnvironmentOutlined, MenuUnfoldOutlined, MenuFoldOutlined
-    ,PieChartOutlined } from '@ant-design/icons';
+    ,DollarOutlined, DropboxOutlined } from '@ant-design/icons';
 import { Button, Layout, Menu } from 'antd';
 import SubMenu from 'antd/es/menu/SubMenu';
 import { useState } from 'react';
@@ -28,7 +28,6 @@ const BaseLayout = (props) => {
                 <Menu
                     mode="inline"
                     defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['sub1']}
                     style={{
                         padding: '60px 0 0 0',
                         height: '100%',
@@ -96,19 +95,19 @@ const BaseLayout = (props) => {
                     <SubMenu key='sub4'
                         title={
                             <span>
-                                <ShoppingCartOutlined />
+                                <DollarOutlined />
                                 <span>تعريفات التكاليف</span>
                             </span>}
                     >
                         <Menu.Item key='10' 
                         style={{ fontWeight: '600' }}
-                        onClick={() => navigate('/add/productionRates')}>معدلات الإنتاج</Menu.Item>
+                        onClick={() => navigate('/productionRates')}>معدلات الإنتاج</Menu.Item>
                         <Menu.Item key='11' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/Indirect_industrialExpense')}>المصاريف الصناعية</Menu.Item>
                         <Menu.Item key='12' 
                         style={{ fontWeight: '600' }}
-                        onClick={() => navigate('')}>النفقات المالية</Menu.Item>
+                        onClick={() => navigate('/financialExpenses')}>النفقات المالية</Menu.Item>
                         <Menu.Item key='13' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/GeneralData')}>معطيات عامة</Menu.Item>
@@ -116,6 +115,23 @@ const BaseLayout = (props) => {
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/PigmentCosts')}>تكاليف الصباغ</Menu.Item>
                     </SubMenu>
+
+                    <SubMenu key='sub5'
+                        title={
+                            <span>
+                                <DropboxOutlined />
+                                <span>المواد الأولية</span>
+                            </span>}
+                    >
+                        <Menu.Item key='10' 
+                        style={{ fontWeight: '600' }}
+                        onClick={() => navigate('/initialMaterials')}>المواد الأولية</Menu.Item>
+                        <Menu.Item key='11' 
+                        style={{ fontWeight: '600' }}
+                        onClick={() => navigate('/initialMaterials')}>المواد الأولية للمنتج</Menu.Item>
+                    </SubMenu>
+
+                    
                 </Menu>
             </Sider>
 

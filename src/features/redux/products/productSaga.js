@@ -1,8 +1,10 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
-import { addProductsApi, getProductsApi, uploadFileApi } from "../../api/productsApi";
+import { addProductsApi, getProductCardApi, getProductsApi, uploadFileApi } from "../../api/productsApi";
 import { addProductsFailuer, addProductsSuccess,
     getProductsFailure, getProductsSuccess, 
-    uploadFileSuccess, uploadFileFailure } from "./productSlice";
+    uploadFileSuccess, uploadFileFailure, 
+    getProductCardSuccess,
+    getProductCardFailure} from "./productSlice";
 
 function* addProductSaga(action) {
     const response = yield call(addProductsApi,
@@ -11,7 +13,8 @@ function* addProductSaga(action) {
         action.payload.price, 
         action.payload.unit,
         action.payload.brand_id,
-        action.payload.category_id)
+        action.payload.category_id,
+        action.payload.time_per_piece)
     if (response.status == 200 || response.status == 201) {
         yield put(addProductsSuccess(response.data))
     }
@@ -42,6 +45,15 @@ function* uploadFileSaga(action) {
     }
 }
 
+function* getProductCardSaga(action) {
+    const response = yield call(getProductCardApi, action.payload)
+    if(response.status == 200 || response.status == 201) {
+        yield put(getProductCardSuccess({'products': response.data.data }))
+    } else {
+        yield put(getProductCardFailure({'error': response}))
+    }
+}
+
 
 function* addProductsWatcherSaga() {
     yield takeEvery('products/addProductsFetch', addProductSaga)
@@ -55,11 +67,16 @@ function* uploadFileWatcherSaga() {
     yield takeEvery('products/uploadFileFetch', uploadFileSaga)
 }
 
+function* getProductCardWatcherSaga() {
+    yield takeEvery('products/getProductCardFetch', getProductCardSaga)
+}
+
 export default function* ProductsSaga() {
     yield all([
         addProductsWatcherSaga(),
         getProductsWatcherSaga(),
         uploadFileWatcherSaga(),
+        getProductCardWatcherSaga(),
     ])
 }
 

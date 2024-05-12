@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export function addProductsApi( name, code, price, unit, brand_id, category_id ) {
+export function addProductsApi( name, code, price, unit, brand_id, category_id, time_per_piece ) {
     return axios.post( "http://127.0.0.1:8000/api/sales/Add_product", {
                 name: name,
                 code: code,
@@ -8,6 +8,7 @@ export function addProductsApi( name, code, price, unit, brand_id, category_id )
                 unit: unit,
                 brand_id: brand_id,
                 category_id: category_id,
+                time_per_piece: time_per_piece,
             },
             // {
             //     headers: {
@@ -38,4 +39,15 @@ export function uploadFileApi(formData) {
         }, 
     }
     ).then(response => (response)).catch(error =>(error.response.data.message))
+}
+
+export function getProductCardApi(id) {
+    return axios.get(`http://127.0.0.1:8000/api/costs/products/${id}/card`,
+            {
+                headers: {
+                    Authorization: `Bearer ${''}`,
+                    "Content-Type": "application/json",
+                },
+            }
+    )
 }

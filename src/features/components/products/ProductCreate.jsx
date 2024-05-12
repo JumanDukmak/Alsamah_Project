@@ -6,7 +6,7 @@ import { addProductsFetch, getProductsFetch, resetData, uploadFileFetch } from "
 import { getBrandsStart } from "../../redux/Brands/brandsSlice";
 import { getCategoriesStart } from "../../redux/Category/categoriesSlice";
 
-export default function ProductCreate({ open, onClose }) {
+export default function ProductCreate({ open, onClose, currentPage }) {
     const dispatch = useDispatch();
 
     const { Option } = Select;
@@ -49,13 +49,13 @@ export default function ProductCreate({ open, onClose }) {
         price: null,
         unit: "",
         brand_id: null,
-        category_id: null
+        category_id: null,
+        time_per_piece: null,
     })
 
     const [excel_file, setFile] = useState({
         excel_file: null
     });
-
 
     const selected_brand_id = (selectedValue) => {
         setProduct(prevState => ({ ...prevState, brand_id: selectedValue }));
@@ -76,9 +76,10 @@ export default function ProductCreate({ open, onClose }) {
         dispatch(addProductsFetch(product))
     };
 
-    const onSubmit = (e) => {
+    const onSubmit = () => {
         let dataFile = { excel_file: excel_file }
         dispatch(uploadFileFetch(dataFile))
+        dispatch(getProductsFetch(currentPage))
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -221,6 +222,26 @@ export default function ProductCreate({ open, onClose }) {
                                 </Select>
                             </Form.Item>
                         </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                name="time_per_piece"
+                                label="زمن الفردة"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'الرجاء إدخال زمن الفردة',
+                                    },
+                                ]}
+                            >
+                                <InputNumber
+                                    placeholder="زمن الفردة"
+                                    style={{ width: '100%' }}
+                                    onChange={(value) => setProduct({ ...product, time_per_piece: value })}
+                                />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row gutter={16}>
                         <Col span={12}>
                             <Form.Item
                                 name="price"
