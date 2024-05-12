@@ -1,4 +1,4 @@
-import { Button, Col, Row, Table, message } from 'antd';
+import { Button, Col, Row, Space, Table, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,6 +30,16 @@ const columns = [
         title: 'السعر ( $ )',
         dataIndex: 'priceD',
         key: 'priceD',
+    },
+    {
+        title: 'العملية',
+        key: 'operation',
+        render: () => 
+            <Space size="large">
+                <a>تعديل</a>
+                <a style={{color: 'red'}}>حذف</a>
+            </Space>
+        ,
     },
 ];
 

@@ -75,6 +75,8 @@ const groupedData = sortedData.reduce((acc, item) => {
     return acc;
 }, {});
 
+console.log(groupedData.undefined);
+
 const columns4 = [
     // {
     //     title: 'نوع المادة',
@@ -212,7 +214,7 @@ const items = [
         rowKey='id'
         bordered
         columns={columns4} 
-        //dataSource={groupedData}
+        //dataSource={groupedData ? groupedData.undefined: ''}
         dataSource={product ? product.initial_material: ''}
         pagination={false}
         style={{ marginTop: '-16px' }}
@@ -220,27 +222,27 @@ const items = [
             return (
                 <>
                     <Table.Summary.Row style={{fontWeight: '600', backgroundColor: '#FAFAFA'}}>
-                        <Table.Summary.Cell index={0} colSpan={1}>إجمالي كلفة قسم الفرق</Table.Summary.Cell>
+                        <Table.Summary.Cell index={0} colSpan={1}>مجموع تكلفة الخيط</Table.Summary.Cell>
                         <Table.Summary.Cell index={1} colSpan={3}>
-                        {product ? product.faraqTypeSum: ''}
+                        {product ? product.sum_of_thread_cost: ''}
                         </Table.Summary.Cell>
                     </Table.Summary.Row>
                     <Table.Summary.Row style={{fontWeight: '600', backgroundColor: '#FAFAFA'}}>
-                        <Table.Summary.Cell index={0} colSpan={1}>إجمالي كلفة قسم الحبكة والفرق</Table.Summary.Cell>
+                        <Table.Summary.Cell index={0} colSpan={1}>اجمالي هدر اخيط</Table.Summary.Cell>
                         <Table.Summary.Cell index={1} colSpan={3}>
-                        {product ? product.direct_costPerDozenSum: ''}
+                        {product ? product.total_thread_wastage: ''}
                         </Table.Summary.Cell>
                     </Table.Summary.Row>
                     <Table.Summary.Row style={{fontWeight: '600', backgroundColor: '#FAFAFA'}}>
-                        <Table.Summary.Cell index={0} colSpan={1}>إجمالي كلفة قسم الحبكة والفرق</Table.Summary.Cell>
+                        <Table.Summary.Cell index={0} colSpan={1}>انتاجية الآلة باليوم</Table.Summary.Cell>
                         <Table.Summary.Cell index={1} colSpan={3}>
-                        {product ? product.direct_costPerDozenSum: ''}
+                        {product ? product.machine_productivity_per_day: ''}
                         </Table.Summary.Cell>
                     </Table.Summary.Row>
                     <Table.Summary.Row style={{fontWeight: '600', backgroundColor: '#FAFAFA'}}>
-                        <Table.Summary.Cell index={0} colSpan={1}>إجمالي كلفة قسم الحبكة والفرق</Table.Summary.Cell>
+                        <Table.Summary.Cell index={0} colSpan={1}>صافي الانتاج</Table.Summary.Cell>
                         <Table.Summary.Cell index={1} colSpan={3}>
-                        {product ? product.direct_costPerDozenSum: ''}
+                        {product ? product.net_production: ''}
                         </Table.Summary.Cell>
                     </Table.Summary.Row>
                 </>
