@@ -37,13 +37,7 @@ const IndustrialExpense = () => {
       render: (text) => moment(text).format("MM-DD-YYYY"),
     },
     {
-      title: "id",
-      dataIndex: "id",
-      key: "id",
-    },
-
-    {
-      title: "",
+      title: "العملية",
       key: "action",
       render: (r, record) =><>
       

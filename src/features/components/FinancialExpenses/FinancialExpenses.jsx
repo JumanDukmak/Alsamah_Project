@@ -1,4 +1,4 @@
-import { Button, Col, Row, Table, message } from 'antd';
+import { Button, Col, Row, Space, Table, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -95,9 +95,14 @@ const columns = [
     {
         title: 'العملية',
         key: 'operation',
-        width: 100,
+        width: 120,
         fixed: 'right',
-        render: () => <a>action</a>,
+        render: () => 
+            <Space size="middle">
+                <a>تعديل</a>
+                <a style={{color: 'red'}}>حذف</a>
+            </Space>
+        ,
     },
 ];
 

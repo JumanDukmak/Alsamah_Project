@@ -116,22 +116,10 @@ const BaseLayout = (props) => {
                         onClick={() => navigate('/PigmentCosts')}>تكاليف الصباغ</Menu.Item>
                     </SubMenu>
 
-                    <SubMenu key='sub5'
-                        title={
-                            <span>
-                                <DropboxOutlined />
-                                <span>المواد الأولية</span>
-                            </span>}
-                    >
-                        <Menu.Item key='15' 
-                        style={{ fontWeight: '600' }}
-                        onClick={() => navigate('/initialMaterials')}>المواد الأولية</Menu.Item>
-                        <Menu.Item key='16' 
-                        style={{ fontWeight: '600' }}
-                        onClick={() => navigate('/initialMaterials')}>المواد الأولية للمنتج</Menu.Item>
-                    </SubMenu>
-
-                    
+                    <Menu.Item key='15' onClick={() => navigate('/initialMaterials')}>
+                        <DropboxOutlined />
+                        <span>المواد الأولية</span>
+                    </Menu.Item>
                 </Menu>
             </Sider>
 
