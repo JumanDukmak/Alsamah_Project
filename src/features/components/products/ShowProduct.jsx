@@ -1,10 +1,8 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { List, Table, Tabs, Typography } from 'antd';
+import { List, Table, Tabs } from 'antd';
 import { getProductCardFetch } from '../../redux/products/productSlice';
 import { useLocation } from 'react-router-dom';
-
-const { Text } = Typography;
 
 const ShowProduct = () => {
     const dispatch = useDispatch();
@@ -64,40 +62,7 @@ const columns3 = [
     },
 ];
 
-const sortedData = [product ? product.initial_material: ""].sort((a, b) => a.type.localeCompare(b.type));
-
-// Group data by type
-const groupedData = sortedData.reduce((acc, item) => {
-    if (!acc[item.type]) {
-    acc[item.type] = [];
-    }
-    acc[item.type].push(item);
-    return acc;
-}, {});
-
-console.log(groupedData.undefined);
-
 const columns4 = [
-    // {
-    //     title: 'نوع المادة',
-    //     dataIndex: 'type',
-    //     key: 'type',
-    //     render: (text, row, index) => {
-    //         const rowspan = groupedData[text].length;
-    //         if (index === 0 || text !== groupedData[index - 1].type) {
-    //             return {
-    //             children: text,
-    //             props: { rowSpan: rowspan },
-    //             };
-    //         }
-    //         return {
-    //             children: '',
-    //             props: {
-    //             rowSpan: 0,
-    //             },
-    //         };
-    //     },
-    // },
     {
         title: 'نوع المادة',
         dataIndex: 'type',
@@ -214,8 +179,7 @@ const items = [
         rowKey='id'
         bordered
         columns={columns4} 
-        //dataSource={groupedData ? groupedData.undefined: ''}
-        dataSource={product ? product.initial_material: ''}
+        dataSource={product ? product.InitialMaterials: ''}
         pagination={false}
         style={{ marginTop: '-16px' }}
         summary={() => {

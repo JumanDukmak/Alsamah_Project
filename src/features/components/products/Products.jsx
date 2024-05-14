@@ -7,44 +7,6 @@ import { getProductsFetch, resetData } from '../../redux/products/productSlice';
 import { useNavigate } from 'react-router-dom';
 import ShowProduct from './ShowProduct';
 
-const columns = [
-    {
-        title: 'رمز المادة الإجمالية',
-        dataIndex: 'code',
-        key: 'code',
-    },
-    {
-        title: 'اسم المادة الإجمالية',
-        dataIndex: 'name',
-        key: 'name',
-    },
-    {
-        title: 'الوحدة',
-        dataIndex: 'unit',
-        key: 'unit',
-    },
-    {
-        title: 'المجموعة',
-        dataIndex: 'category_name',
-        key: 'category_name',
-    },
-    {
-        title: 'الماركة',
-        dataIndex: 'brand_name',
-        key: 'brand_name',
-    },
-    {
-        title: 'زمن الفردة',
-        dataIndex: 'time_per_piece',
-        key: 'time_per_piece',
-    },
-    {
-        title: 'السعر المحلي',
-        dataIndex: 'price',
-        key: 'price',
-    },
-];
-
 const Products = () => {
     const [open, setOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -52,6 +14,51 @@ const Products = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const products = useSelector((state) => state.products)
+
+    const columns = [
+        {
+            title: 'رمز المادة الإجمالية',
+            dataIndex: 'code',
+            key: 'code',
+            onCell: (record, rowIndex) => {
+                return {
+                    onClick: () => {
+                        setSelectedItemId(record.id)
+                    },
+                };
+            },
+        },
+        {
+            title: 'اسم المادة الإجمالية',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: 'الوحدة',
+            dataIndex: 'unit',
+            key: 'unit',
+        },
+        {
+            title: 'المجموعة',
+            dataIndex: 'category_name',
+            key: 'category_name',
+        },
+        {
+            title: 'الماركة',
+            dataIndex: 'brand_name',
+            key: 'brand_name',
+        },
+        {
+            title: 'زمن الفردة',
+            dataIndex: 'time_per_piece',
+            key: 'time_per_piece',
+        },
+        {
+            title: 'السعر المحلي',
+            dataIndex: 'price',
+            key: 'price',
+        },
+    ];
 
     useEffect(() => {
         dispatch(getProductsFetch(currentPage))
@@ -101,13 +108,13 @@ const Products = () => {
             columns={columns} 
             dataSource={products.products}
             pagination={false}
-            onRow={(record, rowIndex) => {
-                return {
-                    onClick: () => {
-                        setSelectedItemId(record.id)
-                    } 
-                };
-            }}
+            // onRow={(record, rowIndex) => {
+            //     return {
+            //         onClick: () => {
+            //             setSelectedItemId(record.id)
+            //         } 
+            //     };
+            // }}
             />
             <div style={{ height: '50px' }} />
             <Pagination 
