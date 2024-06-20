@@ -44,7 +44,8 @@ const reducer = combineReducers({
     productionRates: productionRatesSlice,
     financialExpenses: financialExpensesSlice,
     initialMaterials: initialMaterialsSlice,
-    directWork:directWorkSlice
+    directWorks:directWorkSlice
+    
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

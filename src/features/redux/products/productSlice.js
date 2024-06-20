@@ -96,6 +96,7 @@ const productSlice = createSlice({
         getProductCardSuccess: (state, action) => {
             state.isLoading = false;
             state.product = action.payload.products;
+            state.materialProduct=action.payload.products.InitialMaterials
             state.error = null;
         },
 
@@ -104,7 +105,25 @@ const productSlice = createSlice({
             state.error = action.payload.error;
             state.product = null;
         },
+       
+
+
+
+       
+
+
+
+
+
+
+
     },
+
+
+
+
+
+
 });
 
 export const { 
@@ -121,5 +140,6 @@ export const {
     getProductCardFetch,
     getProductCardSuccess,
     getProductCardFailure,
+    
 } = productSlice.actions;
 export default productSlice.reducer;

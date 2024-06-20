@@ -1,18 +1,41 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { List, Table, Tabs } from 'antd';
+import { Button, List, Modal, Row, Space, Table, Tabs } from 'antd';
 import { getProductCardFetch } from '../../redux/products/productSlice';
 import { useLocation } from 'react-router-dom';
+import UpdateMaterialProduct from '../InitialMaterialsProduct/UpdateMaterialsProduct';
+import RemoveDirectWorks from '../DirectWork/RemoveDirectWorks';
 
 const ShowProduct = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const product = useSelector((state) => state.products.product)
     const id = location.state;
-    
+   
     useEffect(() => {
-        dispatch(getProductCardFetch(id))
-    }, [])
+        dispatch(getProductCardFetch(id));
+    }, []);
+
+
+
+     const [directWorks,setDirectWorks]=useState([]);
+     const [materialsProduct,setmaterialsProduct]=useState([]);
+     const [old_items,setOldItems]=useState([]);
+    useEffect(()=>{
+   
+       if(product){
+        setDirectWorks(product.direct_costPerDozen);
+        setmaterialsProduct(product.InitialMaterials);
+          const newList = product.InitialMaterials.map(item => ({initial_material_id: item.id, quantity: item.quantity}));
+          setOldItems(newList);
+
+         
+       }
+    },[product])
+
+
+
+
 
 const columns2 = [
     {
@@ -75,8 +98,8 @@ const columns4 = [
     },
     {
         title: 'المجموع',
-        dataIndex: 'sum',
-        key: 'sum',
+        dataIndex: 'cost',
+        key: 'cost',
     },
 ];
 
@@ -215,11 +238,109 @@ const items = [
         />,
     },
 ]
+    const [open, setOpen] = useState(false);
+    const [open1, setOpen1] = useState(false);
 
-    console.log(`${JSON.stringify(product)}`);
 
+
+    const [open2, setOpen2] = useState(false);
+  const showModal = () => {
+    setOpen2(true);
+  };
+  const handleOk = () => {
+    setOpen2(false);
+  };
+  const handleCancel = () => {
+    setOpen2(false);
+  };
     return (
         <div className='conatiner_body'>
+            
+
+
+
+
+<Row justify='end'>
+
+
+        <Button type="primary" onClick={showModal}>
+        تعديل مكونات المنتج 
+        </Button>
+    
+    
+      <Modal
+        open={open2}
+         title="تعديل مكونات المنتج "
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={(_, {  CancelBtn }) => (
+          <>
+            
+            <CancelBtn />
+            
+          </>
+        )}
+      >
+       
+
+<Space  size="middle" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+<Button type="primary" onClick={() => {
+         
+        
+         setOpen(true);
+         
+       }}>
+         تعديل المواد الأولية        </Button>
+         <UpdateMaterialProduct
+        id={id}
+        old_items={old_items}
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+          
+        />
+
+
+<Button type="primary" onClick={() => {
+         
+        
+         setOpen1(true);
+         
+       }}>
+         حذف القوى العاملة        </Button>
+         <RemoveDirectWorks
+         all_directWorks={directWorks}
+        id={id}
+        open={open1}
+        onClose={() => {
+          setOpen1(false);
+        }}
+          
+        />
+
+
+</Space>
+
+
+      </Modal>
+    
+
+
+
+
+
+
+
+
+
+           
+
+
+
+            </Row>
+
+
             <Tabs
             type="card"
             size='large'

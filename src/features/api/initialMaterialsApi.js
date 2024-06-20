@@ -38,8 +38,33 @@ export function uploadInitialMaterialsFileApi(formData) {
 }
 
 
-export function uploadInitialMaterialsProductApi(formData) {
-    return axios.post('http://127.0.0.1:8000/api/costs/add-InitialMaterialsProduct', formData, 
+//---------------------------------------------------
+
+
+export const addMaterialProductApi = ( productId, items)=> {
+
+    console.log(`the list of material ${items}`);
+ 
+    console.log(`  the id up : ${productId}`);
+    return axios.post(`http://127.0.0.1:8000/api/costs/add-InitialMaterialsProduct/${productId}`, {
+        
+        items: items,
+       
+    },
+        {
+            headers: {
+                'Authorization': `Bearer ${''}`,
+                'Content-Type': 'application/json'
+            },
+        }
+    )
+}
+
+
+export function uploadMaterialsProductFileApi(formData) {
+   
+    console.log("api"+ formData);
+    return axios.post('http://127.0.0.1:8000/api/costs/import-InitialMaterialsProduct', formData, 
     {
         headers: {
             'Content-Type': 'multipart/form-data'
@@ -48,12 +73,20 @@ export function uploadInitialMaterialsProductApi(formData) {
     )
 }
 
-export function addInitialMaterialsProductApi(initial_materials_code, quantity, productId) {
-    return axios.post('http://127.0.0.1:8000/api/costs/add-InitialMaterialsProduct', {
-        initial_materials_code: initial_materials_code,
-        quantity: quantity,
-        productId: productId,
-     
+
+
+
+    
+
+export const updateMaterialsProductApi = ( productId,items)=> {
+console.log(`DATA API : ${items}  `)
+
+
+    return axios.post(`http://127.0.0.1:8000/api/costs/update-InitialMaterialsProduct/${productId}`, {
+        
+   items:items
+    
+        
     },
         {
             headers: {
@@ -65,19 +98,9 @@ export function addInitialMaterialsProductApi(initial_materials_code, quantity, 
 }
 
 
-export function updateInitialMaterialsProductApi(initial_materials_code, quantity, productId) {
-    return axios.post('http://127.0.0.1:8000/api/costs/update-InitialMaterialsProduct', {
-        initial_materials_code: initial_materials_code,
-        quantity: quantity,
-        productId: productId,
-     
-    },
-        {
-            headers: {
-                'Authorization': `Bearer ${''}`,
-                'Content-Type': 'application/json'
-            },
-        }
-    )
-}
+
+
+
+
+
 

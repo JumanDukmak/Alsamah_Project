@@ -1,4 +1,4 @@
-import { Button, Col, Pagination, Row, Table, message } from 'antd';
+import { Button, Col, Pagination, Row, Space, Table, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import ProductCreate from './ProductCreate';
@@ -6,11 +6,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProductsFetch, resetData } from '../../redux/products/productSlice';
 import { useNavigate } from 'react-router-dom';
 import ShowProduct from './ShowProduct';
+import AddMaterialProduct from '../InitialMaterialsProduct/AddMaterialsProduct';
+import AddDirectWork from '../DirectWork/AddDirectWork';
 
 const Products = () => {
     const [open, setOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedItemId, setSelectedItemId] = useState(null);
+     const [selectedId_f_Material, setSelectedId_f_Material] = useState(null);
+     const [selectedId_f_DirectCost, setSlelectedId_f_DirectCost] = useState(null);
+    const [open2, setOpen2] = useState(false);
+    const [open3, setOpen3] = useState(false);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const products = useSelector((state) => state.products)
@@ -58,8 +65,43 @@ const Products = () => {
             dataIndex: 'price',
             key: 'price',
         },
+        {
+            title: 'العملية',
+            key: 'operation',
+           
+            render: (_,record) => 
+                <Space size="large">
+<Button type="link" onClick={() => {
+         setSelectedId_f_Material(record.id);
+         setOpen2(true);
+        }}>
+          إضافة مواد أولية
+        </Button>
+
+                  
+              
+
+              <Button type="link" onClick={() => {
+               
+                 setSlelectedId_f_DirectCost(record.id);
+                setOpen3(true);
+               
+              }}>
+                إضافة قوى عاملة
+              </Button>
+                </Space>
+            ,
+        },
+       
+
     ];
 
+    useEffect(() => {
+        selectedItemId && (
+            navigate('/show/product/'+ selectedItemId, { state: selectedItemId })
+        )
+      
+    }, [selectedItemId])
     useEffect(() => {
         dispatch(getProductsFetch(currentPage))
     }, [])
@@ -76,11 +118,7 @@ const Products = () => {
         }
     }, [products.message, products.error]);
 
-    useEffect(() => {
-        selectedItemId && (
-            navigate('/show/product/'+ selectedItemId, { state: selectedItemId })
-        )
-    }, [selectedItemId])
+    
 
     return (
         <div className='conatiner_body'>
@@ -108,6 +146,9 @@ const Products = () => {
             columns={columns} 
             dataSource={products.products}
             pagination={false}
+            scroll={{
+                x: 5
+            }}
             // onRow={(record, rowIndex) => {
             //     return {
             //         onClick: () => {
@@ -116,6 +157,22 @@ const Products = () => {
             //     };
             // }}
             />
+            <AddMaterialProduct
+        id={selectedId_f_Material}
+        open={open2}
+        onClose={() => {
+          setOpen2(false);
+        }}
+          
+        />
+        <AddDirectWork
+        id={selectedId_f_DirectCost}
+        open={open3}
+        onClose={() => {
+          setOpen3(false);
+        }}
+          
+        />
             <div style={{ height: '50px' }} />
             <Pagination 
                 current={products.meta.current_page_number} 

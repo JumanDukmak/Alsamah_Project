@@ -1,107 +1,107 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const directWorkSlice = createSlice({
-    name: 'directWork',
-    initialState: {
-        directWork: [],
-        loading: false,
-        done: false,
-        error: null,
-        id:0,
-        message: null,
+  name: "directWorks",
+  initialState: {
+    
+     directCost:[],
+    working_numbers:[],
+    directCostFile:null,
+    isLoading: false,
+    done: false,
+    id: 0,
+    error: null,
+    message: null,
+},
+
+reducers: {
+   
+    
+   
+
+    resetData_directWork: (state) => {
+        state.message = null;
+        state.error = null;
     },
 
-    reducers: {
-        getdirectWorkFetch: (state) => {
-            state.loading = true;
-            state.error = null;
-            state.message = null;
-            state.directWork = []
-        },
 
-        getdirectWorkSuccess: (state, action) => {
-            state.loading = false;
-            state.directWork = action.payload.directWork;
-            state.message = null;
-            state.error = null;
-        },
+//-----------------------------------Upload--------------------------------------
 
-        getdirectWorkFailure: (state, action) => {
-            state.loading = false;
-            state.message = null;
-            state.error = action.payload.error;
-            state.directWork = []
-        },
-
-        resetData_directWork: (state) => {
-            state.message = null;
-            state.error = null;
-        },
-
-        addDirectWorkFetch: (state) => {
-            state.loading = true;
-            state.message = null;
-            state.error = null;
-        },
-
-        addDirectWorkSuccess: (state, action) => {
-            console.log("slice:"+action.payload);
-            state.loading = false;
-            state.directWork.push(action.payload.data);
-            state.message = action.payload.message;
-            state.error = null;
-        },
-
-        addDirectWorkFailure: (state, action) => {
-            state.loading = false;
-            state.message = null;
-            state.error = action.payload.error;
-        },
-
-        uploadDirectWorkFileFetch: (state) => {
-            state.loading = true;
-            state.error = null;
-            state.message = null;
-            state.done = false;
-        },
-        
-        uploadDirectWorkFileSuccess: (state, action) => {
-            state.loading = false;
-            state.error = null;
-            state.directWork.push(action.payload.data);
-            state.done = true;
-            state.message = action.payload.message;
-        },
-        
-        uploadDirectWorkFileFailure: (state, action) => {
-            state.loading = false;
-            state.message = null;
-            state.error = action.payload.error;
-            state.done = false;
-        },
-
-        //-------------------------------Delete ------------------------------------
+     //uploud file to add products from excel
+     uploadDirectCostFileFetch: (state) => {
        
+        state.isLoading = true;
+        state.error = null;
+        state.message = null;
+        state.done = false;
+    },
+    
+    uploadDirectCostFileSuccess: (state, action) => {
+       
+        state.isLoading = false;
+        state.error = null;
+        state.directCostFile=action.payload.data;
+        state.done = true;
+        state.message = action.payload.message;
+    },
+    
+    uploadDirectCostFileFailure: (state, action) => {
+        
+        state.isLoading = false;
+        state.message = null;
+        state.error = action.payload.error;
+        state.done = false;
+    },
 
-deleteDirectWorkFileStart:(state,action)=>{
-    state.loading=true;
-    state.error=null;
-    state.id=action.payload;
+//-----------------------------------ADD--------------------------------------
+addDirectCostFetch: (state) => {
+state.isLoading = true;
+state.done = false;
+state.error = null;
+state.message = null;
+},
+
+addDirectCostSuccess: (state, action) => {
+state.isLoading = false;
+state.directCost=action.payload.data;
+state.done = true;
+state.message = action.payload.message;
+state.error = null;
+},
+
+addDirectCostFailuer: (state, action) => {
+state.isLoading = false;
+state.error = action.payload.error;
+state.done = false;
+state.message = null;
+},  
+
+
+//--------------------------Delete-----------------------------
+
+deleteDirectWorkStart:(state,action)=>{
+    state.isLoading = true;
+     state.working_numbers=action.payload.directWork;
+    state.done = false;
+    state.error = null;
+    state.message = null;
  
     },
     
-    deleteDirectWorkFileSuccess:(state)=>{
-    state.loading=false;
-    state.error=null;
-    state.directWork = state.directWork.filter(d => d.id !== state.id);
-   
+    deleteDirectWorkSuccess:(state,action)=>{
+    // state.files = state.files.filter(file => file.id !== state.id);
+    state.isLoading = false;
+    state.done = true;
+    state.message = action.payload.message;
+    state.error = null;
     
     },
     
-    deleteDirectWorkFileFailure:(state,action) =>{
-    
-    state.loading=false;
-    state.error=action.payload.error;
+    deleteDirectWorkFailure:(state,action) =>{
+        state.isLoading = false;
+        state.error = action.payload.error;
+        state.done = false;
+        state.message = null;
     
     },
 
@@ -109,15 +109,16 @@ deleteDirectWorkFileStart:(state,action)=>{
 
 
 
-    }
-})
+
+
+},
+
+});
 
 export const {
-  getdirectWorkFetch,getdirectWorkSuccess,getdirectWorkFailure,
-  addDirectWorkFetch,addDirectWorkSuccess,addDirectWorkFailure,
-  uploadDirectWorkFileFetch,uploadDirectWorkFileFailure,uploadDirectWorkFileSuccess,
-  deleteDirectWorkFileStart,deleteDirectWorkFileSuccess,deleteDirectWorkFileFailure,
+  uploadDirectCostFileFetch,uploadDirectCostFileSuccess,uploadDirectCostFileFailure,
+  deleteDirectWorkFailure,deleteDirectWorkStart,deleteDirectWorkSuccess,
+  addDirectCostFailuer,addDirectCostFetch,addDirectCostSuccess,
   resetData_directWork
-
 } = directWorkSlice.actions;
 export default directWorkSlice.reducer;

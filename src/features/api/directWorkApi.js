@@ -1,51 +1,46 @@
 import axios from "axios";
 
-export function getDirectWorkApi() {
-    return axios.get('http://127.0.0.1:8000/api/costs/getInitialMaterials',
-        {
-            headers: {
-                'Authorization': `Bearer ${''}`,
-                'Content-Type': 'application/json'
-            }
-        }
-    )
-}
+export const uploadDirectCostFileApi = (formData) => {
+  return axios.post(
+    "http://127.0.0.1:8000/api/costs/import-directWork",
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${""}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+};
 
-export function addDirectWorkApi(directWorkCost,id) {
-    return axios.post(`http://127.0.0.1:8000/api/costs/add-directWork/${id}`, {
-        directWorkCost: directWorkCost,
-       
+
+
+export const addDirectWorkApi = (directWorkCost, id) => {
+  return axios.post(
+    `http://127.0.0.1:8000/api/costs/add-directWork/${id}`,
+    {
+      directWorkCost: directWorkCost,
     },
-        {
-            headers: {
-                'Authorization': `Bearer ${''}`,
-                'Content-Type': 'application/json'
-            },
-        }
-    )
-}
-
-export function uploadDirectWorkFileApi(formData) {
-    return axios.post('http://127.0.0.1:8000/api/costs/import-directWork', formData, 
     {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }, 
+      headers: {
+        Authorization: `Bearer ${""}`,
+        "Content-Type": "application/json",
+      },
     }
-    )
-}
+  );
+};
 
-
-export function remveDirectWorkApi() {
-    return axios.delete(`http://127.0.0.1:8000/api/costs/delete-directWork/${id}`, 
+export const deleteDirectWorkApi = (productId, directWork) => {
+  return axios.post(
+    `http://127.0.0.1:8000/api/costs/delete-directWork/${productId}`,
     {
-        headers: {
-            'Authorization': `Bearer ${''}`,
-            'Content-Type': 'application/json'
-        },
+      directWork: directWork,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${""}`,
+        "Content-Type": "application/json",
+      },
     }
-    )
-}
-
-
-
+  );
+};

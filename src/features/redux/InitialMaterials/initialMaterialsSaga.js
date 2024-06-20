@@ -1,12 +1,22 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
-import { addInitialMaterialsFailure, addInitialMaterialsProductFailure, addInitialMaterialsProductSuccess, addInitialMaterialsSuccess,
+import { addInitialMaterialsFailure,  addInitialMaterialsSuccess,
+    addMaterialProductFailuer,
+    addMaterialProductSuccess,
     getInitialMaterialsFailure, getInitialMaterialsSuccess,
-    updateInitialMaterialsProductFailure,
-    updateInitialMaterialsProductSuccess,
-    uploadInitialMaterialsFileFailure, uploadInitialMaterialsFileSuccess, 
-    uploadInitialMaterialsProductFailure, 
-    uploadInitialMaterialsProductSuccess} from "./initialMaterialsSlice";
-import { addInitialMaterialsApi, addInitialMaterialsProductApi, getInitialMaterialsApi, updateInitialMaterialsProductApi, uploadInitialMaterialsFileApi, uploadInitialMaterialsProductApi } from "../../api/initialMaterialsApi";
+    
+    
+    updateMaterialProductFailuer,
+    
+    
+    updateMaterialProductSuccess,
+    
+    
+    uploadInitialMaterialsFileFailure, uploadInitialMaterialsFileSuccess,
+    uploadMaterialsProductFileFailure,
+    uploadMaterialsProductFileSuccess, 
+     
+    } from "./initialMaterialsSlice";
+import { addInitialMaterialsApi,  addMaterialProductApi,  getInitialMaterialsApi, updateMaterialsProductApi, uploadInitialMaterialsFileApi, uploadMaterialsProductFileApi } from "../../api/initialMaterialsApi";
 
 function* getInitialMaterialsSaga() {
     try {
@@ -42,46 +52,69 @@ function* uploadInitialMaterialsFileSaga(action) {
     }
 }
 
-//-----------------------------------------------------------------------------
-function* addInitialMaterialsProductSaga(action) {
+
+
+//-----------------------------------------------------------------------
+function* addMaterialProductSaga(action) {
     try {
-        const response = yield call(addInitialMaterialsProductApi, 
-            action.payload.initial_materials_code,
-            action.payload.quantity,
-            action.payload.productId,
-            )
-        yield put(addInitialMaterialsProductSuccess(response.data))
+      const response = yield call(
+        addMaterialProductApi,
+        action.payload.productId,
+        action.payload.items,
+      
+      );
+      yield put(addMaterialProductSuccess(response.data));
     } catch (error) {
-        yield put(addInitialMaterialsProductFailure({ 'error': error.response }))
+      yield put(
+        addMaterialProductFailuer({ error: error.response.data.message })
+      );
     }
-}
-
-function* updateInitialMaterialsProductSaga(action) {
+  }
+  
+  function* updateMaterialProductSaga(action) {
     try {
-        const response = yield call(updateInitialMaterialsProductApi, 
-            action.payload.initial_materials_code,
-            action.payload.quantity,
-            action.payload.productId,)
-        yield put(updateInitialMaterialsProductSuccess(response.data))
+      
+      const response = yield call(
+        updateMaterialsProductApi,
+        action.payload.productId,
+        action.payload.items,
+       
+      );
+      yield put(updateMaterialProductSuccess(response.data));
+    } catch (error) {  
+      yield put(
+        updateMaterialProductFailuer({ error: error.response.data.message })
+      );
+    }
+  }
+  
+
+  function* uploadMaterialsProductFileSaga(action) {
+    try {
+      const formData = new FormData();
+      formData.append("excel_file", action.payload.excel_file)
+      const response= yield call(uploadMaterialsProductFileApi, formData)
+      yield put(uploadMaterialsProductFileSuccess(response.data))
     } catch (error) {
-        yield put(updateInitialMaterialsProductFailure({ 'error': error.response }))
+       
+      yield put(
+        uploadMaterialsProductFileFailure({
+          error: JSON.stringify(error.response.data.errors),
+        })
+      );
     }
+
+
+
+
+    
 }
 
 
 
 
 
-function* uploadInitialMaterialsProductSaga(action) {
-    const formData = new FormData();
-    formData.append("excel_file", action.payload.excel_file)
-    const response= yield call(uploadInitialMaterialsProductApi, formData)
-    if(response.status == 200 || response.status == 201) {
-        yield put(uploadInitialMaterialsProductSuccess(response.data))
-    } else{
-        yield put(uploadInitialMaterialsProductFailure({ 'error': response }))
-    }
-}
+
 
 
 
@@ -97,20 +130,23 @@ function* uploadInitialMaterialsFileWatcherSaga() {
     yield takeEvery('initialMaterials/uploadInitialMaterialsFileFetch', uploadInitialMaterialsFileSaga)
 }
 
-//-----------------------------for-product--------------------------------
 
-function* uploadInitialMaterialsProductWatcherSaga() {
-    yield takeEvery('initialMaterials/uploadInitialMaterialsProductFetch', uploadInitialMaterialsProductSaga)
+//----------------------------------
+
+function* addMaterialProductWatcherSaga() {
+    yield takeEvery('initialMaterials/addMaterialProductFetch', addMaterialProductSaga)
 }
 
-function* addInitialMaterialsProductWatcherSaga() {
-    yield takeEvery('initialMaterials/addInitialMaterialsProductFetch', addInitialMaterialsProductSaga)
+
+function* uploadMaterialsProductFileWatcherSaga() {
+    yield takeEvery('initialMaterials/uploadMaterialsProductFileFetch', uploadMaterialsProductFileSaga)
 }
 
-function* updateInitialMaterialsProductWatcherSaga() {
-    yield takeEvery('initialMaterials/updateInitialMaterialsProductFetch', updateInitialMaterialsProductSaga)
-}
 
+function* updateMaterialProductWatcherSaga() {
+
+    yield takeEvery('initialMaterials/updateMaterialProductFetch', updateMaterialProductSaga)
+}
 
 
 
@@ -120,9 +156,10 @@ export default function* InitialMaterialsSaga() {
         initialMaterialsWatcherSaga(),
         addInitialMaterialsWatcherSaga(),
         uploadInitialMaterialsFileWatcherSaga(),
-        uploadInitialMaterialsProductWatcherSaga(),
-        addInitialMaterialsProductWatcherSaga(),
-        updateInitialMaterialsProductWatcherSaga()
+        addMaterialProductWatcherSaga(),
+        updateMaterialProductWatcherSaga(),
+        uploadMaterialsProductFileWatcherSaga()
+       
 
     ])
 }

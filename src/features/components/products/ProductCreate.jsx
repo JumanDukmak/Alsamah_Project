@@ -2,9 +2,11 @@ import { Button, Col, Input, Row, Form, Select, Space, Drawer, InputNumber, mess
 import { UploadOutlined } from '@ant-design/icons';
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addProductsFetch, getProductsFetch, resetData, uploadFileFetch } from "../../redux/products/productSlice";
+import { addProductsFetch, getProductsFetch, resetData,  uploadFileFetch } from "../../redux/products/productSlice";
 import { getBrandsStart } from "../../redux/Brands/brandsSlice";
 import { getCategoriesStart } from "../../redux/Category/categoriesSlice";
+import { resetData_initialMaterials, uploadMaterialsProductFileFetch } from "../../redux/InitialMaterials/initialMaterialsSlice";
+import { resetData_directWork, uploadDirectCostFileFetch } from "../../redux/directWork/directWorkSlice";
 
 export default function ProductCreate({ open, onClose, currentPage }) {
     const dispatch = useDispatch();
@@ -14,8 +16,12 @@ export default function ProductCreate({ open, onClose, currentPage }) {
     const brands = useSelector((state) => state.brands)
     const categories = useSelector((state) => state.categories)
     const { Title } = Typography;
+    
+    const products = useSelector((state) => state.products);
+    const initialMaterials = useSelector((state) => state.initialMaterials);
+    const directWorks = useSelector((state) => state.directWorks);
 
-    const products = useSelector((state) => state.products)
+    
     useEffect(() => {
         if (products.message) {
             api.success(products.message);
@@ -25,7 +31,24 @@ export default function ProductCreate({ open, onClose, currentPage }) {
             api.error(products.error);
             dispatch(resetData())
         }
-    }, [products.message, products.error]);
+        if (initialMaterials.message) {
+            api.success(initialMaterials.message);
+            dispatch(resetData_initialMaterials())
+        }
+        if (initialMaterials.error) {
+            api.error(initialMaterials.error);
+            dispatch(resetData_initialMaterials())
+        }
+        if (directWorks.message) {
+            api.success(directWorks.message);
+            dispatch(resetData_directWork())
+        }
+        if (directWorks.error) {
+            api.error(directWorks.error);
+            dispatch(resetData_directWork())
+        }
+
+    }, [products.message, products.error,initialMaterials.message,initialMaterials.error,directWorks.message,directWorks.error]);
 
     useEffect(() => {
         dispatch(getBrandsStart())
@@ -54,7 +77,9 @@ export default function ProductCreate({ open, onClose, currentPage }) {
     })
 
     const [excel_file, setFile] = useState({
-        excel_file: null
+        excel_file: null,
+        excel_MaterialProductfile:null,
+        excel_DirectCostfile:null
     });
 
     const selected_brand_id = (selectedValue) => {
@@ -77,10 +102,22 @@ export default function ProductCreate({ open, onClose, currentPage }) {
     };
 
     const onSubmit = () => {
-        let dataFile = { excel_file: excel_file }
+        let dataFile = { excel_file: excel_file.excel_file }
         dispatch(uploadFileFetch(dataFile))
         dispatch(getProductsFetch(currentPage))
     };
+
+    const onFinishToUplaodFile2 = () => {
+        let dataFile = { excel_file: excel_file.excel_MaterialProductfile }
+        dispatch(uploadMaterialsProductFileFetch(dataFile))
+        
+    };
+    const onFinishToUplaodFile3 = () => {
+        let dataFile = { excel_file: excel_file.excel_DirectCostfile }
+        dispatch(uploadDirectCostFileFetch(dataFile))
+        
+    };
+
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -300,8 +337,102 @@ export default function ProductCreate({ open, onClose, currentPage }) {
                                     <Upload
                                         beforeUpload={() => false}
                                         onChange={(e) => {
-                                            setFile(e.file);
-                                            console.log(e.file);
+                                            setFile(prevState => ({ ...prevState, excel_file: e.file }));
+                                        }}
+                                    >
+                                        <Button
+                                            icon={<UploadOutlined />}
+                                            size='middle'
+                                            style={{ fontWeight: '600' }}
+                                        >تحميل من إكسل</Button>
+                                    </Upload>
+                                    <Button
+                                        type="primary"
+                                        htmlType="submit"
+                                        onClick={onClose}
+                                    >إرسال</Button>
+                                </Space>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                </Form>
+                <Divider />
+                <Form
+                    layout="horizental"
+                    hideRequiredMark
+                    style={{ padding: '10px' }}
+                    onFinish={onFinishToUplaodFile2}
+                    onFinishFailed={onFinishFailed}
+                >
+                    <Row>
+                        <Form.Item name="title">
+                            <Title
+                                level={5}
+                                style={{
+                                    fontFamily: 'Cairo',
+                                    color: '#213242',
+                                }}
+                            >يمكن تحميل ملف خاص بالمواد الأولية للمنتجات</Title>
+                        </Form.Item>
+                    </Row>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item name="button">
+                                <Space align="start">
+                                    <Upload
+                                        beforeUpload={() => false}
+                                        onChange={(e) => {
+
+                                            setFile(prevState => ({ ...prevState, excel_MaterialProductfile: e.file }));
+                                            
+                                        }}
+                                    >
+                                        <Button
+                                            icon={<UploadOutlined />}
+                                            size='middle'
+                                            style={{ fontWeight: '600' }}
+                                        >تحميل من إكسل</Button>
+                                    </Upload>
+                                    <Button
+                                        type="primary"
+                                        htmlType="submit"
+                                        onClick={onClose}
+                                    >إرسال</Button>
+                                </Space>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                </Form>
+
+
+                <Divider />
+                <Form
+                    layout="horizental"
+                    hideRequiredMark
+                    style={{ padding: '10px' }}
+                    onFinish={onFinishToUplaodFile3}
+                    onFinishFailed={onFinishFailed}
+                >
+                    <Row>
+                        <Form.Item name="title">
+                            <Title
+                                level={5}
+                                style={{
+                                    fontFamily: 'Cairo',
+                                    color: '#213242',
+                                }}
+                            >يمكن تحميل ملف خاص بالقوى العاملة للمنتجات</Title>
+                        </Form.Item>
+                    </Row>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item name="button">
+                                <Space align="start">
+                                    <Upload
+                                        beforeUpload={() => false}
+                                        onChange={(e) => {
+
+                                            setFile(prevState => ({ ...prevState, excel_DirectCostfile: e.file }));
                                         }}
                                     >
                                         <Button
