@@ -146,15 +146,11 @@ state.message = null;
 updateMaterialProductSuccess: (state, action) => {
 
 state.loading = false;
-
 state.done = true;
 state.message = action.payload.message;
 state.error = null;
 
-const indexes = state.initialMaterials.map((material, index) => material.id === state.id_file ? index : -1).filter(index => index !== -1);
-indexes.forEach(index => {
-    state.initialMaterials[index] = action.payload.data;
-});
+
 
 
 
