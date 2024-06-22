@@ -22,6 +22,8 @@ import FinancialExpenses from './features/components/FinancialExpenses/Financial
 import AddInitialMaterial from './features/components/InitialMaterial/AddInitialMaterial'
 import InitialMaterials from './features/components/InitialMaterial/InitialMaterials'
 import ShowProduct from './features/components/products/ShowProduct'
+import ShowProductionPlane from './features/components/ProductionPlane/ShowProductionPlane'
+import ProductionPlanee from './features/components/ProductionPlane/ProductionPlane'
 
 function App() {
   return (  
@@ -55,6 +57,9 @@ function App() {
             <Route exact path='/add/initialMaterials' element={<AddInitialMaterial />} />
             <Route exact path='/initialMaterials' element={<InitialMaterials />} />
             <Route exact path='/show/product/:id' element={<ShowProduct />} />
+            <Route exact path='/ShowProductionPlane' element={<ShowProductionPlane />} />
+            <Route exact path='/ProductionPlane' element={<ProductionPlanee />} />
+            
         </Routes>
     </BaseLayout>
   </ConfigProvider>

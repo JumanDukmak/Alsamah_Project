@@ -120,6 +120,13 @@ const BaseLayout = (props) => {
                         <DropboxOutlined />
                         <span>المواد الأولية</span>
                     </Menu.Item>
+
+                    <Menu.Item key='16' onClick={() => navigate('/ShowProductionPlane')}>
+                        <DropboxOutlined />
+                        <span> الخطة الإنتاجية</span>
+                    </Menu.Item>
+
+                    
                 </Menu>
             </Sider>
 

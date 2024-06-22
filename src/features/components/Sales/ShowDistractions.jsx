@@ -84,17 +84,26 @@ const ShowDistractions = () => {
     dispatch(getCategoriesStart());
   }, [report.saletype, report.local_saletype]);
 
-  const [api, contextHolder] = message.useMessage();
-  useEffect(() => {
-    if (salesDistraction.message != null) {
-      api.success(salesDistraction.message);
-      dispatch(resetData_distractions());
-    }
-    if (salesDistraction.error != null) {
-      api.error(salesDistraction.error);
-      dispatch(resetData_distractions());
-    }
-  }, [salesDistraction.message, salesDistraction.error]);
+  // const [api, contextHolder] = message.useMessage();
+  // useEffect(() => {
+  //   if (salesDistraction.message != null) {
+  //     api.success(salesDistraction.message);
+  //     dispatch(resetData_distractions());
+  //   }
+  //   if (salesDistraction.error != null) {
+  //     api.error(salesDistraction.error);
+  //     dispatch(resetData_distractions());
+  //   }
+  // }, [salesDistraction.message, salesDistraction.error]);
+
+
+  const [messageApi, contextHolder] = message.useMessage();
+  const error = () => {
+    messageApi.open({
+      type: 'error',
+      content: salesDistraction.error,
+    });
+  };
 
   const List_governorate = [
     {
@@ -238,16 +247,27 @@ const ShowDistractions = () => {
   };
 
   const onFinish = (e) => {
-    if (report.saletype == "تصدير") {
+    if (report.saletype == "تصدير" ) {
       dispatch(getExportSalesStart(report));
-      navigate("/distractions");
+    
     } else if (report.saletype == "محلي") {
       dispatch(getLocalSalesStart(report));
-      navigate("/distractions");
+     
     } else if (report.saletype == "إجمالي") {
       dispatch(getTotalSalesStart(report));
-      navigate("/distractions");
+     
     }
+
+    if(salesDistraction.error == null){
+      navigate("/distractions");
+
+    }
+
+    else{
+      error();
+      resetData_distractions();  
+    }
+    
   };
 
   return (
