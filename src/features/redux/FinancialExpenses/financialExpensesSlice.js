@@ -34,6 +34,36 @@ const financialExpensesSlice = createSlice({
             state.message = null;
         },
 
+        updateFinancialExpensesFetch: (state) => {
+            state.isLoading = true;
+            state.done = false;
+            state.error = null;
+            state.message = null;
+        },
+
+        updateFinancialExpensesSuccess: (state, action) => {
+            state.isLoading = false;
+            state.financialExpenses.push(action.payload.data);
+            state.done = true;
+            state.message = action.payload.message;
+            state.error = null;
+            const index = state.financialExpenses.findIndex(
+                (data) => data.id == action.payload.data.id
+            );
+
+            console.log("The index is : " + index);
+                if (index !== -1) {
+                    state.financialExpenses[index] = action.payload.data;
+                }
+        },
+        
+        updateFinancialExpensesFailuer: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload.error;
+            state.done = false;
+            state.message = null;
+        },
+
         resetData_financialExpenses: (state) => {
             state.message = null;
             state.error = null;
@@ -66,6 +96,9 @@ export const {
     getFinancialExpensesFetch,
     getFinancialExpensesSuccess,
     getFinancialExpensesFailure,
-    resetData_financialExpenses
+    resetData_financialExpenses,
+    updateFinancialExpensesFetch,
+    updateFinancialExpensesSuccess,
+    updateFinancialExpensesFailuer,
 } = financialExpensesSlice.actions;
 export default financialExpensesSlice.reducer;

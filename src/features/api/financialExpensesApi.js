@@ -31,3 +31,26 @@ export function addFinancialExpensesApi(working_number, work_category, num_of_em
         }
     )
 }
+
+export function updateFinancialExpensesApi(working_number, work_category, num_of_employees, transport_cost,
+    health_insurance, basic_salary, incentives, discounted_working_days, id ) {
+    return axios.put(`http://127.0.0.1:8000/api/costs/update-financialExpenses/${id}`, {
+        working_number: working_number,
+        work_category: work_category,
+        num_of_employees: num_of_employees,
+        transport_cost: transport_cost,
+        health_insurance: health_insurance,
+        basic_salary: basic_salary,
+        incentives: incentives,
+        discounted_working_days: discounted_working_days,
+    },
+        {
+            headers: {
+                'Authorization': `Bearer ${''}`,
+                'Content-Type': 'application/json'
+            },
+        }
+    )
+}
+
+

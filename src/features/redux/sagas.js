@@ -17,6 +17,8 @@ import FinancialExpensesSaga from './FinancialExpenses/financialExpensesSaga';
 import InitialMaterialsSaga from './InitialMaterials/initialMaterialsSaga';
 import directWorkSaga from './directWork/directWorkSaga';
 import production_PlaneSaga from './production_Plane/production_PlaneSaga';
+import InitialMaterialsInventorySaga from './InitialMaterialsInventory/initialMaterialsInventorySaga';
+import ProductsInventorySaga from './productInventory/productInventorySaga';
 
 export default function* rootSaga() {
     yield all([
@@ -37,6 +39,8 @@ export default function* rootSaga() {
         fork(FinancialExpensesSaga),
         fork(InitialMaterialsSaga),
         fork(directWorkSaga),
-       fork(production_PlaneSaga)
+        fork(production_PlaneSaga),
+        fork(InitialMaterialsInventorySaga),
+        fork(ProductsInventorySaga)
     ]);
 }

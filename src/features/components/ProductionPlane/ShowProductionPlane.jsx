@@ -8,13 +8,10 @@ import {
 } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { useNavigate } from "react-router-dom";
 import { getCategoriesStart } from "../../redux/Category/categoriesSlice";
-import {
-  getProductionPlaneFetch,
-  resetData_productionPlane,
-} from "../../redux/production_Plane/productionPlane_Slice";
+import { getProductionPlaneFetch, resetData_productionPlane } from "../../redux/production_Plane/productionPlane_Slice";
+
 const { Option } = Select;
 const { Title } = Typography;
 const ShowProductionPlane = () => {
@@ -60,7 +57,7 @@ const ShowProductionPlane = () => {
     };
     dispatch(getProductionPlaneFetch(data));
     if(productionPlane.error === null){
-    navigate("/ProductionPlane");}
+      navigate("/ProductionPlane",{ state: { year:productionPlanee.year  } });}
 
     else{
         error();

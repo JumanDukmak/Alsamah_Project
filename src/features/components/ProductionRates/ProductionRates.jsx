@@ -4,43 +4,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddProductionRates from './AddProductionRates';
 import { getProductionRatesFetch, resetData_productionRates } from '../../redux/ProductionRates/productionRatesSlice';
-
-const columns = [
-    {
-        title: 'رقم العمل',
-        dataIndex: 'working_number',
-        key: 'working_number',
-    },
-    {
-        title: 'نوع العمل',
-        dataIndex: 'working_type',
-        key: 'working_type',
-    },
-    {
-        title: 'الانتاج اليومي',
-        dataIndex: 'daily_production',
-        key: 'daily_production',
-    },
-    {
-        title: 'فئة العمل',
-        dataIndex: 'working_category',
-        key: 'working_category',
-    },
-    {
-        title: 'العملية',
-        key: 'operation',
-        render: () => 
-            <Space size="large">
-                <a>تعديل</a>
-                <a style={{color: 'red'}}>حذف</a>
-            </Space>
-        ,
-    },
-];
+import UpdateProductionRates from './UpdateProductionRates';
 
 const ProductionRates = () => {
     const dispatch = useDispatch();
     const productionRates = useSelector((state) => state.productionRates);
+    const [selectedItemId, setSelectedItemId] = useState(null);
+    const [openUpdate, setOpenUpdate] = useState(false);
     useEffect(() => {
         dispatch(getProductionRatesFetch());
     }, []);
@@ -56,6 +26,44 @@ const ProductionRates = () => {
             dispatch(resetData_productionRates());
         }
     }, [productionRates.message, productionRates.error]);
+
+    const columns = [
+        {
+            title: 'رقم العمل',
+            dataIndex: 'working_number',
+            key: 'working_number',
+        },
+        {
+            title: 'نوع العمل',
+            dataIndex: 'working_type',
+            key: 'working_type',
+        },
+        {
+            title: 'الانتاج اليومي',
+            dataIndex: 'daily_production',
+            key: 'daily_production',
+        },
+        {
+            title: 'فئة العمل',
+            dataIndex: 'working_category',
+            key: 'working_category',
+        },
+        {
+            title: 'العملية',
+            key: 'operation',
+            render: (r, record) => 
+                <Space size="large">
+                    <Button type="link" onClick={() => {
+                    setSelectedItemId(record.id);
+                    setOpenUpdate(true);
+                    }}>
+                    تعديل
+                    </Button>
+                    <a style={{color: 'red'}}>حذف</a>
+                </Space>
+            ,
+        },
+    ];
 
     const [open, setOpen] = useState(false);
     const showModal = () => {
@@ -95,6 +103,16 @@ const ProductionRates = () => {
             dataSource={productionRates.productionRates}
             pagination={false}
             />
+
+            {selectedItemId && (
+                <UpdateProductionRates
+                id={selectedItemId}
+                open={openUpdate}
+                onClose={() => {
+                setOpenUpdate(false);
+                }} 
+                />
+            )}
             <div style={{ height: '50px' }} />
         </div>
     )

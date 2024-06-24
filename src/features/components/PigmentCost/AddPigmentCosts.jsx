@@ -103,9 +103,9 @@ rules={[
     value: e,
   })
 
-               
               
-              } />
+              } 
+              style={{ width: '100%' }}/>
   
   
 

@@ -1,6 +1,6 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
-import { addProductionRatesApi, getProductionRatesApi, uploadProductionRatesFileApi } from "../../api/productionRatesApi";
-import { addProductionRatesFailure, addProductionRatesSuccess, getProductionRatesFailure, getProductionRatesSuccess, uploadProductionRatesFileFailure, uploadProductionRatesFileSuccess } from "./productionRatesSlice";
+import { addProductionRatesApi, getProductionRatesApi, updateProductionRatesApi, uploadProductionRatesFileApi } from "../../api/productionRatesApi";
+import { addProductionRatesFailure, addProductionRatesSuccess, getProductionRatesFailure, getProductionRatesSuccess, updateProductionRatesFailure, updateProductionRatesSuccess, uploadProductionRatesFileFailure, uploadProductionRatesFileSuccess } from "./productionRatesSlice";
 
 function* getProductionRatesSaga() {
     try {
@@ -26,6 +26,20 @@ function* addProductionRatesSaga(action) {
     }
 }
 
+function* updateProductionRatesSaga(action) {
+    try {
+        const response = yield call(updateProductionRatesApi, 
+            action.payload.working_number,
+            action.payload.working_type,
+            action.payload.daily_production,
+            action.payload.working_category,
+            action.payload.id )
+        yield put(updateProductionRatesSuccess(response.data))
+    } catch (error) {
+        yield put(updateProductionRatesFailure({ 'error': error.response }))
+    }
+}
+
 function* uploadProductionRatesFileSaga(action) {
     const formData = new FormData();
     formData.append("excel_file", action.payload.excel_file)
@@ -45,6 +59,10 @@ function* addProductionRatesWatcherSaga() {
     yield takeEvery('productionRates/addProductionRatesFetch', addProductionRatesSaga)
 }
 
+function* updateProductionRatesWatcherSaga() {
+    yield takeEvery('productionRates/updateProductionRatesFetch', updateProductionRatesSaga)
+}
+
 function* uploadProductionRatesFileWatcherSaga() {
     yield takeEvery('productionRates/uploadProductionRatesFileFetch', uploadProductionRatesFileSaga)
 }
@@ -53,6 +71,7 @@ export default function* ProductionRatesSaga() {
     yield all([
         productionRatesWatcherSaga(),
         addProductionRatesWatcherSaga(),
-        uploadProductionRatesFileWatcherSaga()
+        uploadProductionRatesFileWatcherSaga(),
+        updateProductionRatesWatcherSaga()
     ])
 }

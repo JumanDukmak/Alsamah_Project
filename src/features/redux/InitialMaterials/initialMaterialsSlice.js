@@ -3,10 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialMaterialsSlice = createSlice({
     name: 'initialMaterials',
     initialState: {
-        
         initialMaterials: [],
-        initialMaterials_list:[],
-        materialsProductFile:null,
+        initialMaterials_list: [],
+        materialsProductFile: null,
         loading: false,
         done: false,
         error: null,
@@ -41,14 +40,14 @@ const initialMaterialsSlice = createSlice({
         },
 
         addInitialMaterialsFetch: (state) => {
-    
+
             state.loading = true;
             state.message = null;
             state.error = null;
         },
 
         addInitialMaterialsSuccess: (state, action) => {
-            console.log("slice:"+action.payload);
+            console.log("slice:" + action.payload);
             state.loading = false;
             state.initialMaterials.push(action.payload.data);
             state.message = action.payload.message;
@@ -61,13 +60,40 @@ const initialMaterialsSlice = createSlice({
             state.error = action.payload.error;
         },
 
+        updateInitialMaterialsFetch: (state) => {
+            state.loading = true;
+            state.message = null;
+            state.error = null;
+        },
+
+        updateInitialMaterialsSuccess: (state, action) => {
+            console.log("slice:" + action.payload);
+            state.loading = false;
+            state.message = action.payload.message;
+            state.error = null;
+            const index = state.initialMaterials.findIndex(
+                (data) => data.id == action.payload.data.id
+            );
+
+            console.log("The index is : " + index);
+            if (index !== -1) {
+                state.initialMaterials[index] = action.payload.data;
+            }
+        },
+
+        updateInitialMaterialsFailure: (state, action) => {
+            state.loading = false;
+            state.message = null;
+            state.error = action.payload.error;
+        },
+
         uploadInitialMaterialsFileFetch: (state) => {
             state.loading = true;
             state.error = null;
             state.message = null;
             state.done = false;
         },
-        
+
         uploadInitialMaterialsFileSuccess: (state, action) => {
             state.loading = false;
             state.error = null;
@@ -75,7 +101,7 @@ const initialMaterialsSlice = createSlice({
             state.done = true;
             state.message = action.payload.message;
         },
-        
+
         uploadInitialMaterialsFileFailure: (state, action) => {
             state.loading = false;
             state.message = null;
@@ -83,89 +109,77 @@ const initialMaterialsSlice = createSlice({
             state.done = false;
         },
 
+        //--------------------------Material-Product-----------------------
+        uploadMaterialsProductFileFetch: (state) => {
+            state.loading = true;
+            state.error = null;
+            state.message = null;
+            state.done = false;
+        },
 
-//------------------------------------------------------------------
+        uploadMaterialsProductFileSuccess: (state, action) => {
+            state.loading = false;
+            state.error = null;
+            state.materialsProductFile=action.payload.data;
+            state.done = true;
+            state.message = action.payload.message;
+        },
 
- //uploud file to add products from excel
- uploadMaterialsProductFileFetch: (state) => {
-    state.loading = true;
-    state.error = null;
-    state.message = null;
-    state.done = false;
-},
+        uploadMaterialsProductFileFailure: (state, action) => {
+            state.loading = false;
+            state.message = null;
+            state.error = action.payload.error;
+            state.done = false;
+        },
 
-uploadMaterialsProductFileSuccess: (state, action) => {
-    state.loading = false;
-    state.error = null;
-    state.materialsProductFile=action.payload.data;
-    state.done = true;
-    state.message = action.payload.message;
-},
+        addMaterialProductFetch: (state, action) => {
+            state.loading = true;
+            state.done = false;
+            state.error = null;
+            state.message = null;
+        },
 
-uploadMaterialsProductFileFailure: (state, action) => {
-    state.loading = false;
-    state.message = null;
-    state.error = action.payload.error;
-    state.done = false;
-},
+        addMaterialProductSuccess: (state, action) => {
+            state.loading = false;
+            state.initialMaterials.push(action.payload.data);
+            state.done = true;
+            state.message = action.payload.message;
+            state.error = null;
+        },
 
+        addMaterialProductFailuer: (state, action) => {
+            state.loading = false;
+            state.error = action.payload.error;
+            state.done = false;
+            state.message = null;
+        },
 
-//--------------------------Material-Product-----------------------
+        updateMaterialProductFetch: (state, action) => {
+            state.loading = true;
+            state.initialMaterials_list = action.payload.items;
+            state.done = false;
+            state.error = null;
+            state.message = null;
+        },
 
-addMaterialProductFetch: (state,action) => {
-state.loading = true;
-state.done = false;
-state.error = null;
-state.message = null;
-},
+        updateMaterialProductSuccess: (state, action) => {
+            state.loading = false;
+            state.done = true;
+            state.message = action.payload.message;
+            state.error = null;
 
-addMaterialProductSuccess: (state, action) => {
-state.loading = false;
-state.initialMaterials.push(action.payload.data);
-state.done = true;
-state.message = action.payload.message;
-state.error = null;
-},
+            const indexes = state.initialMaterials.map((material, index) => material.id === state.id_file ? index : -1).filter(index => index !== -1);
+            indexes.forEach(index => {
+                state.initialMaterials[index] = action.payload.data;
+            });
+        },
 
-addMaterialProductFailuer: (state, action) => {
-state.loading = false;
-state.error = action.payload.error;
-state.done = false;
-state.message = null;
-}, 
-
-
-updateMaterialProductFetch: (state,action) => {
-state.loading = true;
-state.initialMaterials_list=action.payload.items;
-state.done = false;
-state.error = null;
-state.message = null;
-},
-
-updateMaterialProductSuccess: (state, action) => {
-
-state.loading = false;
-state.done = true;
-state.message = action.payload.message;
-state.error = null;
-
-
-
-
-
-
-},
-
-updateMaterialProductFailuer: (state, action) => {
-state.loading = false;
-state.error = action.payload.error;
-state.done = false;
-state.message = null;
-},
-
-       
-
+        updateMaterialProductFailuer: (state, action) => {
+            state.loading = false;
+            state.error = action.payload.error;
+            state.done = false;
+            state.message = null;
+        },
     }
 })
 
@@ -173,6 +187,9 @@ export const {
     addInitialMaterialsFetch,
     addInitialMaterialsSuccess,
     addInitialMaterialsFailure,
+    updateInitialMaterialsFetch,
+    updateInitialMaterialsSuccess,
+    updateInitialMaterialsFailure,
     getInitialMaterialsFetch,
     getInitialMaterialsSuccess,
     getInitialMaterialsFailure,
@@ -180,10 +197,14 @@ export const {
     uploadInitialMaterialsFileSuccess,
     uploadInitialMaterialsFileFailure,
     resetData_initialMaterials,
-    addMaterialProductFetch,addMaterialProductSuccess,addMaterialProductFailuer,
-    uploadMaterialsProductFileFetch,uploadMaterialsProductFileSuccess,uploadMaterialsProductFileFailure,
-    updateMaterialProductFailuer,updateMaterialProductSuccess,updateMaterialProductFetch
-    
-
+    addMaterialProductFetch,
+    addMaterialProductSuccess,
+    addMaterialProductFailuer,
+    uploadMaterialsProductFileFetch,
+    uploadMaterialsProductFileSuccess,
+    uploadMaterialsProductFileFailure,
+    updateMaterialProductFailuer,
+    updateMaterialProductSuccess,
+    updateMaterialProductFetch,
 } = initialMaterialsSlice.actions;
 export default initialMaterialsSlice.reducer;

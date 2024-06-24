@@ -24,6 +24,12 @@ import InitialMaterials from './features/components/InitialMaterial/InitialMater
 import ShowProduct from './features/components/products/ShowProduct'
 import ShowProductionPlane from './features/components/ProductionPlane/ShowProductionPlane'
 import ProductionPlanee from './features/components/ProductionPlane/ProductionPlane'
+import UpdateProductionRates from './features/components/ProductionRates/UpdateProductionRates'
+import UpdateFinancialExpenses from './features/components/FinancialExpenses/UpdateFinancialExpenses'
+import AddProductInventory from './features/components/ProductInventory/AddProductInventory'
+import ProductsInventory from './features/components/ProductInventory/ProductsInventory'
+import InitialMaterialsInventory from './features/components/InitialMaterialsInventory/InitialMaterialsInventory'
+import AddInitialMaterialInventory from './features/components/InitialMaterialsInventory/AddInitialMaterialInventory'
 
 function App() {
   return (  
@@ -50,16 +56,22 @@ function App() {
             <Route exact path='/Indirect_industrialExpense' element={<Indirect_industrialExpense />} />
             <Route exact path='/productionRates' element={<ProductionRates />} />
             <Route exact path='/add/productionRates' element={<AddProductionRates />} />
+            <Route exact path='/update/productionRates' element={<UpdateProductionRates />} />
             <Route exact path='/PigmentCosts' element={<PigmentCosts />} />
             <Route exact path='/GeneralData' element={<GeneralData />} />
             <Route exact path='/add/financialExpenses' element={<AddFinancialExpenses />} />
+            <Route exact path='/update/financialExpenses' element={<UpdateFinancialExpenses />} />
             <Route exact path='/financialExpenses' element={<FinancialExpenses />} />
             <Route exact path='/add/initialMaterials' element={<AddInitialMaterial />} />
+            {/* <Route exact path='/update/initialMaterials' element={< />} /> */}
             <Route exact path='/initialMaterials' element={<InitialMaterials />} />
             <Route exact path='/show/product/:id' element={<ShowProduct />} />
             <Route exact path='/ShowProductionPlane' element={<ShowProductionPlane />} />
             <Route exact path='/ProductionPlane' element={<ProductionPlanee />} />
-            
+            <Route exact path='/show/inventory/products' element={<ProductsInventory />} />
+            <Route exact path='/add/inventory/products' element={<AddProductInventory />} />
+            <Route exact path='/show/inventory/initialMaterials' element={<InitialMaterialsInventory />} />
+            <Route exact path='/add/inventory/initialMaterials' element={<AddInitialMaterialInventory />} />
         </Routes>
     </BaseLayout>
   </ConfigProvider>

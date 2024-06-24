@@ -2,9 +2,12 @@ import { useSelector } from "react-redux";
 import { Table, Tabs } from "antd";
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
 const ProductionPlane = () => {
   const productionPlane = useSelector((state) => state.productionPlane);
-
+  const location = useLocation();
+  const { year } = location.state;
   
   const months = [
     "كانون الثاني",
@@ -152,7 +155,7 @@ const ProductionPlane = () => {
   const items = [
     {
       key: "1",
-      label: `الخطة الإنتاجية لكل منتج لعام ${productionPlane.products[0].year}`,
+      label: `الخطة الإنتاجية لكل منتج لعام ${year}`,
       children: (
         <Table
           rowKey="id"
@@ -166,7 +169,7 @@ const ProductionPlane = () => {
     },
     {
       key: "2",
-      label: `الخطة الإنتاجية الإجمالية لعام  ${productionPlane.products[0].year}`,
+      label: `الخطة الإنتاجية الإجمالية لعام  ${year}`,
       children: (
         <Table
           rowKey="id"

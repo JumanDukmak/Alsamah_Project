@@ -74,7 +74,6 @@ const AddProductionRates = ({ open, onClose }) => {
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
             style={{ maxWidth: 600 }}
-            initialValues={{ remember: true }}
             autoComplete="off"
             hideRequiredMark
             onFinish={onFinish}
@@ -163,6 +162,7 @@ const AddProductionRates = ({ open, onClose }) => {
             </Form>
             <Divider />
             <Form
+                name="basic2"
                 layout="horizental"
                 hideRequiredMark
                 style={{ padding: '10px' }}

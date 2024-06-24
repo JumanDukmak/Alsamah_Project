@@ -10,13 +10,11 @@ import { resetData_directWork, uploadDirectCostFileFetch } from "../../redux/dir
 
 export default function ProductCreate({ open, onClose, currentPage }) {
     const dispatch = useDispatch();
-
     const { Option } = Select;
     const [api, contextHolder] = message.useMessage();
     const brands = useSelector((state) => state.brands)
     const categories = useSelector((state) => state.categories)
     const { Title } = Typography;
-    
     const products = useSelector((state) => state.products);
     const initialMaterials = useSelector((state) => state.initialMaterials);
     const directWorks = useSelector((state) => state.directWorks);
@@ -403,7 +401,6 @@ export default function ProductCreate({ open, onClose, currentPage }) {
                         </Col>
                     </Row>
                 </Form>
-
 
                 <Divider />
                 <Form

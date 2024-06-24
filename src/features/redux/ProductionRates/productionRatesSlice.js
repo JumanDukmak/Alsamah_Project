@@ -58,6 +58,32 @@ const productionRatesSlice = createSlice({
             state.error = action.payload.error;
         },
 
+        updateProductionRatesFetch: (state) => {
+            state.loading = true;
+            state.message = null;
+            state.error = null;
+        },
+
+        updateProductionRatesSuccess: (state, action) => {
+            console.log("slice:"+action.payload);
+            state.loading = false;
+            state.message = action.payload.message;
+            state.error = null;
+            const index = state.productionRates.findIndex(
+                (data) => data.id == action.payload.data.id
+            );
+
+            if (index !== -1) {
+                state.productionRates[index] = action.payload.data;
+            }
+        },
+
+        updateProductionRatesFailure: (state, action) => {
+            state.loading = false;
+            state.message = null;
+            state.error = action.payload.error;
+        },
+
         uploadProductionRatesFileFetch: (state) => {
             state.loading = true;
             state.error = null;
@@ -92,5 +118,8 @@ export const {
     resetData_productionRates,
     uploadProductionRatesFileFetch,
     uploadProductionRatesFileSuccess,
-    uploadProductionRatesFileFailure } = productionRatesSlice.actions;
+    uploadProductionRatesFileFailure,
+    updateProductionRatesFetch,
+    updateProductionRatesSuccess,
+    updateProductionRatesFailure } = productionRatesSlice.actions;
 export default productionRatesSlice.reducer;
