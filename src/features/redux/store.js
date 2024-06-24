@@ -22,6 +22,8 @@ import financialExpensesSlice from './FinancialExpenses/financialExpensesSlice';
 import initialMaterialsSlice from './InitialMaterials/initialMaterialsSlice';
 import directWorkSlice from './directWork/directWorkSlice';
 import productionPlane_Slice from './production_Plane/productionPlane_Slice';
+import initialMaterialsInventorySlice from './InitialMaterialsInventory/initialMaterialsInventorySlice';
+import productInventorySlice from './productInventory/productInventorySlice';
 
 const persistConfig = {
     key: 'root',
@@ -46,7 +48,9 @@ const reducer = combineReducers({
     financialExpenses: financialExpensesSlice,
     initialMaterials: initialMaterialsSlice,
     directWorks:directWorkSlice,
-    productionPlane:productionPlane_Slice
+    productionPlane:productionPlane_Slice,
+    materialsInventory:initialMaterialsInventorySlice,
+    productsInventory:productInventorySlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

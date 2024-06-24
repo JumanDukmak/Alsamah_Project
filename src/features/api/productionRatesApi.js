@@ -28,12 +28,26 @@ export function addProductionRatesApi(working_number, working_type, daily_produc
 }
 
 export function uploadProductionRatesFileApi(formData) {
-    return axios.post('http://127.0.0.1:8000/api/costs/import-productionRates', formData, 
-    {
+    return axios.post('http://127.0.0.1:8000/api/costs/import-productionRates', formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
-        }, 
-    }
+        },
+    })
+}
+
+export const updateProductionRatesApi = (working_number, working_type, daily_production, working_category, id) => {
+    return axios.put(`http://127.0.0.1:8000/api/costs/update-productionRates/${id}`, {
+        working_number: working_number,
+        working_type: working_type,
+        daily_production: daily_production,
+        working_category: working_category,
+    },
+        {
+            headers: {
+                'Authorization': `Bearer ${''}`,
+                'Content-Type': 'application/json'
+            },
+        }
     )
 }
 

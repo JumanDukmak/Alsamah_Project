@@ -31,14 +31,13 @@ export function getProductsApi(page) {
 }
 
 export function uploadFileApi(formData) {
-    console.log("api"+ formData);
     return axios.post('http://127.0.0.1:8000/api/sales/import-products', formData, 
     {
         headers: {
             'Content-Type': 'multipart/form-data'
         }, 
     }
-    ).then(response => (response)).catch(error =>(error.response.data.message))
+    )
 }
 
 export function getProductCardApi(id) {
@@ -49,6 +48,17 @@ export function getProductCardApi(id) {
                     "Content-Type": "application/json",
                 },
             }
+    )
+}
+
+export function getAllProductsApi() {
+    return axios.get(`http://127.0.0.1:8000/api/products/all-products`,
+            // {
+            //     headers: {
+            //         Authorization: `Bearer ${storage.getToken()}`,
+            //         "Content-Type": "application/json",
+            //     },
+            // }
     )
 }
 

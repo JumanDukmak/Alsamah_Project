@@ -111,7 +111,8 @@ rules={[
                   monthlyD: e,
                 })
               
-              } />
+              } 
+              style={{ width: '100%' }}/>
   
   
 

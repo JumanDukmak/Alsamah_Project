@@ -1,4 +1,4 @@
-import { DashboardOutlined, ShoppingCartOutlined, InboxOutlined, EnvironmentOutlined, MenuUnfoldOutlined, MenuFoldOutlined
+import { DashboardOutlined, ShoppingCartOutlined, InboxOutlined, ShopOutlined, EnvironmentOutlined, MenuUnfoldOutlined, MenuFoldOutlined
     ,DollarOutlined, DropboxOutlined } from '@ant-design/icons';
 import { Button, Layout, Menu } from 'antd';
 import SubMenu from 'antd/es/menu/SubMenu';
@@ -121,12 +121,23 @@ const BaseLayout = (props) => {
                         <span>المواد الأولية</span>
                     </Menu.Item>
 
-                    <Menu.Item key='16' onClick={() => navigate('/ShowProductionPlane')}>
-                        <DropboxOutlined />
-                        <span> الخطة الإنتاجية</span>
-                    </Menu.Item>
-
-                    
+                    <SubMenu key='sub5'
+                        title={
+                            <span>
+                                <ShopOutlined />
+                                <span>الإنتاج</span>
+                            </span>}
+                    >
+                        <Menu.Item key='16' 
+                        style={{ fontWeight: '600' }}
+                        onClick={() => navigate('/show/inventory/products')}>مخزون المنتجات</Menu.Item>
+                        <Menu.Item key='17' 
+                        style={{ fontWeight: '600' }}
+                        onClick={() => navigate('/show/inventory/initialMaterials')}>مخزون المواد الأولية</Menu.Item>
+                        <Menu.Item key='18'
+                        style={{ fontWeight: '600' }} 
+                        onClick={() => navigate('/ShowProductionPlane')}>الخطة الإنتاجية</Menu.Item>
+                    </SubMenu>
                 </Menu>
             </Sider>
 

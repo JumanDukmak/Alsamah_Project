@@ -7,6 +7,8 @@ const Distractions = () => {
 
     const distractions = useSelector((state) => state.salesDistraction)
 
+    console.log(distractions);
+
     const columns = [
         {
             title: 'الشهر',
@@ -24,7 +26,7 @@ const Distractions = () => {
             key: 'مبيعات_السنة_الحالية',
         },
         {
-            title: 'نسبة التحسن / التراجع الشهري',
+            title: 'نسبة التحسن / التراجع الشهري عن الفعلي',
             dataIndex: 'نسبة_التحسن_الشهري',
             key: 'نسبة_التحسن_الشهري',
             render: (text) => {
@@ -43,11 +45,54 @@ const Distractions = () => {
             },
         },
         {
-            title: 'نسبة التحسن / التراجع التراكمي',
+            title: 'نسبة التحسن / التراجع التراكمي عن الفعلي',
             dataIndex: 'نسبة_التحسن_التراكمي',
             key: 'نسبة التحسن_التراكمي',
             render: (text) => {
                 const value = parseFloat(text);
+                let color = '';
+                let arrowIcon = null; 
+                
+                if (value > 0) {
+                    color = 'green';
+                    arrowIcon = <ArrowUpOutlined />;
+                } else if (value < 0) {
+                    color = 'red';
+                    arrowIcon = <ArrowDownOutlined />;
+                }
+                return <span style={{ color }}>{arrowIcon} {text}</span>;
+            },
+        },
+        {
+            title: 'المبيعات المتوقعة',
+            dataIndex: 'المبيعات_المتوقعة',
+            key: 'المبيعات_المتوقعة',
+        },
+        {
+            title: 'نسبة التحسن / التراجع الشهري عن التوقع',
+            dataIndex: 'فعلي-عن-التوفع-شهري',
+            key: 'فعلي-عن-التوفع-شهري',
+            render: (text) => {
+                const value = parseFloat(text);
+                let color = '';
+                let arrowIcon = null; 
+                
+                if (value > 0) {
+                    color = 'green';
+                    arrowIcon = <ArrowUpOutlined />;
+                } else if (value < 0) {
+                    color = 'red';
+                    arrowIcon = <ArrowDownOutlined />;
+                }
+                return <span style={{ color }}>{arrowIcon} {text}</span>;
+            },
+        },
+        {
+            title: 'فعلي / التوقع التراكمي عن التوقع',
+            dataIndex: 'فعلي-عن-التوفع-تراكمي',
+            key: 'فعلي-عن-التوفع-تراكمي',
+            render: (text) => {
+                const value = parseFloat(text); // Convert text to a number
                 let color = '';
                 let arrowIcon = null; 
                 

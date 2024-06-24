@@ -16,11 +16,9 @@ const IndustrialExpense = () => {
     dispatch(getIndustrialExpenseStart());
   }, []);
 
-  
- 
   const columns = [
     {
-      title: "Name",
+      title: "العنوان",
       dataIndex: "name",
       key: "name",
     },

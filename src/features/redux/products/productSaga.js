@@ -1,6 +1,7 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
 import {
   addProductsApi,
+  getAllProductsApi,
   getProductCardApi,
   getProductsApi,
  
@@ -15,6 +16,8 @@ import {
   uploadFileFailure,
   getProductCardSuccess,
   getProductCardFailure,
+  getAllProductsSuccess,
+  getAllProductsFailure,
   
 } from "./productSlice";
 
@@ -72,8 +75,14 @@ function* getProductCardSaga(action) {
   }
 }
 
-
-
+function* getAllProductSaga() {
+  const response = yield call(getAllProductsApi);
+  if (response.status == 200 || response.status == 201) {
+    yield put(getAllProductsSuccess(response.data));
+  } else {
+    yield put(getAllProductsFailure({ error: response }));
+  }
+}
 
 function* addProductsWatcherSaga() {
   yield takeEvery("products/addProductsFetch", addProductSaga);
@@ -90,9 +99,10 @@ function* uploadFileWatcherSaga() {
 function* getProductCardWatcherSaga() {
   yield takeEvery("products/getProductCardFetch", getProductCardSaga);
 }
-//-----------------------------------------------------
 
-
+function* getAllProductsWatcherSaga() {
+  yield takeEvery("products/getAllProductsFetch", getAllProductSaga);
+}
 
 export default function* ProductsSaga() {
   yield all([
@@ -100,8 +110,6 @@ export default function* ProductsSaga() {
     getProductsWatcherSaga(),
     uploadFileWatcherSaga(),
     getProductCardWatcherSaga(),
-   
-    
-    
+    getAllProductsWatcherSaga(),
   ]);
 }

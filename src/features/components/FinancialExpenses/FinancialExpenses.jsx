@@ -4,112 +4,120 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddFinancialExpenses from './AddFinancialExpenses';
 import { getFinancialExpensesFetch, resetData_financialExpenses } from '../../redux/FinancialExpenses/financialExpensesSlice';
-
-const columns = [
-    {
-        title: 'رقم العمل',
-        dataIndex: 'working_number',
-        key: 'working_number',
-        fixed: 'left',
-        width: 110,
-    },
-    {
-        title: 'فئة العمل',
-        dataIndex: 'work_category',
-        key: 'work_category',
-        fixed: 'left',
-        width: '12%',
-    },
-    {
-        title: 'عدد العمال',
-        dataIndex: 'num_of_employees',
-        key: 'num_of_employees',
-        width: 120,
-    },
-    {
-        title: 'تكلفة النقل',
-        dataIndex: 'transport_cost',
-        key: 'transport_cost',
-        width: 110,
-    },
-    {
-        title: 'الاستقالة والتأمينات',
-        dataIndex: 'resignation_and_insurance',
-        key: 'resignation_and_insurance',
-        width: 170,
-    },
-    {
-        title: 'تأمين صحي',
-        dataIndex: 'health_insurance',
-        key: 'health_insurance',
-        width: 110,
-    },
-    {
-        title: 'المستحق للصرف',
-        dataIndex: 'eligible_for_disbursement',
-        key: 'eligible_for_disbursement',
-        width: 150,
-    },
-    {
-        title: 'الراتب الأساسي',
-        dataIndex: 'basic_salary_with_increase',
-        key: 'basic_salary_with_increase',
-        width: 140,
-    },
-    {
-        title: 'الراتب الكلي',
-        dataIndex: 'total_salary',
-        key: 'total_salary',
-        width: 110,
-    },
-    {
-        title: 'الحافز',
-        dataIndex: 'incentives_with_increase',
-        key: 'incentives_with_increase',
-        width: 100,
-    },
-    {
-        title: 'العيادي',
-        dataIndex: 'gifts',
-        key: 'gifts',
-        width: 100,
-    },
-    {
-        title: 'إجمالي الكلفة السنوية',
-        dataIndex: 'total_cost',
-        key: 'total_cost',
-        width: 200,
-    },
-    {
-        title: 'أيام العمل المخصومة',
-        dataIndex: 'discounted_working_days',
-        key: 'discounted_working_days',
-        width: 180,
-    },
-    {
-        title: 'قيمة الخصم',
-        dataIndex: 'discount_value',
-        key: 'discount_value',
-        width: 110,
-    },
-    {
-        title: 'العملية',
-        key: 'operation',
-        width: 120,
-        fixed: 'right',
-        render: () => 
-            <Space size="middle">
-                <a>تعديل</a>
-                <a style={{color: 'red'}}>حذف</a>
-            </Space>
-        ,
-    },
-];
+import UpdateFinancialExpenses from './UpdateFinancialExpenses';
 
 const FinancialExpenses = () => {
     const [open, setOpen] = useState(false);
+    const [selectedItemId, setSelectedItemId] = useState(null);
+    const [openUpdate, setOpenUpdate] = useState(false);
     const dispatch = useDispatch();
     const financialExpenses = useSelector((state) => state.financialExpenses)
+
+    const columns = [
+        {
+            title: 'رقم العمل',
+            dataIndex: 'working_number',
+            key: 'working_number',
+            fixed: 'left',
+            width: 110,
+        },
+        {
+            title: 'فئة العمل',
+            dataIndex: 'work_category',
+            key: 'work_category',
+            fixed: 'left',
+            width: '12%',
+        },
+        {
+            title: 'عدد العمال',
+            dataIndex: 'num_of_employees',
+            key: 'num_of_employees',
+            width: 120,
+        },
+        {
+            title: 'تكلفة النقل',
+            dataIndex: 'transport_cost',
+            key: 'transport_cost',
+            width: 110,
+        },
+        {
+            title: 'الاستقالة والتأمينات',
+            dataIndex: 'resignation_and_insurance',
+            key: 'resignation_and_insurance',
+            width: 170,
+        },
+        {
+            title: 'تأمين صحي',
+            dataIndex: 'health_insurance',
+            key: 'health_insurance',
+            width: 110,
+        },
+        {
+            title: 'المستحق للصرف',
+            dataIndex: 'eligible_for_disbursement',
+            key: 'eligible_for_disbursement',
+            width: 150,
+        },
+        {
+            title: 'الراتب الأساسي',
+            dataIndex: 'basic_salary_with_increase',
+            key: 'basic_salary_with_increase',
+            width: 140,
+        },
+        {
+            title: 'الراتب الكلي',
+            dataIndex: 'total_salary',
+            key: 'total_salary',
+            width: 110,
+        },
+        {
+            title: 'الحافز',
+            dataIndex: 'incentives_with_increase',
+            key: 'incentives_with_increase',
+            width: 100,
+        },
+        {
+            title: 'العيادي',
+            dataIndex: 'gifts',
+            key: 'gifts',
+            width: 100,
+        },
+        {
+            title: 'إجمالي الكلفة السنوية',
+            dataIndex: 'total_cost',
+            key: 'total_cost',
+            width: 200,
+        },
+        {
+            title: 'أيام العمل المخصومة',
+            dataIndex: 'discounted_working_days',
+            key: 'discounted_working_days',
+            width: 180,
+        },
+        {
+            title: 'قيمة الخصم',
+            dataIndex: 'discount_value',
+            key: 'discount_value',
+            width: 110,
+        },
+        {
+            title: 'العملية',
+            key: 'operation',
+            width: 140,
+            fixed: 'right',
+            render: (r, record) => 
+                <Space>
+                    <Button type="link" onClick={() => {
+                    setSelectedItemId(record.id);
+                    setOpenUpdate(true);
+                    }}>
+                    تعديل
+                    </Button>
+                    <a style={{color: 'red'}}>حذف</a>
+                </Space>
+            ,
+        },
+    ];
 
     useEffect(() => {
         dispatch(getFinancialExpensesFetch())
@@ -166,6 +174,16 @@ const FinancialExpenses = () => {
                 x: 2100
             }}
             />
+
+                {selectedItemId && (
+                <UpdateFinancialExpenses
+                id={selectedItemId}
+                open={openUpdate}
+                onClose={() => {
+                setOpenUpdate(false);
+                }} 
+                />
+            )}
             <div style={{ height: '50px' }} />
         </div>
     )

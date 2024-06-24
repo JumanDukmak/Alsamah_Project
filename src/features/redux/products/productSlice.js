@@ -4,7 +4,7 @@ const productSlice = createSlice({
     name: "products",
     initialState: {
         products: [],
-        files: [],
+        allProducts: [],
         meta: [],
         product: null,
         isLoading: false,
@@ -74,7 +74,7 @@ const productSlice = createSlice({
         uploadFileSuccess: (state, action) => {
             state.isLoading = false;
             state.error = null;
-            state.files.push(action.payload.data);
+            state.products.push(action.payload.data);
             state.done = true;
             state.message = action.payload.message;
         },
@@ -105,25 +105,26 @@ const productSlice = createSlice({
             state.error = action.payload.error;
             state.product = null;
         },
-       
 
+         //get products without pagination slice
+        getAllProductsFetch: (state) => {
+            state.isLoading = true;
+            state.error = null;
+            state.allProducts = [];
+        },
 
+        getAllProductsSuccess: (state, action) => {
+            state.isLoading = false;
+            state.allProducts = action.payload.data;
+            state.error = null;
+        },
 
-       
-
-
-
-
-
-
-
+        getAllProductsFailure: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload.error;
+            state.allProducts = [];
+        },
     },
-
-
-
-
-
-
 });
 
 export const { 
@@ -140,6 +141,8 @@ export const {
     getProductCardFetch,
     getProductCardSuccess,
     getProductCardFailure,
-    
+    getAllProductsFetch,
+    getAllProductsSuccess,
+    getAllProductsFailure
 } = productSlice.actions;
 export default productSlice.reducer;

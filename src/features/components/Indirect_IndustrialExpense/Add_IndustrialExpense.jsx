@@ -100,14 +100,15 @@ rules={[
 >
 
 
-    <InputNumber  addonAfter="$" onChange={(e) =>
+    <InputNumber addonAfter="$" onChange={(e) =>
   
                 setOneIndustrialExpense({
                   ...oneIndustrialExpense,
                   monthlyD: e,
                 })
               
-              } />
+              }
+              style={{ width: '100%' }} />
   
   
 
