@@ -6,7 +6,7 @@ import { addProductsInventoryFetch, resetData_ProductsInventory, uploadProductsI
 import { getAllProductsFetch } from "../../redux/products/productSlice";
 import dayjs from 'dayjs';
 
-const AddProductInventory = ({ open, onClose }) => {
+const AddProductInventory = ({ open, onClose, initialDisplayCount = 5 }) => {
     const dispatch = useDispatch();
     const { Option } = Select;
     const [api, contextHolder] = message.useMessage();
@@ -46,8 +46,21 @@ const AddProductInventory = ({ open, onClose }) => {
         }));
     };
 
+    const [filteredProducts, setFilteredProducts] = useState(allProducts);
+    const [searchValue, setSearchValue] = useState('');
+
     const onSearch = (value) => {
-        console.log('search:', value);
+        setSearchValue(value);
+        const filtered = allProducts.filter((pro) =>
+            pro.code.toLowerCase().includes(value.toLowerCase())
+        );
+        setFilteredProducts(filtered);
+    };
+
+    const onFocus = () => {
+        if (searchValue === '') {
+            setFilteredProducts(allProducts.slice(0, initialDisplayCount));
+        }
     };
 
     const handleDateChange = (date) => {
@@ -111,12 +124,14 @@ const AddProductInventory = ({ open, onClose }) => {
                             >
                                 <Select
                                     placeholder="اختر الرمز"
-                                    optionFilterProp={allProducts.code}
+                                    optionFilterProp="children"
                                     onChange={selected_product_id}
                                     showSearch
                                     onSearch={onSearch}
+                                    onFocus={onFocus}
+                                    filterOption={false}
                                 >
-                                    {allProducts.map((pro) => (
+                                    {filteredProducts.map((pro) => (
                                         <Option key={pro.id} value={pro.id}>
                                             {pro.code}
                                         </Option>
