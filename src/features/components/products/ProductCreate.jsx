@@ -72,6 +72,12 @@ export default function ProductCreate({ open, onClose, currentPage }) {
         brand_id: null,
         category_id: null,
         time_per_piece: null,
+        needle_number: null,
+        thread_waste_ratio: null,
+        production_ratio: null,
+        cost_price: null,
+        wholesale_price: null,
+        toast_ratio: null,
     })
 
     const [excel_file, setFile] = useState({
@@ -138,7 +144,6 @@ export default function ProductCreate({ open, onClose, currentPage }) {
                 <Form
                     layout="vertical"
                     hideRequiredMark
-                    initialValues={{ price: 1000 }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                 >
@@ -185,6 +190,7 @@ export default function ProductCreate({ open, onClose, currentPage }) {
                             </Form.Item>
                         </Col>
                     </Row>
+
                     <Row gutter={16}>
                         <Col span={12}>
                             <Form.Item
@@ -233,6 +239,7 @@ export default function ProductCreate({ open, onClose, currentPage }) {
                             </Form.Item>
                         </Col>
                     </Row>
+
                     <Row gutter={16}>
                         <Col span={12}>
                             <Form.Item
@@ -276,6 +283,85 @@ export default function ProductCreate({ open, onClose, currentPage }) {
                             </Form.Item>
                         </Col>
                     </Row>
+
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                name="needle_number"
+                                label="عدد الإبر"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'الرجاء إدخال عدد الإبر',
+                                    },
+                                ]}
+                            >
+                                <InputNumber
+                                    placeholder="عدد الإبر"
+                                    style={{ width: '100%' }}
+                                    onChange={(value) => setProduct({ ...product, needle_number: value })}
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                name="toast_ratio"
+                                label="النخب"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'الرجاء إدخال النخب',
+                                    },
+                                ]}
+                            >
+                                <InputNumber
+                                    placeholder="النخب"
+                                    style={{ width: '100%' }}
+                                    onChange={(value) => setProduct({ ...product, toast_ratio: value })}
+                                />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                name="thread_waste_ratio"
+                                label="نسبة هدر الخيط"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'الرجاء إدخال نسبة الهدر',
+                                    },
+                                ]}
+                            >
+                                <InputNumber
+                                    placeholder="نسبة هدر الخيط"
+                                    style={{ width: '100%' }}
+                                    onChange={(value) => setProduct({ ...product, thread_waste_ratio: value })}
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                name="production_ratio"
+                                label="نسبة الإنتاج"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'الرجاء إدخال نسبة الإنتاج',
+                                    },
+                                ]}
+                            >
+                                <InputNumber
+                                placeholder="نسبة الإنتاج"
+                                    style={{ width: '100%' }}
+                                    onChange={(value) => setProduct({ ...product, production_ratio: value })}
+                                />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+
                     <Row gutter={16}>
                         <Col span={12}>
                             <Form.Item
@@ -290,12 +376,55 @@ export default function ProductCreate({ open, onClose, currentPage }) {
                             >
                                 <InputNumber
                                     addonAfter="SY"
+                                    placeholder="السعر المحلي"
+                                    style={{ width: '100%' }}
+                                    onChange={(value) => setProduct({ ...product, price: value })}
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                name="cost_price"
+                                label="سعر التكلفة"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'الرجاء إدخال سعر التكلفة',
+                                    },
+                                ]}
+                            >
+                                <InputNumber
+                                    placeholder="سعر التكلفة"
+                                    addonAfter="SY"
                                     style={{ width: '100%' }}
                                     onChange={(value) => setProduct({ ...product, price: value })}
                                 />
                             </Form.Item>
                         </Col>
                     </Row>
+
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                name="wholesale_price"
+                                label="سعر الجملة"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'الرجاء إدخال سعر الجملة',
+                                    },
+                                ]}
+                            >
+                                <InputNumber
+                                    addonAfter="SY"
+                                    placeholder="سعر الجملة"
+                                    style={{ width: '100%' }}
+                                    onChange={(value) => setProduct({ ...product, wholesale_price: value })}
+                                />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+
                     <Row gutter={16}>
                         <Col span={12}>
                             <Space>

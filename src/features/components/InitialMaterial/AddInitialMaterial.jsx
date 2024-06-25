@@ -48,6 +48,8 @@ const AddInitialMaterial = ({ open, onClose }) => {
         name: "",
         type: "",
         priceD: null,
+        storage_period: null,
+        shipping_installation_duration: null,
     });
 
     const [excel_file, setFile] = useState({
@@ -150,6 +152,38 @@ const AddInitialMaterial = ({ open, onClose }) => {
                 addonAfter="$"
                 style={{ width: '100%' }}
                 onChange={(e) => setinitialMaterials({ ...initialMaterial, priceD: e })}
+                />
+            </Form.Item>
+            <Form.Item
+                label="مدة التخزين"
+                name="مدة التخزين"
+                rules={[
+                {
+                    required: true,
+                    message: "ادخل مدة التخزين !",
+                },
+                ]}
+            >
+                <InputNumber
+                placeholder='مدة التخزين'
+                style={{ width: '100%' }}
+                onChange={(e) => setinitialMaterials({ ...initialMaterial, storage_period: e })}
+                />
+            </Form.Item>
+            <Form.Item
+                label="البضاعة في الطريق"
+                name="البضاعة في الطريق"
+                rules={[
+                {
+                    required: true,
+                    message: "ادخل عدد البضاعة !",
+                },
+                ]}
+            >
+                <InputNumber
+                placeholder='عدد البضاعة'
+                style={{ width: '100%' }}
+                onChange={(e) => setinitialMaterials({ ...initialMaterial, shipping_installation_duration: e })}
                 />
             </Form.Item>
             <Row gutter={16} justify="end">

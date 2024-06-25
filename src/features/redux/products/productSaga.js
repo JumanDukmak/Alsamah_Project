@@ -30,7 +30,13 @@ function* addProductSaga(action) {
     action.payload.unit,
     action.payload.brand_id,
     action.payload.category_id,
-    action.payload.time_per_piece
+    action.payload.time_per_piece,
+    action.payload.needle_number,
+    action.payload.thread_waste_ratio,
+    action.payload.production_ratio,
+    action.payload.cost_price,
+    action.payload.wholesale_price,
+    action.payload.toast_ratio,
   );
   if (response.status == 200 || response.status == 201) {
     yield put(addProductsSuccess(response.data));

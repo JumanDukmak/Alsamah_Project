@@ -1,6 +1,7 @@
 import axios from "axios";
 
-export function addProductsApi( name, code, price, unit, brand_id, category_id, time_per_piece ) {
+export function addProductsApi( name, code, price, unit, brand_id, category_id, time_per_piece, needle_number,
+    thread_waste_ratio, production_ratio, cost_price, wholesale_price, toast_ratio) {
     return axios.post( "http://127.0.0.1:8000/api/sales/Add_product", {
                 name: name,
                 code: code,
@@ -9,6 +10,12 @@ export function addProductsApi( name, code, price, unit, brand_id, category_id, 
                 brand_id: brand_id,
                 category_id: category_id,
                 time_per_piece: time_per_piece,
+                needle_number: needle_number,
+                thread_waste_ratio: thread_waste_ratio,
+                production_ratio: production_ratio,
+                cost_price: cost_price,
+                wholesale_price: wholesale_price,
+                toast_ratio: toast_ratio,
             },
             // {
             //     headers: {
