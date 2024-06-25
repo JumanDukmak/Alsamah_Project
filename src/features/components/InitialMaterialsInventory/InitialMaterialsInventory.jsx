@@ -173,7 +173,7 @@ const InitialMaterialsInventory = () => {
             </Row>
             <div style={{ height: '20px' }} />
             <Table 
-            rowKey='id'
+            rowKey='initialMaterial_id'
             bordered
             columns={columns} 
             dataSource={materialsInventory}

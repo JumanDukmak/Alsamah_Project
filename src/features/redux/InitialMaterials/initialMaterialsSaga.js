@@ -30,7 +30,10 @@ function* addInitialMaterialsSaga(action) {
             action.payload.number,
             action.payload.name,
             action.payload.type,
-            action.payload.priceD)
+            action.payload.priceD,
+            action.payload.storage_period,
+            action.payload.shipping_installation_duration
+        )
         yield put(addInitialMaterialsSuccess(response.data))
     } catch (error) {
         yield put(addInitialMaterialsFailure({ 'error': error.response }))

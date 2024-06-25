@@ -11,12 +11,14 @@ export function getInitialMaterialsApi() {
     )
 }
 
-export function addInitialMaterialsApi(number, name, type, priceD) {
+export function addInitialMaterialsApi(number, name, type, priceD, storage_period, shipping_installation_duration) {
     return axios.post('http://127.0.0.1:8000/api/costs/storeInitialMaterials', {
         number: number,
         name: name,
         type: type,
         priceD: priceD,
+        storage_period: storage_period,
+        shipping_installation_duration: shipping_installation_duration
     },
         {
             headers: {

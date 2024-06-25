@@ -22,6 +22,16 @@ const columns = [
         key: 'type',
     },
     {
+        title: 'مدة التخزين',
+        dataIndex: 'storage_period',
+        key: 'storage_period',
+    },
+    {
+        title: 'البضاعة في الطريق',
+        dataIndex: 'shipping_installation_duration',
+        key: 'shipping_installation_duration',
+    },
+    {
         title: 'السعر ( ل س )',
         dataIndex: 'SYP',
         key: 'SYP',
