@@ -39,7 +39,7 @@ const reducer = combineReducers({
     salesPersons: salesPersonSlice,
     brands: brandsSlice,
     categories: categoriesSlice,
-    salesDistraction: salesDistractionsSlice,
+    salesDistractions: salesDistractionsSlice,
     sales: salesSlice,
     salesCharts: salesChartsSlice,
     IndustrialExpense:IndustrialExpenseSlice,

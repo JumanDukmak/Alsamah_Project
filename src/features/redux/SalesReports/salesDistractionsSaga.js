@@ -27,7 +27,7 @@ function* getExportSalesDistractionsSaga(action) {
 
         //console.log(`the response is : ${JSON.stringify(response.data.data)}`);
 
-        yield put(getExportSalesSuccess(response.data));
+        yield put(getExportSalesSuccess(response.data,data));
     } catch (error) {
         yield put(getExportSalesFailure({ error: error.response.data.message }));
     }
@@ -47,7 +47,9 @@ function* getLocalSalesDistractionsSaga(action) {
             action.payload.categories_id
         );
 
-        yield put(getLocalSalesSuccess(response.data));
+        yield put(getLocalSalesSuccess(response.data.data));
+
+        console.log(response.data.data);
     } catch (error) {
         yield put(getLocalSalesFailure({ error: error.response.data.message }));
     }
@@ -63,23 +65,24 @@ function* getTotalSalesDistractionsSaga(action) {
             action.payload.brands_id,
             action.payload.categories_id
         );
+        console.log(response);
 
-        yield put(getTotalSalesSuccess(response.data));
+        yield put(getTotalSalesSuccess(response.data.data));
     } catch (error) {
         yield put(getTotalSalesFailure({ error: error.response.data.message }));
     }
 }
 
 function* TotalSalesDistractionsWatcherSaga() {
-    yield takeEvery("salesDistraction/getTotalSalesStart",getTotalSalesDistractionsSaga);
+    yield takeEvery("salesDistractions/getTotalSalesStart",getTotalSalesDistractionsSaga);
 }
 
 function* LocalSalesDistractionsWatcherSaga() {
-    yield takeEvery("salesDistraction/getLocalSalesStart",getLocalSalesDistractionsSaga);
+    yield takeEvery("salesDistractions/getLocalSalesStart",getLocalSalesDistractionsSaga);
 }
 
 function* ExportSalesDistractionsWatcherSaga() {
-    yield takeEvery("salesDistraction/getExportSalesStart",getExportSalesDistractionsSaga);
+    yield takeEvery("salesDistractions/getExportSalesStart",getExportSalesDistractionsSaga);
 }
 
 //-----------------------------salessonsSaga--------------------------------

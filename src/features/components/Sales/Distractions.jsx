@@ -1,13 +1,11 @@
-import { Row, Table } from "antd"
+import { Button, Row, Space, Table, notification } from "antd"
 import { ArrowDownOutlined, ArrowUpOutlined, } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Distractions = () => {
 
-    const distractions = useSelector((state) => state.salesDistraction)
-
-    console.log(distractions);
+    const salesDistractions = useSelector((state) => state.salesDistractions.salesDistractions)
 
     const columns = [
         {
@@ -108,6 +106,29 @@ const Distractions = () => {
         },
     ];
 
+    const [api, contextHolder] = notification.useNotification();
+    const [currentAlertIndex, setCurrentAlertIndex] = useState(0);
+    const openNotification = () => {
+        if (currentAlertIndex < salesDistractions.alert.length) {
+            const { title, alert } = salesDistractions.alert[currentAlertIndex];
+            const key = `open${Date.now()}-${currentAlertIndex}`;
+            const btn = (
+                <Button type="link" size="small" onClick={() => api.destroy()}>
+                تخطي الكل
+                </Button>
+            );
+            api.open({
+            message: title,
+            description: alert,
+            placement: 'bottomRight',
+            duration: 0,
+            btn,
+            key,
+            onClose: () => console.log(`Notification ${key} closed`),
+            });
+        }
+    };
+
     return (
         <div className='conatiner_body'>
             <Row>
@@ -118,10 +139,19 @@ const Distractions = () => {
             rowKey='id'
             columns={columns}
             bordered
-            dataSource={distractions.distractions}
+            dataSource={salesDistractions.data}
             pagination={false}
+            scroll={{ x: 1700 }}
             >
             </Table>
+            <div style={{ height: '30px' }}></div>
+            {contextHolder}
+            <Button type="primary" onClick={() => {
+            setCurrentAlertIndex(currentAlertIndex + 1);
+            openNotification('warning')
+            }}>
+                اضفط لاستعراض التنبيهات
+            </Button>
         </div>
     )
 }

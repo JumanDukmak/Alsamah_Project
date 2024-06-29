@@ -7,18 +7,13 @@ import { getCategoriesStart } from "../../redux/Category/categoriesSlice";
 import { getsalesPersonsStart } from "../../redux/SalesPerson/salesPersonSlice";
 import { getAreasStart } from "../../redux/Area/areasSlice";
 import { getShopsStart } from "../../redux/Shops/shopsSlice";
-import {
-  getExportSalesStart,
-  getLocalSalesStart,
-  getTotalSalesStart,
-  resetData_distractions,
-} from "../../redux/SalesReports/salesDistractionsSlice";
+import { getExportSalesStart, getLocalSalesStart, getTotalSalesStart, resetData_distractions,} from "../../redux/SalesReports/salesDistractionsSlice";
 import { useNavigate } from "react-router-dom";
 const { Option } = Select;
 
 const ShowDistractions = () => {
   const [form] = Form.useForm();
-  const salesDistraction = useSelector((state) => state.salesDistraction);
+  const salesDistraction = useSelector((state) => state.salesDistractions);
   const navigate = useNavigate();
 
   const [report, setReport] = useState({
@@ -49,13 +44,11 @@ const ShowDistractions = () => {
       });
     }
     if (report.local_saletype === "مندوبين" && report.areas_id.length !== 0) {
-      console.log("true");
       form.setFieldsValue({
         salesperson_id: null,
       });
     }
     if (report.local_saletype === "مندوبين" && report.salesperson_id !== null) {
-      console.log("true2");
       form.setFieldsValue({
         areas_id: null,
       });
@@ -68,7 +61,6 @@ const ShowDistractions = () => {
   ]);
 
   useEffect(() => {
-    console.log(`report.saletype is ${report.saletype}`);
     if (report.saletype === "تصدير") {
       dispatch(getCountriesStart());
     } else if (report.saletype === "محلي") {
@@ -211,7 +203,6 @@ const ShowDistractions = () => {
   };
 
   const selected_country = (selectedValue) => {
-    console.log(`the country id is : ${selectedValue}`);
     setReport((prevState) => ({ ...prevState, country_id: selectedValue }));
   };
 
@@ -298,8 +289,6 @@ const ShowDistractions = () => {
                       ...report,
                       previous_year: value.format("YYYY"), // Update the selected year in the report state
                     });
-
-                    console.log(`the ywar is : ${value.format("YYYY")}`);
                   }}
                 />
               </Form.Item>
