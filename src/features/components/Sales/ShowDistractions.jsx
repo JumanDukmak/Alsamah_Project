@@ -6,7 +6,6 @@ import { getBrandsStart } from "../../redux/Brands/brandsSlice";
 import { getCategoriesStart } from "../../redux/Category/categoriesSlice";
 import { getsalesPersonsStart } from "../../redux/SalesPerson/salesPersonSlice";
 import { getAreasStart } from "../../redux/Area/areasSlice";
-import { getShopsStart } from "../../redux/Shops/shopsSlice";
 import { getExportSalesStart, getLocalSalesStart, getTotalSalesStart, resetData_distractions,} from "../../redux/SalesReports/salesDistractionsSlice";
 import { useNavigate } from "react-router-dom";
 const { Option } = Select;
@@ -26,14 +25,12 @@ const ShowDistractions = () => {
     salesperson_id: null,
     areas_id: [],
     governorate: null,
-    shop_id: null,
   });
 
   const optionBrands = useSelector((state) => state.brands.brands);
   const optionCategories = useSelector((state) => state.categories.categories);
   const optionAreas = useSelector((state) => state.areas.areas);
   const salesPersons = useSelector((state) => state.salesPersons.salesPersons);
-  const shops = useSelector((state) => state.shops.shops);
   const countries = useSelector((state) => state.countries);
   const dispatch = useDispatch();
 
@@ -67,9 +64,6 @@ const ShowDistractions = () => {
       if (report.local_saletype === "مندوبين") {
         dispatch(getAreasStart());
         dispatch(getsalesPersonsStart());
-      }
-      if (report.local_saletype === "محلات") {
-        dispatch(getShopsStart());
       }
     }
     dispatch(getBrandsStart());
@@ -178,10 +172,6 @@ const ShowDistractions = () => {
     },
     {
       id: "2",
-      label: "محلات",
-    },
-    {
-      id: "3",
       label: "محافظات",
     },
   ];
@@ -204,10 +194,6 @@ const ShowDistractions = () => {
 
   const selected_country = (selectedValue) => {
     setReport((prevState) => ({ ...prevState, country_id: selectedValue }));
-  };
-
-  const selected_shop = (selectedValue) => {
-    setReport((prevState) => ({ ...prevState, shop_id: selectedValue }));
   };
 
   const selected_saleType = (selectedValue) => {
@@ -523,21 +509,6 @@ const ShowDistractions = () => {
                       label={option.name}
                     >
                       {option.name}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name="shop_id" label="المحل">
-                <Select
-                  placeholder="ادخل اسم المحل"
-                  onChange={selected_shop}
-                  disabled={report.local_saletype != "محلات"}
-                >
-                  {shops.map((s) => (
-                    <Option key={s.id} value={s.id}>
-                      {s.name}
                     </Option>
                   ))}
                 </Select>

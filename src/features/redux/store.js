@@ -10,7 +10,6 @@ import areasSlice from './Area/areasSlice';
 import salesPersonSlice from './SalesPerson/salesPersonSlice';
 import categoriesSlice from './Category/categoriesSlice';
 import brandsSlice from './Brands/brandsSlice';
-import shopsSlice from './Shops/shopsSlice';
 import salesDistractionsSlice from './SalesReports/salesDistractionsSlice';
 import salesSlice from './Sales/salesSlice';
 import salesChartsSlice from './SalesReports/salesChartsSlice';
@@ -35,7 +34,6 @@ const persistConfig = {
 
 const reducer = combineReducers({
     products: productSlice,
-    shops: shopsSlice,
     countries: countriesSlice,
     areas: areasSlice,
     salesPersons: salesPersonSlice,

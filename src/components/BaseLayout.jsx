@@ -71,9 +71,6 @@ const BaseLayout = (props) => {
                         onClick={() => navigate('/Countries')}>المدن</Menu.Item>
                         <Menu.Item key='6' 
                         style={{ fontWeight: '600' }}
-                        onClick={() => navigate('/shops')}>المحلات</Menu.Item>
-                        <Menu.Item key='7' 
-                        style={{ fontWeight: '600' }}
                         onClick={() => navigate('/Areas')}>المناطق</Menu.Item>
                     </SubMenu>
 
@@ -84,10 +81,10 @@ const BaseLayout = (props) => {
                                 <span>المبيعات</span>
                             </span>}
                     >
-                        <Menu.Item key='8' 
+                        <Menu.Item key='7' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/add/sales')}>إضافة المبيعات</Menu.Item>
-                        <Menu.Item key='9' 
+                        <Menu.Item key='8' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/show/distractions')}>استعراض الانحرافات</Menu.Item>
                     </SubMenu>
@@ -99,24 +96,24 @@ const BaseLayout = (props) => {
                                 <span>تعريفات التكاليف</span>
                             </span>}
                     >
-                        <Menu.Item key='10' 
+                        <Menu.Item key='9' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/productionRates')}>معدلات الإنتاج</Menu.Item>
-                        <Menu.Item key='11' 
+                        <Menu.Item key='10' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/Indirect_industrialExpense')}>المصاريف الصناعية</Menu.Item>
-                        <Menu.Item key='12' 
+                        <Menu.Item key='11' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/financialExpenses')}>النفقات المالية</Menu.Item>
-                        <Menu.Item key='13' 
+                        <Menu.Item key='12' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/GeneralData')}>معطيات عامة</Menu.Item>
-                        <Menu.Item key='14' 
+                        <Menu.Item key='13' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/PigmentCosts')}>تكاليف الصباغ</Menu.Item>
                     </SubMenu>
 
-                    <Menu.Item key='15' onClick={() => navigate('/initialMaterials')}>
+                    <Menu.Item key='14' onClick={() => navigate('/initialMaterials')}>
                         <DropboxOutlined />
                         <span>المواد الأولية</span>
                     </Menu.Item>
@@ -128,22 +125,19 @@ const BaseLayout = (props) => {
                                 <span>الإنتاج</span>
                             </span>}
                     >
-                        <Menu.Item key='16' 
+                        <Menu.Item key='15' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/show/inventory/products')}>مخزون المنتجات</Menu.Item>
-                        <Menu.Item key='17' 
+                        <Menu.Item key='16' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/show/inventory/initialMaterials')}>مخزون المواد الأولية</Menu.Item>
-                         <Menu.Item key='18' 
+                        <Menu.Item key='17' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/MachineProductivity')}>إنتاجية الآلات  </Menu.Item>
-
-<Menu.Item key='19' 
+                        <Menu.Item key='18' 
                         style={{ fontWeight: '600' }}
-                        onClick={() => navigate('/Actual_Expected')}> مقارنةالفعلي والمتوقع </Menu.Item>
-
-
-                        <Menu.Item key='20'
+                        onClick={() => navigate('/Actual_Expected')}> مقارنة الفعلي والمتوقع </Menu.Item>
+                        <Menu.Item key='19'
                         style={{ fontWeight: '600' }} 
                         onClick={() => navigate('/ShowProductionPlane')}>الخطة الإنتاجية</Menu.Item>
                     </SubMenu>
@@ -156,12 +150,12 @@ const BaseLayout = (props) => {
                                 <span>المشتربات</span>
                             </span>}
                     >
-                        <Menu.Item key='21'
+                        <Menu.Item key='20'
                         style={{ fontWeight: '600' }} 
                         onClick={() => navigate('/ShowPurchasesPlan')}>خطة المشتربات</Menu.Item>
                     </SubMenu>
 
-                    <Menu.Item key='22' onClick={() => navigate('/AddMaterialOnShipping')}>
+                    <Menu.Item key='21' onClick={() => navigate('/AddMaterialOnShipping')}>
                         <DropboxOutlined />
                         <span>البضاعة في الطريق </span>
                     </Menu.Item>
