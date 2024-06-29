@@ -57,6 +57,32 @@ const initialMaterialsInventorySlice = createSlice({
             state.materialsInventory = [];
         },
 
+        
+        updateMaterialsInventoryFetch: (state) => {
+            state.isLoading = true;
+            state.message = null;
+            state.error = null;
+        },
+
+        updateMaterialsInventorySuccess: (state, action) => {
+            state.isLoading = false;
+            state.message = action.payload.message;
+            state.error = null;
+            const index = state.materialsInventory.findIndex(
+                (data) => data.id == action.payload.data.id
+            );
+
+            if (index !== -1) {
+                state.materialsInventory[index] = action.payload.data;
+            }
+        },
+
+        updateMaterialsInventoryFailure: (state, action) => {
+            state.isLoading = false;
+            state.message = null;
+            state.error = action.payload.error;
+        },
+
         uploadMaterialsInventoryFileFetch: (state) => {
             state.isLoading = true;
             state.error = null;
@@ -92,5 +118,8 @@ export const {
     uploadMaterialsInventoryFileFetch,
     uploadMaterialsInventoryFileSuccess,
     uploadMaterialsInventoryFileFailure,
+    updateMaterialsInventoryFetch,
+    updateMaterialsInventorySuccess,
+    updateMaterialsInventoryFailure
 } = initialMaterialsInventorySlice.actions;
 export default initialMaterialsInventorySlice.reducer;

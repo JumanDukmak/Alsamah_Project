@@ -11,10 +11,10 @@ export function getInitialMaterialsApi() {
     )
 }
 
-export function addInitialMaterialsApi(number, name, type, priceD, storage_period, shipping_installation_duration) {
+export function addInitialMaterialsApi(material_number, material_name, type, priceD, storage_period, shipping_installation_duration) {
     return axios.post('http://127.0.0.1:8000/api/costs/storeInitialMaterials', {
-        number: number,
-        name: name,
+        material_number: material_number,
+        material_name: material_name,
         type: type,
         priceD: priceD,
         storage_period: storage_period,
@@ -29,13 +29,14 @@ export function addInitialMaterialsApi(number, name, type, priceD, storage_perio
     )
 }
 
-export function updateInitialMaterialsApi(number, name, type, priceD, id) {
-    return axios.post('http://127.0.0.1:8000/api/costs/storeInitialMaterials', {
-        number: number,
-        name: name,
+export function updateInitialMaterialsApi(material_number, material_name, type, priceD, storage_period, shipping_installation_duration, id) {
+    return axios.post(`http://127.0.0.1:8000/api/costs/updateInitialMaterials/${id}`, {
+        material_number: material_number,
+        material_name: material_name,
         type: type,
         priceD: priceD,
-        id: id,
+        storage_period: storage_period,
+        shipping_installation_duration: shipping_installation_duration
     },
         {
             headers: {

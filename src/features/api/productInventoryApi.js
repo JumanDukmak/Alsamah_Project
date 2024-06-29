@@ -40,6 +40,21 @@ export function uploadProductInventoryFileApi(formData) {
     )
 }
 
+export const updateProductInventoryApi = (quantity, inventory_date, id) => {
+    return axios.put(`http://127.0.0.1:8000/api/inventory/update-ProductInventory/${id}`, {
+        quantity: quantity,
+        inventory_date: inventory_date,
+    },
+        {
+            headers: {
+                'Authorization': `Bearer ${''}`,
+                'Content-Type': 'application/json'
+            },
+        }
+    )
+}
+
+
 
 
 

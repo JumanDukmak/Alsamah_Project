@@ -2,11 +2,11 @@ import { Button, Col, Input, Row, Form, Select, Space, Drawer, InputNumber, mess
 import { UploadOutlined } from '@ant-design/icons';
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addMaterialsInventoryFetch, resetData_MaterialsInventory, uploadMaterialsInventoryFileFetch } from "../../redux/InitialMaterialsInventory/initialMaterialsInventorySlice";
+import { addMaterialsInventoryFetch, getMaterialsInventoryFetch, resetData_MaterialsInventory, uploadMaterialsInventoryFileFetch } from "../../redux/InitialMaterialsInventory/initialMaterialsInventorySlice";
 import { getInitialMaterialsFetch } from "../../redux/InitialMaterials/initialMaterialsSlice";
 import dayjs from 'dayjs';
 
-const AddInitialMaterialInventory = ({ open, onClose }) => {
+const AddInitialMaterialInventory = ({ open, onClose, new_data }) => {
     const dispatch = useDispatch();
     const { Option } = Select;
     const [api, contextHolder] = message.useMessage();
@@ -62,12 +62,13 @@ const AddInitialMaterialInventory = ({ open, onClose }) => {
 
     const onFinish = (e) => {
         dispatch(addMaterialsInventoryFetch(materialsInventory))
+        dispatch(getMaterialsInventoryFetch(new_data))
     };
 
     const onSubmit = () => {
         let dataFile = { excel_file: excel_file.excel_file }
         dispatch(uploadMaterialsInventoryFileFetch(dataFile))
-        //dispatch(getProductsFetch(currentPage))
+        dispatch(getMaterialsInventoryFetch(new_data))
     };
 
     const onFinishFailed = (errorInfo) => {

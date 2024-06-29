@@ -1,12 +1,14 @@
-import { Button, Col, Input, Row, Form, Select, Space, Drawer, InputNumber, message, Typography } from "antd"
+import { Button, Col, Input, Row, Form, Space, Drawer, InputNumber, message } from "antd"
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { resetData_financialExpenses, updateFinancialExpensesFetch } from "../../redux/FinancialExpenses/financialExpensesSlice";
+import { useForm } from "antd/es/form/Form";
 
-const UpdateFinancialExpenses = ({ open, onClose, id }) => {
-    const { Title } = Typography;
+const UpdateFinancialExpenses = ({ open, onClose, id, old_items }) => {
     const dispatch = useDispatch();
     const financialExpenses = useSelector((state) => state.financialExpenses);
+    const [form] = useForm();
+
     const [financialExpens, setfinancialExpenses] = useState({
         working_number: null,
         work_category: "",
@@ -31,11 +33,40 @@ const UpdateFinancialExpenses = ({ open, onClose, id }) => {
         }
     }, [financialExpenses.message, financialExpenses.error]);
 
+    useEffect(() => {
+        const itemToUpdate = old_items.find(item => item.id === id);
+        if (itemToUpdate) {
+            form.setFieldsValue({
+                working_number: itemToUpdate.working_number,
+                work_category: itemToUpdate.work_category,
+                num_of_employees: itemToUpdate.num_of_employees,
+                transport_cost: itemToUpdate.transport_cost,
+                health_insurance: itemToUpdate.health_insurance,
+                basic_salary: itemToUpdate.basic_salary,
+                incentives: itemToUpdate.incentives,
+                discounted_working_days: itemToUpdate.discounted_working_days
+            });
+        }
+    }, [form, id, old_items]);
+
     const onFinishFailed = (errorInfo) => {
         console.log("Failed:", errorInfo);
     };
+
     const onFinish = (e) => {
-        dispatch(updateFinancialExpensesFetch(financialExpens));
+        const filteredExpenses = {
+            ...financialExpens,
+            // Remove properties with null values
+            working_number: financialExpens.working_number !== null ? financialExpens.working_number : undefined,
+            num_of_employees: financialExpens.num_of_employees !== null ? financialExpens.num_of_employees : undefined,
+            transport_cost: financialExpens.transport_cost !== null ? financialExpens.transport_cost : undefined,
+            health_insurance: financialExpens.health_insurance !== null ? financialExpens.health_insurance : undefined,
+            basic_salary: financialExpens.basic_salary !== null ? financialExpens.basic_salary : undefined,
+            incentives: financialExpens.incentives !== null ? financialExpens.incentives : undefined,
+            discounted_working_days: financialExpens.discounted_working_days !== null ? financialExpens.discounted_working_days : undefined,
+        };
+    
+        dispatch(updateFinancialExpensesFetch(filteredExpenses));
         onClose();
     };
 
@@ -43,7 +74,7 @@ const UpdateFinancialExpenses = ({ open, onClose, id }) => {
         <div>
             {contextHolder}
             <Drawer
-                title="إضافة النفقات المالية"
+                title="تعديل النفقات المالية"
                 width={720}
                 onClose={onClose}
                 open={open}
@@ -54,6 +85,7 @@ const UpdateFinancialExpenses = ({ open, onClose, id }) => {
                 }}
             >
                 <Form
+                    form={form}
                     layout="vertical"
                     initialValues={{ remember: true }}
                     autoComplete="off"

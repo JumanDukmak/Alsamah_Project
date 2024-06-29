@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Form, Input, InputNumber, Modal, Row, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import {
+import { resetData_IndustrialExpense, updateIndustrialExpenseStart } from "../../redux/Indirect_IndustrialExpense/IndustrialExpenseSlice";
+import { useForm } from "antd/es/form/Form";
 
-  resetData_IndustrialExpense,
-  updateIndustrialExpenseStart,
-} from "../../redux/Indirect_IndustrialExpense/IndustrialExpenseSlice";
-
-
-
-export default function Update_IndustrialExpense({ open, onClose,id }) {
+export default function Update_IndustrialExpense({ open, onClose, id, old_items }) {
   const dispatch = useDispatch();
   const industrialExpense = useSelector((state) => state.IndustrialExpense);
+  const [form] = useForm();
+
   const [oneIndustrialExpense, setOneIndustrialExpense] = useState({
     name: "",
-    monthlyD: "",
+    monthlyD: null,
     id:id
   });
-
 
   const [api, contextHolder] = message.useMessage();
   useEffect(() => {
@@ -31,16 +27,32 @@ export default function Update_IndustrialExpense({ open, onClose,id }) {
     }
   }, [industrialExpense.message, industrialExpense.error]);
 
+  useEffect(() => {
+    const itemToUpdate = old_items.find(item => item.id === id);
+
+    if (itemToUpdate) {
+        form.setFieldsValue({
+            name: itemToUpdate.name,
+            monthlyD: itemToUpdate.monthlyD,
+        });
+    }
+}, [form, id, old_items]);
+
   const onFinish = (e) => {
-     dispatch(updateIndustrialExpenseStart(oneIndustrialExpense));
-    console.log(`the helllllooooo`);
+    const filteredExpenses = {
+      ...oneIndustrialExpense,
+      // Remove properties with null values
+      name: oneIndustrialExpense.name !== null ? oneIndustrialExpense.name : undefined,
+      monthlyD: oneIndustrialExpense.monthlyD !== null ? oneIndustrialExpense.monthlyD : undefined,
+  };
+      dispatch(updateIndustrialExpenseStart(filteredExpenses));
     onClose();
   };
-
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
   return (
     <>
       {contextHolder}
@@ -51,9 +63,8 @@ export default function Update_IndustrialExpense({ open, onClose,id }) {
         footer={null}
       >
         <Form
-
-className='Update_IndustrialExpense'
-
+          form={form}
+          className='Update_IndustrialExpense'
           labelCol={{
             span: 8,
           }}
@@ -74,12 +85,6 @@ className='Update_IndustrialExpense'
           <Form.Item
             label="الاسم"
             name="name"
-            rules={[
-              {
-                required: true,
-                message: "ادخل اسم المصاريف الصناعية !",
-              },
-            ]}
           >
             <Input
               onChange={(e) =>
@@ -91,21 +96,11 @@ className='Update_IndustrialExpense'
             />
           </Form.Item>
 
-
-<Form.Item 
-label="التكاليف الشهرية"
-name="monthlyD"
-rules={[
-  {
-    required: true,
-    message: "ادخل التكلفة الشهرية !",
-  },
-]}
->
-
-
-    <InputNumber  addonAfter="$" onChange={(e) =>
-  
+          <Form.Item 
+          label="التكاليف الشهرية"
+          name="monthlyD"
+          >
+            <InputNumber addonAfter="$" onChange={(e) =>
                 setOneIndustrialExpense({
                   ...oneIndustrialExpense,
                   monthlyD: e,
@@ -113,14 +108,8 @@ rules={[
               
               } 
               style={{ width: '100%' }}/>
-  
-  
+          </Form.Item>
 
-
-</Form.Item>
-
-
-        
           <Row gutter={16} justify="end">
             <Col>
               <Button onClick={onClose}>إغلاق</Button>
@@ -128,7 +117,7 @@ rules={[
 
             <Col>
               <Button type="primary" htmlType="submit">
-          تعديل مصاريف صناعية
+                تعديل مصاريف صناعية
               </Button>
             </Col>
           </Row>

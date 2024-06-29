@@ -29,7 +29,6 @@ const productionRatesSlice = createSlice({
             state.loading = false;
             state.message = null;
             state.error = action.payload.error;
-            console.log(`the error in slice is : ${action.payload.error}`)
             state.productionRates = []
         },
 
@@ -45,7 +44,6 @@ const productionRatesSlice = createSlice({
         },
 
         addProductionRatesSuccess: (state, action) => {
-            console.log("slice:"+action.payload);
             state.loading = false;
             state.productionRates.push(action.payload.data);
             state.message = action.payload.message;
@@ -65,7 +63,6 @@ const productionRatesSlice = createSlice({
         },
 
         updateProductionRatesSuccess: (state, action) => {
-            console.log("slice:"+action.payload);
             state.loading = false;
             state.message = action.payload.message;
             state.error = null;

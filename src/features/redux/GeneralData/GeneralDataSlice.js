@@ -11,7 +11,6 @@ const GeneralDataSlice = createSlice({
 
   reducers: {
     getGeneralDataStart: (state) => {
-        console.log(`the slice getGeneralDataStart`)
       state.loading = true;
       state.error = null;
       state.message = null;
@@ -73,8 +72,6 @@ const GeneralDataSlice = createSlice({
       const index = state.GeneralData.findIndex(
         (data) => data.id == action.payload.data.id
       );
-
-      console.log("The index is : " + index);
       if (index !== -1) {
         state.GeneralData[index] = action.payload.data;
       }

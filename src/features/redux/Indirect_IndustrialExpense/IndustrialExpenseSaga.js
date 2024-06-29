@@ -18,7 +18,6 @@ import {
 function* getIndustrialExpenseSaga() {
   try {
     const response = yield call(getIndustrialExpenseApi);
-    console.log(`${response.status}`);
     yield put(
       getIndustrialExpenseSuccess({ IndustrialExpense: response.data.data })
     );
@@ -59,7 +58,7 @@ function* updateIndustrialExpenseSaga(action) {
     yield put(updateIndustrialExpenseSuccess(response.data));
   } catch (error) {
     yield put(updateIndustrialExpenseFailure
-      ({ error: error.response.data.message })
+      ({ "error": error.response })
     );
   }
 }

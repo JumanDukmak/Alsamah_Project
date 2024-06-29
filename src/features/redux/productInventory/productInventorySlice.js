@@ -56,6 +56,31 @@ const productInventorySlice = createSlice({
             state.productsInventory = [];
         },
 
+        updateProductsInventoryFetch: (state) => {
+            state.isLoading = true;
+            state.message = null;
+            state.error = null;
+        },
+
+        updateProductsInventorySuccess: (state, action) => {
+            state.isLoading = false;
+            state.message = action.payload.message;
+            state.error = null;
+            const index = state.productsInventory.findIndex(
+                (data) => data.id == action.payload.data.id
+            );
+
+            if (index !== -1) {
+                state.productsInventory[index] = action.payload.data;
+            }
+        },
+
+        updateProductsInventoryFailure: (state, action) => {
+            state.isLoading = false;
+            state.message = null;
+            state.error = action.payload.error;
+        },
+
         uploadProductsInventoryFileFetch: (state) => {
             state.isLoading = true;
             state.error = null;
@@ -91,5 +116,8 @@ export const {
     uploadProductsInventoryFileFetch,
     uploadProductsInventoryFileSuccess,
     uploadProductsInventoryFileFailure,
+    updateProductsInventoryFetch,
+    updateProductsInventorySuccess,
+    updateProductsInventoryFailure
 } = productInventorySlice.actions;
 export default productInventorySlice.reducer;

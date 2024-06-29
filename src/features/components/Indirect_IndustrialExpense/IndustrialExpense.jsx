@@ -12,9 +12,22 @@ const IndustrialExpense = () => {
   const [open1, setOpen1] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
     dispatch(getIndustrialExpenseStart());
   }, []);
+
+  const [old_items, setOldItems] = useState([]);
+    useEffect(() => {
+        if (industrialExpense) {
+            const newList = industrialExpense.IndustrialExpense.map((item) => ({
+                id: item.id,
+                name: item.name,
+                monthlyD: item.monthlyD,
+            }));
+            setOldItems(newList);
+        }
+    }, [industrialExpense]);
 
   const columns = [
     {
@@ -29,25 +42,19 @@ const IndustrialExpense = () => {
       render: (text) => `${text}$`,
     },
     {
-      title: "تاريخ التعديل",
-      dataIndex: "updated_at",
-      key: "updated_at",
-      render: (text) => moment(text).format("MM-DD-YYYY"),
-    },
-    {
       title: "العملية",
       key: "action",
-      render: (r, record) =><>
-      
-      <Button type="link" onClick={() => {
-          // console.log(`the id is ${record.id}`);
-          setSelectedItemId(record.id);
-          setOpen1(true);
-        }}>
-          تعديل
-        </Button>
-
-     
+      render: (r, record) =>
+      <>
+        <Space size="large">
+          <Button type="link" onClick={() => {
+            setSelectedItemId(record.id);
+            setOpen1(true);
+          }}>
+            تعديل
+          </Button>
+          <a style={{color: 'red'}}>حذف</a>
+        </Space>
       </>,
     },
   ];
@@ -85,23 +92,19 @@ const IndustrialExpense = () => {
             rowKey='id'
             bordered
             columns={columns} 
-            dataSource={industrialExpense.IndustrialExpense
- 
-            }
+            dataSource={industrialExpense.IndustrialExpense}
             pagination={false}
             />
             {selectedItemId && (
-        <Update_IndustrialExpense
-        id={selectedItemId}
-        open={open1}
-        onClose={() => {
-          setOpen1(false);
-        }}
-          
+              <Update_IndustrialExpense
+              id={selectedItemId}
+              open={open1}
+              onClose={() => {
+                setOpen1(false);
+              }}
+              old_items={old_items}
         />
       )}
-     
-     
     </div>
   );
 };

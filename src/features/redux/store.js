@@ -24,6 +24,7 @@ import directWorkSlice from './directWork/directWorkSlice';
 import productionPlane_Slice from './production_Plane/productionPlane_Slice';
 import initialMaterialsInventorySlice from './InitialMaterialsInventory/initialMaterialsInventorySlice';
 import productInventorySlice from './productInventory/productInventorySlice';
+import purchasesPlanSlice from './PurchasesPlan/purchasesPlanSlice';
 
 const persistConfig = {
     key: 'root',
@@ -51,6 +52,7 @@ const reducer = combineReducers({
     productionPlane:productionPlane_Slice,
     materialsInventory:initialMaterialsInventorySlice,
     productsInventory:productInventorySlice,
+    purchasesPlan:purchasesPlanSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

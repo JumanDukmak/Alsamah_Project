@@ -2,17 +2,19 @@ import { Button, Col, Pagination, Row, Space, Table, message, Select, DatePicker
 import { PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import AddProductInventory from './AddProductInventory';
 import { getProductsInventoryFetch, resetData_ProductsInventory } from '../../redux/productInventory/productInventorySlice';
 import moment from 'moment';
+import UpdateProductInventory from './UpdateProductInventory';
+import dayjs from 'dayjs';
 
 const ProductsInventory = () => {
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const categories = useSelector((state) => state.categories);
     const productsInventories = useSelector((state) => state.productsInventory.productsInventory);
+    const [selectedItemId, setSelectedItemId] = useState(null);
+    const [openUpdate, setOpenUpdate] = useState(false);
     
     const months = [
         "كانون الثاني",
@@ -38,11 +40,11 @@ const ProductsInventory = () => {
         year: new Date().getFullYear().toString(),
     });
 
+    const new_data = {
+        category: data_filtering.category,
+        year: data_filtering.year,
+    }
     useEffect(() => {
-        const new_data = {
-            category: data_filtering.category,
-            year: data_filtering.year,
-        }
         dispatch(getProductsInventoryFetch(new_data));
     }, [data_filtering]);
 
@@ -53,7 +55,6 @@ const ProductsInventory = () => {
     const expandedRowRender = (record) => {
         const columns = [
             { title: 'الشهر', dataIndex: 'month', key: 'month',
-                //render: (text) => getMonthName(text),
                 render: (text, row, index) => {
                 const obj = {
                     children: getMonthName(text),
@@ -72,13 +73,19 @@ const ProductsInventory = () => {
             { title: 'الكمية', dataIndex: 'quantity', key: 'quantity' },
             { title: 'العملية', key: 'operation',
                 width: 289,
-                render: (_,record) => 
-                        <Button type="link" onClick={() => {
-                            // setSlelectedId_f_DirectCost(record.id);
-                            // setOpen3(true);
-                        }}>
+                render: (r, record) => 
+                    <Space size="large">
+                        <Button
+                            type="link"
+                            onClick={() => {
+                                setSelectedItemId(record.inventory_id);
+                                setOpenUpdate(true);
+                            }}
+                        >
                             تعديل
                         </Button>
+                        <a style={{ color: 'red' }}>حذف</a>
+                    </Space>
                 ,
             },
         ];
@@ -107,6 +114,22 @@ const ProductsInventory = () => {
             dispatch(resetData_ProductsInventory())
         }
     }, [productsInventories.message, productsInventories.error]);
+
+    const [old_items, setOldItems] = useState([]);
+    useEffect(() => {
+        if (productsInventories) {
+            const newList = productsInventories.flatMap(product => 
+                Object.values(product.monthly_inventory).flatMap(monthlyItems => 
+                    monthlyItems.map(item => ({
+                        inventory_id: item.inventory_id,
+                        quantity: item.quantity,
+                        inventory_date: item.date,
+                    }))
+                )
+            );
+            setOldItems(newList);
+        }
+    }, [productsInventories]);
 
     return (
         <div className='conatiner_body'>
@@ -167,7 +190,20 @@ const ProductsInventory = () => {
             <AddProductInventory
             open={open}
             onClose={() => setOpen(false)}
+            new_data={new_data}
             />
+
+            {selectedItemId && (
+                <UpdateProductInventory
+                id={selectedItemId}
+                open={openUpdate}
+                onClose={() => {
+                setOpenUpdate(false);
+                }} 
+                old_items={old_items}
+                new_data={new_data}
+                />
+            )}
         </div>
     )
 }

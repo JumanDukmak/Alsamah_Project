@@ -1,16 +1,17 @@
-import { Button, Col, Row, Table, Tag } from "antd";
+import { Button, Col, Row, Space, Table, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import { PlusOutlined, EditOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
 import { getpigmentCostsStart } from "../../redux/PigmentCosts/PigmentCostsSlice";
 import Add_PigmentCosts from "./AddPigmentCosts";
 import Update_PigmentCosts from "./Update_PigmentCosts";
+
 const PigmentCosts = () => {
   const dispatch = useDispatch();
   const [open1, setOpen1] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const pigmentCosts = useSelector((state) => state.pigmentCosts);
+
   useEffect(() => {
     dispatch(getpigmentCostsStart());
   }, []);
@@ -25,31 +26,25 @@ const PigmentCosts = () => {
       title: "النسبة",
       dataIndex: "value",
       key: "value",
-
       render: (text) => `${text}%`,
     },
-    {
-      title: "تاريخ التعديل",
-      dataIndex: "updated_at",
-      key: "updated_at",
-      render: (text) => moment(text).format("MM-DD-YYYY"),
-    },
-
     {
       title: "العملية",
       key: "action",
       render: (_, record) => (
         <>
+          <Space size="large">
           <Button
             type="link"
             onClick={() => {
-              // console.log(`the id is ${record.id}`);
               setSelectedItemId(record.id);
               setOpen1(true);
             }}
           >
             تعديل
           </Button>
+            <a style={{color: 'red'}}>حذف</a>
+          </Space>
         </>
       ),
     },
@@ -59,6 +54,18 @@ const PigmentCosts = () => {
   const showModal = () => {
     setOpen(true);
   };
+
+  const [old_items, setOldItems] = useState([]);
+  useEffect(() => {
+      if (pigmentCosts) {
+          const newList = pigmentCosts.pigmentCosts.map((item) => ({
+              id: item.id,
+              measure: item.measure,
+              value: item.value,
+          }));
+          setOldItems(newList);
+      }
+  }, [pigmentCosts]);
 
   return (
     <div className="conatiner_body">
@@ -75,7 +82,6 @@ const PigmentCosts = () => {
           >
             إضافة تكاليف صباغية
           </Button>
-
           <Add_PigmentCosts
             open={open}
             onClose={() => {
@@ -101,6 +107,7 @@ const PigmentCosts = () => {
           onClose={() => {
             setOpen1(false);
           }}
+          old_items={old_items}
         />
       )}
     </div>

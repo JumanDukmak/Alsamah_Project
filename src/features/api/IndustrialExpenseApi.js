@@ -28,10 +28,9 @@ export const addIndustrialExpenseApi = (name,monthlyD) => {
 }
 
 export const updateIndustrialExpenseApi = (name,monthlyD,id) => {
-    return axios.post('http://127.0.0.1:8000/api/costs/updateIndustrialExpense', {
+    return axios.post(`http://127.0.0.1:8000/api/costs/updateIndustrialExpense/${id}`, {
         name: name,
         monthlyD:monthlyD,
-        id:id
     },
         {
             headers: {

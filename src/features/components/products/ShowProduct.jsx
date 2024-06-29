@@ -17,12 +17,10 @@ const ShowProduct = () => {
     }, []);
 
     const [directWorks, setDirectWorks] = useState([]);
-    const [materialsProduct, setmaterialsProduct] = useState([]);
     const [old_items, setOldItems] = useState([]);
     useEffect(() => {
         if (product) {
             setDirectWorks(product.direct_costPerDozen);
-            setmaterialsProduct(product.InitialMaterials);
             const newList = product.InitialMaterials.map((item) => ({
                 initial_material_id: item.id,
                 quantity: item.quantity

@@ -6,12 +6,15 @@ import { useNavigate } from 'react-router-dom';
 import AddInitialMaterialInventory from './AddInitialMaterialInventory';
 import { getMaterialsInventoryFetch, resetData_MaterialsInventory } from '../../redux/InitialMaterialsInventory/initialMaterialsInventorySlice';
 import moment from 'moment';
+import UpdateInitialMaterialInventory from './UpdateInitialMaterialInventory';
 
 const InitialMaterialsInventory = () => {
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const materialsInventory = useSelector((state) => state.materialsInventory.materialsInventory);
+    const [selectedItemId, setSelectedItemId] = useState(null);
+    const [openUpdate, setOpenUpdate] = useState(false);
     
     const months = [
         "كانون الثاني",
@@ -52,11 +55,12 @@ const InitialMaterialsInventory = () => {
         year: new Date().getFullYear().toString(),
     });
 
+    const new_data = {
+        type: data_filtering.type,
+        year: data_filtering.year,
+    }
+
     useEffect(() => {
-        const new_data = {
-            type: data_filtering.type,
-            year: data_filtering.year,
-        }
         dispatch(getMaterialsInventoryFetch(new_data));
     }, [data_filtering]);
 
@@ -89,13 +93,19 @@ const InitialMaterialsInventory = () => {
             { title: 'الكمية', dataIndex: 'quantity', key: 'quantity' },
             { title: 'العملية', key: 'operation',
                 width: 289,
-                render: (_,record) => 
-                        <Button type="link" onClick={() => {
-                            // setSlelectedId_f_DirectCost(record.id);
-                            // setOpen3(true);
-                        }}>
-                            تعديل
-                        </Button>
+                render: (r, record) => 
+                    <Space size="large">
+                    <Button
+                        type="link"
+                        onClick={() => {
+                            setSelectedItemId(record.inventory_id);
+                            setOpenUpdate(true);
+                        }}
+                    >
+                        تعديل
+                    </Button>
+                    <a style={{ color: 'red' }}>حذف</a>
+                </Space>
                 ,
             },
         ];
@@ -125,9 +135,25 @@ const InitialMaterialsInventory = () => {
         }
     }, [materialsInventory.message, materialsInventory.error]);
 
+    const [old_items, setOldItems] = useState([]);
+    useEffect(() => {
+        if (materialsInventory) {
+            const newList = materialsInventory.flatMap(product => 
+                Object.values(product.monthly_inventory).flatMap(monthlyItems => 
+                    monthlyItems.map(item => ({
+                        inventory_id: item.inventory_id,
+                        quantity: item.quantity,
+                        inventory_date: item.date,
+                    }))
+                )
+            );
+            setOldItems(newList);
+        }
+    }, [materialsInventory]);
+
     return (
         <div className='conatiner_body'>
-            {/* {contextHolder} */}
+            {contextHolder}
             <Row>
                 <Col span={6}>
                     <h2>مخزون المواد الأولية</h2>
@@ -183,7 +209,20 @@ const InitialMaterialsInventory = () => {
             <AddInitialMaterialInventory
             open={open}
             onClose={() => setOpen(false)}
+            new_data={new_data}
             />
+
+            {selectedItemId && (
+                <UpdateInitialMaterialInventory
+                id={selectedItemId}
+                open={openUpdate}
+                onClose={() => {
+                setOpenUpdate(false);
+                }} 
+                old_items={old_items}
+                new_data={new_data}
+                />
+            )}
         </div>
     )
 }

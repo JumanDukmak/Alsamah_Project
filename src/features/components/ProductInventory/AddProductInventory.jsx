@@ -2,11 +2,11 @@ import { Button, Col, Input, Row, Form, Select, Space, Drawer, InputNumber, mess
 import { UploadOutlined } from '@ant-design/icons';
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addProductsInventoryFetch, resetData_ProductsInventory, uploadProductsInventoryFileFetch } from "../../redux/productInventory/productInventorySlice";
+import { addProductsInventoryFetch, getProductsInventoryFetch, resetData_ProductsInventory, uploadProductsInventoryFileFetch } from "../../redux/productInventory/productInventorySlice";
 import { getAllProductsFetch } from "../../redux/products/productSlice";
 import dayjs from 'dayjs';
 
-const AddProductInventory = ({ open, onClose, initialDisplayCount = 5 }) => {
+const AddProductInventory = ({ open, onClose, initialDisplayCount = 5, new_data }) => {
     const dispatch = useDispatch();
     const { Option } = Select;
     const [api, contextHolder] = message.useMessage();
@@ -79,11 +79,13 @@ const AddProductInventory = ({ open, onClose, initialDisplayCount = 5 }) => {
 
     const onFinish = (e) => {
         dispatch(addProductsInventoryFetch(productsInventory))
+        dispatch(getProductsInventoryFetch(new_data))
     };
 
     const onSubmit = () => {
         let dataFile = { excel_file: excel_file.excel_file }
         dispatch(uploadProductsInventoryFileFetch(dataFile))
+        dispatch(getProductsInventoryFetch(new_data))
     };
 
     const onFinishFailed = (errorInfo) => {

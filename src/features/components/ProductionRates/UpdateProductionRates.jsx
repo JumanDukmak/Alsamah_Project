@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Button, Col, Form, Input, Modal, Row, message, InputNumber, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { resetData_productionRates, updateProductionRatesFetch } from "../../redux/ProductionRates/productionRatesSlice";
+import { useForm } from "antd/es/form/Form";
 
-const UpdateProductionRates = ({ open, onClose, id }) => {
+const UpdateProductionRates = ({ open, onClose, id, old_items }) => {
     const dispatch = useDispatch();
     const productionRates = useSelector((state) => state.productionRates);
+    const [form] = useForm();
 
     const List_working_category = [
         {
@@ -30,13 +32,6 @@ const UpdateProductionRates = ({ open, onClose, id }) => {
     }
     }, [productionRates.message, productionRates.error]);
 
-    const selected_working_category = (selectedValue) => {
-        const selectedCategory = List_working_category.find(cate => cate.value === selectedValue);
-        if (selectedCategory) {
-            setproductionRates(productionRate => ({ ...productionRate, working_category: selectedCategory.label }));
-        }
-    };
-
     const [productionRate, setproductionRates] = useState({
         working_number: null,
         working_type: "",
@@ -45,8 +40,36 @@ const UpdateProductionRates = ({ open, onClose, id }) => {
         id: id
     });
 
-    const onFinish = (e) => {
-        dispatch(updateProductionRatesFetch(productionRate));
+    const selected_working_category = (selectedValue) => {
+        const selectedCategory = List_working_category.find(cate => cate.value === selectedValue);
+        if (selectedCategory) {
+            setproductionRates(productionRate => ({ ...productionRate, working_category: selectedCategory.label }));
+        }
+    };
+
+    useEffect(() => {
+        const itemToUpdate = old_items.find(item => item.id === id);
+
+        if (itemToUpdate) {
+            form.setFieldsValue({
+                working_number: itemToUpdate.working_number,
+                working_type: itemToUpdate.working_type,
+                daily_production: itemToUpdate.daily_production,
+                working_category: itemToUpdate.working_category,
+            });
+        }
+    }, [form, id, old_items]);
+    
+    const onFinish = (e) => { 
+        const filteredExpenses = {
+            ...productionRate,
+            // Remove properties with null values
+            working_number: productionRate.working_number !== null ? productionRate.working_number : undefined,
+            working_type: productionRate.working_type !== null ? productionRate.working_type : undefined,
+            daily_production: productionRate.daily_production !== null ? productionRate.daily_production : undefined,
+            working_category: productionRate.working_category !== null ? productionRate.working_category : undefined,
+        };
+        dispatch(updateProductionRatesFetch(filteredExpenses));
         onClose();
     };
 
@@ -59,6 +82,7 @@ const UpdateProductionRates = ({ open, onClose, id }) => {
         {contextHolder}
         <Modal open={open} title="تعديل معدلات الإنتاج" onCancel={onClose} footer={null} width={700}>
             <Form
+            form={form}
             name="basic3"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
@@ -71,7 +95,7 @@ const UpdateProductionRates = ({ open, onClose, id }) => {
             >
             <Form.Item
                 label="رقم العمل"
-                name="رقم العمل"
+                name="working_number"
             >
                 <InputNumber
                 placeholder='رقم العمل'
@@ -81,7 +105,7 @@ const UpdateProductionRates = ({ open, onClose, id }) => {
             </Form.Item>
             <Form.Item
                 label="نوع العمل"
-                name="نوع العمل"
+                name="working_type"
             >
                 <Input
                 placeholder='نوع العمل'
@@ -90,7 +114,7 @@ const UpdateProductionRates = ({ open, onClose, id }) => {
             </Form.Item>
             <Form.Item
                 label="فئة العمل"
-                name="فئة العمل"
+                name="working_category"
             >
                 <Select
                     placeholder="اختر الفئة"
@@ -105,9 +129,10 @@ const UpdateProductionRates = ({ open, onClose, id }) => {
             </Form.Item>
             <Form.Item
                 label="الإنتاج اليومي"
-                name="الإنتاج اليومي"
+                name="daily_production"
             >
                 <InputNumber
+                stringMode
                 placeholder='الأنتاج اليومي'
                 style={{ width: '100%' }}
                 onChange={(e) => setproductionRates({ ...productionRate, daily_production: e })}
