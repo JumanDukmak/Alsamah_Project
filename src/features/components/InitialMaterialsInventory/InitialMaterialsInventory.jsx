@@ -137,7 +137,7 @@ const InitialMaterialsInventory = () => {
 
     const [old_items, setOldItems] = useState([]);
     useEffect(() => {
-        if (materialsInventory) {
+        if (materialsInventory.length > 1) {
             const newList = materialsInventory.flatMap(product => 
                 Object.values(product.monthly_inventory).flatMap(monthlyItems => 
                     monthlyItems.map(item => ({

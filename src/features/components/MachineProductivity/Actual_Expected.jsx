@@ -137,6 +137,8 @@ const Actual_Expected = () => {
         }
     }, [machineProductivity.message, machineProductivity.error]);
 
+    console.log(machineProductivity);
+
     return (
         <div className='conatiner_body'>
             {/* {contextHolder} */}
@@ -180,7 +182,7 @@ const Actual_Expected = () => {
           rowKey="id"
           bordered
           columns={columns}
-          dataSource={machineProductivity.comparison}
+          dataSource={machineProductivity.comparison.result}
           pagination={{ pageSize: 12, showSizeChanger: false }}
         />
 
