@@ -138,6 +138,18 @@ const BaseLayout = (props) => {
                         style={{ fontWeight: '600' }} 
                         onClick={() => navigate('/ShowProductionPlane')}>الخطة الإنتاجية</Menu.Item>
                     </SubMenu>
+
+                    <SubMenu key='sub6'
+                        title={
+                            <span>
+                                <ShopOutlined />
+                                <span>المشتربات</span>
+                            </span>}
+                    >
+                        <Menu.Item key='19'
+                        style={{ fontWeight: '600' }} 
+                        onClick={() => navigate('/ShowPurchasesPlan')}>خطة المشتربات</Menu.Item>
+                    </SubMenu>
                 </Menu>
             </Sider>
 

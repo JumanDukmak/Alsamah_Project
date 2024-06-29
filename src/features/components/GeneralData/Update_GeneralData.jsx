@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Form, Input, InputNumber, Modal, Row, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-
 import { resetData_GeneralData, updateGeneralDataStart } from "../../redux/GeneralData/GeneralDataSlice";
+import { useForm } from "antd/es/form/Form";
 
-
-
-export default function Update_GeneralData({ open, onClose,id }) {
+export default function Update_GeneralData({ open, onClose, id, old_items }) {
   const dispatch = useDispatch();
   const generalData = useSelector((state) => state.GeneralData);
+  const [form] = useForm();
+
   const [oneGeneralData, setOneGeneralData] = useState({
     name: "",
     value: "",
     id:id
   });
-
 
   const [api, contextHolder] = message.useMessage();
   useEffect(() => {
@@ -28,16 +27,32 @@ export default function Update_GeneralData({ open, onClose,id }) {
     }
   }, [generalData.message, generalData.error]);
 
+  useEffect(() => {
+    const itemToUpdate = old_items.find(item => item.id === id);
+
+    if (itemToUpdate) {
+        form.setFieldsValue({
+          name: itemToUpdate.name,
+          value: itemToUpdate.value,
+        });
+    }
+}, [form, id, old_items]);
+
   const onFinish = (e) => {
-     dispatch(updateGeneralDataStart(oneGeneralData));
-    console.log(`the helllllooooo`);
+    const filteredExpenses = {
+      ...oneGeneralData,
+      // Remove properties with null values
+      name: oneGeneralData.name !== null ? oneGeneralData.name : undefined,
+      value: oneGeneralData.value !== null ? oneGeneralData.value : undefined,
+  };
+      dispatch(updateGeneralDataStart(filteredExpenses));
     onClose();
   };
-
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
   return (
     <>
       {contextHolder}
@@ -48,35 +63,28 @@ export default function Update_GeneralData({ open, onClose,id }) {
         footer={null}
       >
         <Form
-
-className='Update_GeneralData'
-
-          labelCol={{
-            span: 8,
-          }}
-          wrapperCol={{
-            span: 16,
-          }}
-          style={{
-            maxWidth: 600,
-          }}
-          initialValues={{
-            remember: true,
-          }}
-          autoComplete="off"
-          hideRequiredMark
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-        >
-         <Form.Item
+        form={form}
+        className='Update_GeneralData'
+        labelCol={{
+          span: 8,
+        }}
+        wrapperCol={{
+          span: 16,
+        }}
+        style={{
+          maxWidth: 600,
+        }}
+        initialValues={{
+          remember: true,
+        }}
+        autoComplete="off"
+        hideRequiredMark
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+      >
+          <Form.Item
             label="الاسم"
-            name="name_"
-            rules={[
-              {
-                required: true,
-                message: "ادخل عنوان المعطيات الصناعية !",
-              },
-            ]}
+            name="name"
           >
             <Input
               onChange={(e) =>
@@ -91,15 +99,9 @@ className='Update_GeneralData'
           <Form.Item
             label=" القيمة"
             name="value"
-            rules={[
-              {
-                required: true,
-                message: "ادخل القيمة !",
-              },
-            ]}
           >
             <InputNumber
-              
+              style={{ width: '100%' }}
               onChange={(e) =>
                 setOneGeneralData({
                   ...oneGeneralData,

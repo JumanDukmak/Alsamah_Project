@@ -44,8 +44,8 @@ const AddInitialMaterial = ({ open, onClose }) => {
     };
 
     const [initialMaterial, setinitialMaterials] = useState({
-        number: null,
-        name: "",
+        material_number: null,
+        material_name: "",
         type: "",
         priceD: null,
         storage_period: null,
@@ -98,7 +98,7 @@ const AddInitialMaterial = ({ open, onClose }) => {
             >
                 <Input
                 placeholder='رقم المادة'
-                onChange={(e) => setinitialMaterials({ ...initialMaterial, number: e.target.value })}
+                onChange={(e) => setinitialMaterials({ ...initialMaterial, material_number: e.target.value })}
                 />
             </Form.Item>
             <Form.Item
@@ -113,7 +113,7 @@ const AddInitialMaterial = ({ open, onClose }) => {
             >
                 <Input
                 placeholder='اسم المادة'
-                onChange={(e) => setinitialMaterials({ ...initialMaterial, name: e.target.value })}
+                onChange={(e) => setinitialMaterials({ ...initialMaterial, material_name: e.target.value })}
                 />
             </Form.Item>
             <Form.Item

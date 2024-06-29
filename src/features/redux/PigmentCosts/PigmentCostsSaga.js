@@ -1,17 +1,6 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
-import {
-  addPigmentCostsFailure,
-  addPigmentCostsSuccess,
-  getpigmentCostsFailure,
-  getpigmentCostsSuccess,
-  updatePigmentCostsFailure,
-  updatePigmentCostsSuccess,
-} from "./PigmentCostsSlice";
-import {
-  addPigmentCostsApi,
-  getPigmentCostsApi,
-  updatePigmentCostsApi,
-} from "../../api/pigmentCostsApi";
+import { addPigmentCostsFailure, addPigmentCostsSuccess, getpigmentCostsFailure, getpigmentCostsSuccess, updatePigmentCostsFailure, updatePigmentCostsSuccess } from "./PigmentCostsSlice";
+import { addPigmentCostsApi, getPigmentCostsApi, updatePigmentCostsApi } from "../../api/pigmentCostsApi";
 
 //-----------------------------getpigmentCostsSaga--------------------------------
 function* getpigmentCostsSaga() {
@@ -31,8 +20,6 @@ function* addPigmentCostsSaga(action) {
       action.payload.measure,
       action.payload.value
     );
-    console.log(` the updated : ${response.status}`);
-    console.log(` the updated data : ${JSON.stringify(response.data)}`);
     yield put(addPigmentCostsSuccess(response.data));
   } catch (error) {
     yield put(addPigmentCostsFailure({ error: error.response.data.message }));
@@ -47,8 +34,6 @@ function* updatePigmentCostsSaga(action) {
       action.payload.value,
       action.payload.id
     );
-    console.log(` the updated : ${response.status}`);
-    console.log(` the updated data : ${JSON.stringify(response.data)}`);
     yield put(updatePigmentCostsSuccess(response.data));
   } catch (error) {
     yield put(
@@ -74,9 +59,9 @@ function* updatePigmentCostsWatcherSaga() {
 
 //-----------------------------salesPersonsSaga--------------------------------
 export default function* pigmentCostsSaga() {
-  yield all([pigmentCostsWatcherSaga(),
-     addPigmentCostsWatcherSaga() ,
-     updatePigmentCostsWatcherSaga()
-    
-    ]);
+  yield all([
+    pigmentCostsWatcherSaga(),
+    addPigmentCostsWatcherSaga() ,
+    updatePigmentCostsWatcherSaga()
+  ]);
 }

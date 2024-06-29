@@ -1,6 +1,6 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
-import { addMaterialsInventoryFailuer, addMaterialsInventorySuccess, getMaterialsInventoryFailure, getMaterialsInventorySuccess, uploadMaterialsInventoryFileFailure, uploadMaterialsInventoryFileSuccess } from "./initialMaterialsInventorySlice";
-import { addMaterialsInventoryApi, getMaterialsInventoryApi, uploadMaterialsInventoryFileApi } from "../../api/initialMaterialsInventoryApi";
+import { addMaterialsInventoryFailuer, addMaterialsInventorySuccess, getMaterialsInventoryFailure, getMaterialsInventorySuccess, updateMaterialsInventoryFailure, updateMaterialsInventorySuccess, uploadMaterialsInventoryFileFailure, uploadMaterialsInventoryFileSuccess } from "./initialMaterialsInventorySlice";
+import { addMaterialsInventoryApi, getMaterialsInventoryApi, updateMaterialsInventoryApi, uploadMaterialsInventoryFileApi } from "../../api/initialMaterialsInventoryApi";
 
 function* addMaterialsInventorySaga(action) {
     console.log("action:" +action.payload);
@@ -30,6 +30,18 @@ function* getMaterialsInventorySaga(action) {
     }
 }
 
+function* updateMaterialsInventorySaga(action) {
+    try {
+        const response = yield call(updateMaterialsInventoryApi, 
+            action.payload.quantity,
+            action.payload.inventory_date,
+            action.payload.id )
+        yield put(updateMaterialsInventorySuccess(response.data))
+    } catch (error) {
+        yield put(updateMaterialsInventoryFailure({ 'error': error.response }))
+    }
+}
+
 function* uploadMaterialsInventoryFileSaga(action) {
     const formData = new FormData();
     formData.append("excel_file", action.payload.excel_file);
@@ -53,10 +65,15 @@ function* uploadMaterialsInventoryFileWatcherSaga() {
     yield takeEvery("materialsInventory/uploadMaterialsInventoryFileFetch", uploadMaterialsInventoryFileSaga);
 }
 
+function* updateMaterialsInventoryWatcherSaga() {
+    yield takeEvery("materialsInventory/updateMaterialsInventoryFetch", updateMaterialsInventorySaga);
+}
+
 export default function* InitialMaterialsInventorySaga() {
     yield all([
         addMaterialsInventoryWatcherSaga(),
         getMaterialsInventoryWatcherSaga(),
-        uploadMaterialsInventoryFileWatcherSaga()
+        uploadMaterialsInventoryFileWatcherSaga(),
+        updateMaterialsInventoryWatcherSaga()
     ]);
 }

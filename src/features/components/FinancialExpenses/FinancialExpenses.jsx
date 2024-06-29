@@ -134,9 +134,28 @@ const FinancialExpenses = () => {
             dispatch(resetData_financialExpenses())
         }
     }, [financialExpenses.message, financialExpenses.error]);
+
     const showModal = () => {
         setOpen(true);
     };
+
+    const [old_items, setOldItems] = useState([]);
+    useEffect(() => {
+        if (financialExpenses) {
+            const newList = financialExpenses.financialExpenses.map((item) => ({
+                id: item.id,
+                working_number: item.working_number,
+                work_category: item.work_category,
+                num_of_employees: item.num_of_employees,
+                transport_cost: item.transport_cost,
+                health_insurance: item.health_insurance,
+                basic_salary: item.basic_salary,
+                incentives: item.incentives,
+                discounted_working_days: item.discounted_working_days
+            }));
+            setOldItems(newList);
+        }
+    }, [financialExpenses]);
 
     return (
         <div className='conatiner_body'>
@@ -174,7 +193,6 @@ const FinancialExpenses = () => {
                 x: 2100
             }}
             />
-
                 {selectedItemId && (
                 <UpdateFinancialExpenses
                 id={selectedItemId}
@@ -182,6 +200,7 @@ const FinancialExpenses = () => {
                 onClose={() => {
                 setOpenUpdate(false);
                 }} 
+                old_items={old_items}
                 />
             )}
             <div style={{ height: '50px' }} />

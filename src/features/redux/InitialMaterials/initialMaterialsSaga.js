@@ -27,8 +27,8 @@ function* getInitialMaterialsSaga() {
 function* addInitialMaterialsSaga(action) {
     try {
         const response = yield call(addInitialMaterialsApi,
-            action.payload.number,
-            action.payload.name,
+            action.payload.material_number,
+            action.payload.material_name,
             action.payload.type,
             action.payload.priceD,
             action.payload.storage_period,
@@ -43,10 +43,12 @@ function* addInitialMaterialsSaga(action) {
 function* updateInitialMaterialsSaga(action) {
     try {
         const response = yield call(updateInitialMaterialsApi,
-            action.payload.number,
-            action.payload.name,
+            action.payload.material_number,
+            action.payload.material_name,
             action.payload.type,
             action.payload.priceD,
+            action.payload.storage_period,
+            action.payload.shipping_installation_duration,
             action.payload.id)
         yield put(updateInitialMaterialsSuccess(response.data))
     } catch (error) {

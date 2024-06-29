@@ -12,12 +12,23 @@ const GeneralData = () => {
   const [open1, setOpen1] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
     dispatch(getGeneralDataStart());
   }, []);
 
-  
- 
+  const [old_items, setOldItems] = useState([]);
+  useEffect(() => {
+      if (generalData) {
+          const newList = generalData.GeneralData.map((item) => ({
+              id: item.id,
+              name: item.name,
+              value: item.value,
+          }));
+          setOldItems(newList);
+      }
+  }, [generalData]);
+
   const columns = [
     {
       title: "العنوان",
@@ -31,22 +42,19 @@ const GeneralData = () => {
       render: (text) => `${text}`,
     },
     {
-      title: "تاريخ التعديل",
-      dataIndex: "updated_at",
-      key: "updated_at",
-      render: (text) => text ? moment(text).format("MM-DD-YYYY") : "--",
-    },
-    {
       title: "العملية",
       key: "action",
-      render: (r, record) =><>
-      
-      <Button type="link" onClick={() => {
-          setSelectedItemId(record.id);
-          setOpen1(true);
-        }}>
-          تعديل
-        </Button>
+      render: (r, record) =>
+      <>
+        <Space size="large">
+          <Button type="link" onClick={() => {
+            setSelectedItemId(record.id);
+            setOpen1(true);
+          }}>
+            تعديل
+          </Button>
+          <a style={{color: 'red'}}>حذف</a>
+        </Space>
       </>,
     },
   ];
@@ -62,8 +70,8 @@ const GeneralData = () => {
           <Button
             type="primary"
             onClick={() => {
-    setOpen(true);
-  }}
+              setOpen(true);
+            }}
             style={{ fontWeight: "700" }}
             icon={<PlusOutlined />}
           >
@@ -84,23 +92,19 @@ const GeneralData = () => {
             rowKey='id'
             bordered
             columns={columns} 
-            dataSource={generalData.GeneralData
- 
-            }
+            dataSource={generalData.GeneralData}
             pagination={false}
             />
             {selectedItemId && (
-        <Update_GeneralData
-        id={selectedItemId}
-        open={open1}
-        onClose={() => {
-          setOpen1(false);
-        }}
-          
+              <Update_GeneralData
+              id={selectedItemId}
+              open={open1}
+              onClose={() => {
+                setOpen1(false);
+              }}
+              old_items={old_items}
         />
       )}
-     
-     
     </div>
   );
 };

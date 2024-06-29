@@ -27,6 +27,20 @@ const ProductionRates = () => {
         }
     }, [productionRates.message, productionRates.error]);
 
+    const [old_items, setOldItems] = useState([]);
+    useEffect(() => {
+        if (productionRates) {
+            const newList = productionRates.productionRates.map((item) => ({
+                id: item.id,
+                working_number: item.working_number,
+                working_category: item.working_category,
+                daily_production: item.daily_production,
+                working_type: item.working_type
+            }));
+            setOldItems(newList);
+        }
+    }, [productionRates]);
+
     const columns = [
         {
             title: 'رقم العمل',
@@ -111,6 +125,7 @@ const ProductionRates = () => {
                 onClose={() => {
                 setOpenUpdate(false);
                 }} 
+                old_items={old_items}
                 />
             )}
             <div style={{ height: '50px' }} />

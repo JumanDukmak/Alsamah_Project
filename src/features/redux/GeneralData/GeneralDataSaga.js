@@ -18,8 +18,6 @@ import {
 function* getGeneralDataSaga() {
   try {
     const response = yield call(getGeneralDataApi);
-    console.log(`the get staus ${response.status}`);
-    console.log(`${JSON.stringify(response.status)}`);
     yield put(getGeneralDataSuccess({ GeneralData: response.data.data }));
   } catch (error) {
     yield put(getGeneralDataFailure({ error: error.response.data.message }));
@@ -29,16 +27,10 @@ function* getGeneralDataSaga() {
 //-----------------------------addCountrySaga--------------------------------
 function* addGeneralDataSaga(action) {
   try {
-
-    console.log(`the name is ${action.payload.name} and the value is ${action.payload.value}`)
-    const response = yield call(
-      addGeneralDataApi,
-
+    const response = yield call(addGeneralDataApi,
       action.payload.name,
       action.payload.value
     );
-    console.log(` the add staus ${response.status}`);
-    console.log(`${JSON.stringify(response.status)}`);
     yield put(addGeneralDataSuccess(response.data));
   } catch (error) {
     yield put(addGeneralDataFailure({ error: error.response.data.message }));
@@ -53,8 +45,6 @@ function* updateGeneralDataSaga(action) {
       action.payload.value,
       action.payload.id
     );
-    console.log(`the update staus ${response.status}`);
-    console.log(`${JSON.stringify(response.status)}`);
     yield put(updateGeneralDataSuccess(response.data));
   } catch (error) {
     yield put(updateGeneralDataFailure({ error: error.response.data.message }));

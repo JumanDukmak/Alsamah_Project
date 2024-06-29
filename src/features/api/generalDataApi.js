@@ -28,10 +28,9 @@ export const addGeneralDataApi = (name,value) => {
 }
 
 export const updateGeneralDataApi = (name,value,id) => {
-    return axios.post('http://127.0.0.1:8000/api/costs/updateGeneralData', {
+    return axios.post(`http://127.0.0.1:8000/api/costs/updateGeneralData/${id}`, {
         name: name,
         value:value,
-        id:id
     },
         {
             headers: {

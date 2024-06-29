@@ -34,7 +34,7 @@ function* updateFinancialExpensesSaga(action) {
             action.payload.id )
         yield put(updateFinancialExpensesSuccess(response.data))
     } catch(error) {
-        yield put(updateFinancialExpensesFailuer({ 'error': response }))
+        yield put(updateFinancialExpensesFailuer({ 'error': error.response }))
     }
 
 }
@@ -42,7 +42,6 @@ function* updateFinancialExpensesSaga(action) {
 function* getFinancialExpensesSaga() {
     const response = yield call(getFinancialExpensesApi)
     if(response.status == 200 || response.status == 201) {
-        console.log("response:"+ response);
         yield put(getFinancialExpensesSuccess({ 'financialExpenses': response.data.data }))
     } else {
         yield put(getFinancialExpensesFailure({ 'error': response }))

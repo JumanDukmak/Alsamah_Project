@@ -4,58 +4,66 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddInitialMaterial from './AddInitialMaterial';
 import { getInitialMaterialsFetch, resetData_initialMaterials } from '../../redux/InitialMaterials/initialMaterialsSlice';
-
-const columns = [
-    {
-        title: 'رقم المادة',
-        dataIndex: 'material_number',
-        key: 'material_number',
-    },
-    {
-        title: 'اسم المادة',
-        dataIndex: 'material_name',
-        key: 'material_name',
-    },
-    {
-        title: 'النوع',
-        dataIndex: 'type',
-        key: 'type',
-    },
-    {
-        title: 'مدة التخزين',
-        dataIndex: 'storage_period',
-        key: 'storage_period',
-    },
-    {
-        title: 'البضاعة في الطريق',
-        dataIndex: 'shipping_installation_duration',
-        key: 'shipping_installation_duration',
-    },
-    {
-        title: 'السعر ( ل س )',
-        dataIndex: 'SYP',
-        key: 'SYP',
-    },
-    {
-        title: 'السعر ( $ )',
-        dataIndex: 'priceD',
-        key: 'priceD',
-    },
-    {
-        title: 'العملية',
-        key: 'operation',
-        render: () => 
-            <Space size="large">
-                <a>تعديل</a>
-                <a style={{color: 'red'}}>حذف</a>
-            </Space>
-        ,
-    },
-];
+import UpdateInitialMaterial from './UpdateInitialMaterial';
 
 const InitialMaterials = () => {
     const dispatch = useDispatch();
     const initialMaterials = useSelector((state) => state.initialMaterials);
+    const [openUpdate, setOpenUpdate] = useState(false);
+    const [selectedItemId, setSelectedItemId] = useState(null);
+
+    const columns = [
+        {
+            title: 'رقم المادة',
+            dataIndex: 'material_number',
+            key: 'material_number',
+        },
+        {
+            title: 'اسم المادة',
+            dataIndex: 'material_name',
+            key: 'material_name',
+        },
+        {
+            title: 'النوع',
+            dataIndex: 'type',
+            key: 'type',
+        },
+        {
+            title: 'مدة التخزين',
+            dataIndex: 'storage_period',
+            key: 'storage_period',
+        },
+        {
+            title: 'البضاعة في الطريق',
+            dataIndex: 'shipping_installation_duration',
+            key: 'shipping_installation_duration',
+        },
+        {
+            title: 'السعر ( ل س )',
+            dataIndex: 'SYP',
+            key: 'SYP',
+        },
+        {
+            title: 'السعر ( $ )',
+            dataIndex: 'priceD',
+            key: 'priceD',
+        },
+        {
+            title: 'العملية',
+            key: 'operation',
+            render: (record) => 
+                <Space>
+                    <Button type="link" onClick={() => {
+                    setSelectedItemId(record.id);
+                    setOpenUpdate(true);
+                    }}>
+                    تعديل
+                    </Button>
+                    <a style={{color: 'red'}}>حذف</a>
+                </Space>
+            ,
+        },
+    ];
 
     useEffect(() => {
         dispatch(getInitialMaterialsFetch());
@@ -73,10 +81,27 @@ const InitialMaterials = () => {
         }
     }, [initialMaterials.message, initialMaterials.error]);
 
+    const [old_items, setOldItems] = useState([]);
+    useEffect(() => {
+        if (initialMaterials) {
+            const newList = initialMaterials.initialMaterials.map((item) => ({
+                id: item.id,
+                material_number: item.material_number,
+                material_name: item.material_name,
+                type: item.type,
+                priceD: item.priceD,
+                storage_period: item.storage_period,
+                shipping_installation_duration: item.shipping_installation_duration
+            }));
+            setOldItems(newList);
+        }
+    }, [initialMaterials]);
+
     const [open, setOpen] = useState(false);
     const showModal = () => {
         setOpen(true);
     };
+
     return (
         <div className='conatiner_body'>
             {contextHolder}
@@ -110,6 +135,17 @@ const InitialMaterials = () => {
             dataSource={initialMaterials.initialMaterials}
             pagination={false}
             />
+
+            {selectedItemId && (
+                <UpdateInitialMaterial
+                id={selectedItemId}
+                open={openUpdate}
+                onClose={() => {
+                setOpenUpdate(false);
+                }} 
+                old_items={old_items}
+                />
+            )}
             <div style={{ height: '50px' }} />
         </div>
     )

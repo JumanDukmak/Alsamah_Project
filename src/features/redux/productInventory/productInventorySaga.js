@@ -1,6 +1,6 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
-import { addProductInventoryApi, getProductInventoryApi, uploadProductInventoryFileApi } from "../../api/productInventoryApi";
-import { addProductsInventoryFailuer, addProductsInventorySuccess, getProductsInventoryFailure, getProductsInventorySuccess, uploadProductsInventoryFileFailure, uploadProductsInventoryFileSuccess } from "./productInventorySlice";
+import { addProductInventoryApi, getProductInventoryApi, updateProductInventoryApi, uploadProductInventoryFileApi } from "../../api/productInventoryApi";
+import { addProductsInventoryFailuer, addProductsInventorySuccess, getProductsInventoryFailure, getProductsInventorySuccess, updateProductsInventoryFailure, updateProductsInventorySuccess, uploadProductsInventoryFileFailure, uploadProductsInventoryFileSuccess } from "./productInventorySlice";
 
 function* addProductsInventorySaga(action) {
     console.log("action:" +action.payload);
@@ -29,6 +29,18 @@ function* getProductsInventorySaga(action) {
     }
 }
 
+function* updateProductsInventorySaga(action) {
+    try {
+        const response = yield call(updateProductInventoryApi, 
+            action.payload.quantity,
+            action.payload.inventory_date,
+            action.payload.id )
+        yield put(updateProductsInventorySuccess(response.data))
+    } catch (error) {
+        yield put(updateProductsInventoryFailure({ 'error': error.response }))
+    }
+}
+
 function* uploadProductsInventoryFileSaga(action) {
     const formData = new FormData();
     formData.append("excel_file", action.payload.excel_file);
@@ -52,10 +64,15 @@ function* uploadProductsInventoryFileWatcherSaga() {
     yield takeEvery("productsInventory/uploadProductsInventoryFileFetch", uploadProductsInventoryFileSaga);
 }
 
+function* updateProductsInventoryWatcherSaga() {
+    yield takeEvery("productsInventory/updateProductsInventoryFetch", updateProductsInventorySaga);
+}
+
 export default function* ProductsInventorySaga() {
     yield all([
         addProductsInventoryWatcherSaga(),
         getProductsInventoryWatcherSaga(),
-        uploadProductsInventoryFileWatcherSaga()
+        uploadProductsInventoryFileWatcherSaga(),
+        updateProductsInventoryWatcherSaga()
     ]);
 }

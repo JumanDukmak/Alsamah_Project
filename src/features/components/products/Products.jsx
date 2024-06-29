@@ -178,13 +178,6 @@ const Products = () => {
             scroll={{
                 x: 1940
             }}
-            // onRow={(record, rowIndex) => {
-            //     return {
-            //         onClick: () => {
-            //             setSelectedItemId(record.id)
-            //         } 
-            //     };
-            // }}
             />
             <AddMaterialProduct
         id={selectedId_f_Material}
