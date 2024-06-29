@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const salesDistractionsSlice = createSlice({
-    name: 'salesDistraction',
+    name: 'salesDistractions',
     initialState: {
         loading: false,
-        distractions: [],
+        salesDistractions: [],
         error: null,
         message: null,
     },
@@ -14,12 +14,12 @@ const salesDistractionsSlice = createSlice({
             state.loading = true;
             state.error = null;
             state.message = null;
-            state.distractions = []
+            state.salesDistractions = []
         },
 
         getExportSalesSuccess: (state, action) => {
             state.loading = false;
-            state.distractions = action.payload.data;
+            state.salesDistractions = action.payload;
             state.message = action.payload.message;
             state.error = null;
         },
@@ -28,7 +28,7 @@ const salesDistractionsSlice = createSlice({
             state.loading = false;
             state.error = action.payload.error;
             state.message = null;
-            state.distractions = []
+            state.salesDistractions = []
         },
 
         resetData_distractions: (state) => {
@@ -45,7 +45,7 @@ const salesDistractionsSlice = createSlice({
 
         getLocalSalesSuccess: (state, action) => {
             state.loading = false;
-            state.distractions = action.payload.data;
+            state.salesDistractions = action.payload;
             state.message = action.payload.message;
             state.error = null;
         },
@@ -65,7 +65,7 @@ const salesDistractionsSlice = createSlice({
 
         getTotalSalesSuccess: (state, action) => {
             state.loading = false;
-            state.distractions = action.payload.data;
+            state.salesDistractions = action.payload;
             state.message = action.payload.message;
             state.error = null;
         },

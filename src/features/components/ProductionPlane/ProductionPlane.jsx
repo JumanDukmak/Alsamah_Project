@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
-import { Table, Tabs } from "antd";
+import { Button, Table, Tabs, notification, Space } from "antd";
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 const ProductionPlane = () => {
@@ -182,9 +182,41 @@ const ProductionPlane = () => {
     },
   ];
 
+  const [api, contextHolder] = notification.useNotification();
+  const [currentAlertIndex, setCurrentAlertIndex] = useState(0);
+  const openNotification = () => {
+    if (currentAlertIndex < productionPlane.alerts.length) {
+      const { title, alert } = productionPlane.alerts[currentAlertIndex];
+      const key = `open${Date.now()}-${currentAlertIndex}`;
+      const btn = (
+          <Button type="link" size="small" onClick={() => api.destroy()}>
+            تخطي الكل
+          </Button>
+      );
+      api.open({
+        message: title,
+        description: alert,
+        placement: 'bottomRight',
+        duration: 0,
+        btn,
+        key,
+        onClose: () => console.log(`Notification ${key} closed`),
+      });
+    } else {
+      console.log("All alerts have been shown");
+    }
+  };
+
   return (
     <div className="conatiner_body">
       <Tabs type="card" size="large" items={items} />
+      {contextHolder}
+      <Button type="primary" onClick={() => {
+      setCurrentAlertIndex(currentAlertIndex + 1);
+      openNotification('warning')
+      }}>
+        اضفط لاستعراض التنبيهات
+      </Button>
     </div>
   );
 };
