@@ -105,7 +105,7 @@ const productSlice = createSlice({
             state.error = action.payload.error;
             state.product = null;
         },
-
+//--
          //get products without pagination slice
         getAllProductsFetch: (state) => {
             state.isLoading = true;
@@ -115,7 +115,7 @@ const productSlice = createSlice({
 
         getAllProductsSuccess: (state, action) => {
             state.isLoading = false;
-            state.allProducts = action.payload.data;
+            state.allProducts = action.payload;
             state.error = null;
         },
 

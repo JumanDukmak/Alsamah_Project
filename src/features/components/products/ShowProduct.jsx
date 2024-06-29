@@ -18,9 +18,23 @@ const ShowProduct = () => {
 
     const [directWorks, setDirectWorks] = useState([]);
     const [old_items, setOldItems] = useState([]);
+    const[old_directWorks,setOldDirectWorks]=useState([]);
+
     useEffect(() => {
         if (product) {
+       
             setDirectWorks(product.direct_costPerDozen);
+
+//------------------------------
+const newList_directWorks=product.direct_costPerDozen.map((item)=>({
+    directWork:item.working_number
+}));
+
+console.log(`newList_directWorks : ${JSON.stringify(newList_directWorks)}`)
+setOldDirectWorks(newList_directWorks);
+//---------------------------
+
+
             const newList = product.InitialMaterials.map((item) => ({
                 initial_material_id: item.id,
                 quantity: item.quantity
@@ -28,6 +42,8 @@ const ShowProduct = () => {
             setOldItems(newList);
         }
     }, [product]);
+
+
 
     const columns2 = [
         {

@@ -11,7 +11,6 @@ const { Option } = Select;
 export default function UpdateMaterialProduct({ open, onClose,id,old_items }) {
   const [form] = useForm();
   const dispatch = useDispatch();
-  const intialMaterial=useSelector((state)=> state.initialMaterials)
   const initialMaterials = useSelector((state) => state.initialMaterials);
   const [api, contextHolder] = message.useMessage();
 

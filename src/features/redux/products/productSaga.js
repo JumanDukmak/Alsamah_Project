@@ -80,11 +80,11 @@ function* getProductCardSaga(action) {
     yield put(getProductCardFailure({ error: response }));
   }
 }
-
+//--
 function* getAllProductSaga() {
   const response = yield call(getAllProductsApi);
   if (response.status == 200 || response.status == 201) {
-    yield put(getAllProductsSuccess(response.data));
+    yield put(getAllProductsSuccess(response.data.data));
   } else {
     yield put(getAllProductsFailure({ error: response }));
   }

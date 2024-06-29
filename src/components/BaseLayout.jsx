@@ -134,10 +134,20 @@ const BaseLayout = (props) => {
                         <Menu.Item key='17' 
                         style={{ fontWeight: '600' }}
                         onClick={() => navigate('/show/inventory/initialMaterials')}>مخزون المواد الأولية</Menu.Item>
-                        <Menu.Item key='18'
+                         <Menu.Item key='18' 
+                        style={{ fontWeight: '600' }}
+                        onClick={() => navigate('/MachineProductivity')}>إنتاجية الآلات  </Menu.Item>
+
+<Menu.Item key='19' 
+                        style={{ fontWeight: '600' }}
+                        onClick={() => navigate('/Actual_Expected')}> مقارنةالفعلي والمتوقع </Menu.Item>
+
+
+                        <Menu.Item key='20'
                         style={{ fontWeight: '600' }} 
                         onClick={() => navigate('/ShowProductionPlane')}>الخطة الإنتاجية</Menu.Item>
                     </SubMenu>
+
 
                     <SubMenu key='sub6'
                         title={
@@ -150,6 +160,13 @@ const BaseLayout = (props) => {
                         style={{ fontWeight: '600' }} 
                         onClick={() => navigate('/ShowPurchasesPlan')}>خطة المشتربات</Menu.Item>
                     </SubMenu>
+
+                    <Menu.Item key='21' onClick={() => navigate('/AddMaterialOnShipping')}>
+                        <DropboxOutlined />
+                        <span>البضاعة في الطريق </span>
+                    </Menu.Item>
+
+
                 </Menu>
             </Sider>
 

@@ -35,6 +35,9 @@ import UpdateProductInventory from './features/components/ProductInventory/Updat
 import PurchasesPlan from './features/components/PurchasesPlan/PurchasesPlan'
 import ShowPurchasesPlan from './features/components/PurchasesPlan/ShowPurchasesPlan'
 import UpdateInitialMaterialInventory from './features/components/InitialMaterialsInventory/UpdateInitialMaterialInventory'
+import MachineProductivity from './features/components/MachineProductivity/MachineProductivity'
+import Actual_Expected from './features/components/MachineProductivity/Actual_Expected'
+import AddMaterialOnShipping from './features/components/MaterialOnShipping/AddMaterialOnShipping'
 
 function App() {
   return (  
@@ -81,6 +84,9 @@ function App() {
             <Route exact path='/update/inventory/initialMaterials' element={<UpdateInitialMaterialInventory />} />
             <Route exact path='/ShowPurchasesPlan' element={<ShowPurchasesPlan />} />
             <Route exact path='/PurchasesPlan' element={<PurchasesPlan />} />
+            <Route exact path='/MachineProductivity' element={<MachineProductivity />} />
+            <Route exact path='/Actual_Expected' element={<Actual_Expected />} />
+            <Route exact path='/AddMaterialOnShipping' element={<AddMaterialOnShipping />} />
         </Routes>
     </BaseLayout>
   </ConfigProvider>

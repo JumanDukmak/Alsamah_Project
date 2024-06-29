@@ -27,7 +27,10 @@ import {
 } from "chart.js";
 import { Bar, Pie } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductsChartsFetch, getSalesChartsFetch } from "../redux/SalesReports/salesChartsSlice";
+import {
+  getProductsChartsFetch,
+  getSalesChartsFetch,
+} from "../redux/SalesReports/salesChartsSlice";
 import { useEffect, useState } from "react";
 import { json } from "react-router-dom";
 
@@ -44,161 +47,162 @@ ChartJS.register(
   Legend
 );
 
-const data2 = {
-  labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-  datasets: [
-    {
-      label: "# of Votes",
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(54, 162, 235, 0.2)",
-        "rgba(255, 206, 86, 0.2)",
-        "rgba(75, 192, 192, 0.2)",
-        "rgba(153, 102, 255, 0.2)",
-        "rgba(255, 159, 64, 0.2)",
-      ],
-      borderColor: [
-        "rgba(255, 99, 132, 1)",
-        "rgba(54, 162, 235, 1)",
-        "rgba(255, 206, 86, 1)",
-        "rgba(75, 192, 192, 1)",
-        "rgba(153, 102, 255, 1)",
-        "rgba(255, 159, 64, 1)",
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
-
 function Dashboard() {
   const dispatch = useDispatch();
   const salesCharts = useSelector((state) => state.salesCharts.salesCharts);
-  const productsCharts = useSelector((state) => state.salesCharts.productsCharts);
-
+  const productsCharts = useSelector(
+    (state) => state.salesCharts.productsCharts
+  );
   const [data_filtering2, setData_filtering2] = useState({
     from: "",
     to: "",
     categories: [],
   });
-
-  const [data_filtering1,setData_filtering1]=useState({year:new Date().getFullYear() ,month:""})
+  const [data_filtering1, setData_filtering1] = useState({
+    year: new Date().getFullYear(),
+    month: "",
+  });
+  
 
   useEffect(() => {
-  
     const new_data = {
       //new Date(data_filtering2.from).getMonth() + 1
-      from: data_filtering2.from ? ( data_filtering2.from).format("MM") : "",
-      to: data_filtering2.to ? (data_filtering2.to).format("MM") : "",
-      categories: data_filtering2.categories
-    }
+      from: data_filtering2.from ? data_filtering2.from.format("MM") : "",
+      to: data_filtering2.to ? data_filtering2.to.format("MM") : "",
+      categories: data_filtering2.categories,
+    };
 
-   
     dispatch(getSalesChartsFetch(new_data));
-    
-    
-  
   }, [data_filtering2]);
 
-  useEffect(()=>{
-    const new_data={
-year:data_filtering1.year ,
-month: data_filtering1.month ? parseInt(data_filtering1.month.format('MM'), 10) :""
+  useEffect(() => {
+
+    const new_data = {
+      year: data_filtering1.year,
+      month: data_filtering1.month
+        ? parseInt(data_filtering1.month.format("MM"), 10)
+        : "",
+    };
+
+    dispatch(getProductsChartsFetch(new_data));
+   
+
+   
+  }, [data_filtering1]);
+
+ 
 
 
-    }
-    console.log(
-      `the from is : ${new_data.year} , the to is :${new_data.month}`
-    );
-    dispatch(getProductsChartsFetch(new_data))
 
 
-  },[data_filtering1])
 
   // Extracting the years from the response data
   const years = Object.keys(salesCharts);
   // console.log(`the years are ${JSON.stringify(years)}`)
-const catgs=Object.keys(productsCharts)
- console.log(`the data are ${JSON.stringify(catgs)}`)
+  const catgs = Object.keys(productsCharts);
+
   // Initialize an empty array to store datasets
   const datasets = [];
-const datasets1=[];
+  const datasets1 = [];
 
- // Loop through each year in the data
- catgs.forEach((catg) => {
-  // Extract the sales data for the current year
-  const productData = productsCharts[catg];
-  // console.log(`the years are ${JSON.stringify(salesData)}`)
-  // Initialize arrays to store sales data for each type
  
-  const Alsamah = [];
-  const Latnyana = [];
-  const Bali = [];
-  const total_brands=[];
-
-  // Loop through the sales data for the current year
-  productData.forEach((sale) => {
-    // Check the type of sale and push the sales sum to the corresponding array
-    switch (sale.brand) {
-      case "السماح":
-        Alsamah.push(parseFloat(sale.sales_sum));
-       
-        break;
-      case "لاتنيانا":
-        Latnyana.push(parseFloat(sale.sales_sum));
-        break;
-      case "بالي":
-        Bali.push(parseFloat(sale.sales_sum));
-        
-        case "إجمالي الماركات":
-          total_brands.push(parseFloat(sale.sales_sum));
-        break;
-     
-      default:
-        break;
-    }
-
-  });
-
-  const catgoriesColors = {
-    نسائي: "rgba(215, 135, 255, 0.6)",
-    داخلي : "rgba(35, 137, 255, 0.6)",
-    سملس: "rgba(13, 204, 204, 0.6)",
-    إجمالي_الأصناف: "rgba(241, 142, 86, 0.6)",
-   
-  
-  };
-
-  const borderColors = {
-    نسائي: "rgba(215, 135, 255, 1)",
-    داخلي: "rgba(35, 137, 255, 1)",
-    سملس: "rgba(13, 204, 204, 1)",
-    إجمالي_الأصناف: "rgba(241, 142, 86, 1)",
-   
-   
-  };
-
-
-  // Create a dataset object for the current year
-  const dataset = {
-    label: catg,
-    data: [
-      Alsamah.reduce((a, b) => a + b, 0),
-      Latnyana.reduce((a, b) => a + b, 0),
-      Bali.reduce((a, b) => a + b, 0),
-      total_brands.reduce((a, b) => a + b, 0),
+    const tot = productsCharts["إجمالي الأصناف"];
+  const data2 = {
+    
+    labels:tot ? tot.map((item) => item.brand):[],
+    datasets: [
+      {
+        label: "إجمالي الأصناف",
+        data:tot ? tot.map((item) => item.sales_sum):[],
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+          "rgba(255, 159, 64, 0.2)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+          "rgba(255, 159, 64, 1)",
+        ],
+        borderWidth: 1,
+      },
     ],
-    backgroundColor: catgoriesColors[catg],
+  };
+ 
+
+  // Loop through each year in the data
+  catgs.forEach((catg) => {
+    // Extract the sales data for the current year
+    const productData = productsCharts[catg];
+    // console.log(`the years are ${JSON.stringify(salesData)}`)
+    // Initialize arrays to store sales data for each type
+
+    const Alsamah = [];
+    const Latnyana = [];
+    const Bali = [];
+    const total_brands = [];
+
+    // Loop through the sales data for the current year
+    productData.forEach((sale) => {
+      // Check the type of sale and push the sales sum to the corresponding array
+      switch (sale.brand) {
+        case "السماح":
+          Alsamah.push(parseFloat(sale.sales_sum));
+
+          break;
+        case "لاتنيانا":
+          Latnyana.push(parseFloat(sale.sales_sum));
+          break;
+        case "بالي":
+          Bali.push(parseFloat(sale.sales_sum));
+          break;
+        case "إجمالي الماركات": {
+          total_brands.push(parseFloat(sale.sales_sum));
+
+          break;
+        }
+        default:
+          break;
+      }
+    });
+
+    const catgoriesColors = {
+      نسائي: "rgba(215, 135, 255, 0.6)",
+      داخلي: "rgba(35, 137, 255, 0.6)",
+      سملس: "rgba(13, 204, 204, 0.6)",
+      إجمالي_الأصناف: "rgba(241, 142, 86, 0.6)",
+    };
+
+    const borderColors = {
+      نسائي: "rgba(215, 135, 255, 1)",
+      داخلي: "rgba(35, 137, 255, 1)",
+      سملس: "rgba(13, 204, 204, 1)",
+      إجمالي_الأصناف: "rgba(241, 142, 86, 1)",
+    };
+
+    // Create a dataset object for the current year
+    const dataset = {
+      label: catg,
+      data: [
+        Alsamah.reduce((a, b) => a + b, 0),
+        Latnyana.reduce((a, b) => a + b, 0),
+        Bali.reduce((a, b) => a + b, 0),
+        total_brands.reduce((a, b) => a + b, 0),
+      ],
+      backgroundColor: catgoriesColors[catg],
       borderColor: borderColors[catg],
       borderWidth: 1,
+    };
 
-  };
-
-  // Push the dataset object to the datasets array
-  datasets1.push(dataset);
-});
-
-
+    // Push the dataset object to the datasets array
+    datasets1.push(dataset);
+  });
 
   // Loop through each year in the data
   years.forEach((year) => {
@@ -271,7 +275,7 @@ const datasets1=[];
 
   // Create the chart data object
   const chartData1 = {
-    labels: ["السماح", "لاتنيانا", "بالي" ,"إجمالي الأصناف"],
+    labels: ["السماح", "لاتنيانا", "بالي", "إجمالي الأصناف"],
     datasets: datasets1,
   };
   const chartData2 = {
@@ -398,7 +402,7 @@ const datasets1=[];
                 console.log(`the categories are : ${ids_categories}`);
                 setData_filtering2({
                   ...data_filtering2,
-                  categories: ids_categories ,
+                  categories: ids_categories,
                 });
               }}
             >
@@ -411,57 +415,44 @@ const datasets1=[];
           </Form.Item>
         </Col>
 
-
-
-
         <Col span={8}>
-        <Form.Item label='تاريخ البداية'>
-          <DatePicker
-            selected={data_filtering2.from}
-            onChange={(date) => {
-             
-              setData_filtering2(prevData => ({ ...prevData, from: date }));
-              if (data_filtering2.to && date >= data_filtering2.to) {
-                setData_filtering2(prevData => ({ ...prevData, to: date }));
-              }
-            }}
-            selectsStart
-            startDate={data_filtering2.from}
-             endDate={data_filtering2.to}
-            maxDate={data_filtering2.to}
-            placeholderText='تاريخ البداية'
-            picker="month"
-            format="MMMM"
-          />
-        </Form.Item>
-      </Col>
-      <Col span={8}>
-        <Form.Item label='تاريخ النهاية'>
-          <DatePicker
-            selected={data_filtering2.to}
-            onChange={(date) => {
-              console.log(`the date i selected=========== ${date}`)
-              setData_filtering2(prevData => ({ ...prevData, to: date }));
-           
-          
-            }}
-            selectsEnd
-            startDate={data_filtering2.from}
-            endDate={data_filtering2.to}
-            placeholderText='تاريخ النهاية'
-            minDate={data_filtering2.from}
-            picker="month"
-            format="MMMM"
-          />
-        </Form.Item>
-      </Col>
-
-
-      
-
-       
-
-        
+          <Form.Item label="تاريخ البداية">
+            <DatePicker
+              selected={data_filtering2.from}
+              onChange={(date) => {
+                setData_filtering2((prevData) => ({ ...prevData, from: date }));
+                if (data_filtering2.to && date >= data_filtering2.to) {
+                  setData_filtering2((prevData) => ({ ...prevData, to: date }));
+                }
+              }}
+              selectsStart
+              startDate={data_filtering2.from}
+              endDate={data_filtering2.to}
+              maxDate={data_filtering2.to}
+              placeholderText="تاريخ البداية"
+              picker="month"
+              format="MMMM"
+            />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item label="تاريخ النهاية">
+            <DatePicker
+              selected={data_filtering2.to}
+              onChange={(date) => {
+                console.log(`the date i selected=========== ${date}`);
+                setData_filtering2((prevData) => ({ ...prevData, to: date }));
+              }}
+              selectsEnd
+              startDate={data_filtering2.from}
+              endDate={data_filtering2.to}
+              placeholderText="تاريخ النهاية"
+              minDate={data_filtering2.from}
+              picker="month"
+              format="MMMM"
+            />
+          </Form.Item>
+        </Col>
       </Row>
 
       <Row>
@@ -480,13 +471,10 @@ const datasets1=[];
               placeholder=" سنة المقارنة  "
               style={{ width: "100%" }}
               onChange={(value) => {
-                
                 setData_filtering1({
                   ...data_filtering1,
-                  year: value ? value.format('YYYY') : new Date().getFullYear(), // Update the selected year in the report state
+                  year: value ? value.format("YYYY") : new Date().getFullYear(), // Update the selected year in the report state
                 });
-
-                
               }}
             />
           </Form.Item>
