@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { getInitialMaterialsFetch, resetData_initialMaterials, updateMaterialProductFetch } from "../../redux/InitialMaterials/initialMaterialsSlice";
 import { useForm } from "antd/es/form/Form";
+import { getProductCardFetch } from "../../redux/products/productSlice";
 
 const { Option } = Select;
 
@@ -50,7 +51,7 @@ let data={
 }
 
      dispatch(updateMaterialProductFetch(data));
-   
+     dispatch(getProductCardFetch(id));
     
     onClose();
   };

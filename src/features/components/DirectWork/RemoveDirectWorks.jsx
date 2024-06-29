@@ -5,6 +5,7 @@ import {
   deleteDirectWorkStart,
   resetData_directWork,
 } from "../../redux/directWork/directWorkSlice";
+import { getProductCardFetch } from "../../redux/products/productSlice";
 
 const { Option } = Select;
 
@@ -60,8 +61,9 @@ export default function RemoveDirectWorks({
       productId: id,
       directWork: listDirectWork.working_numbers,
     };
-
+  
     dispatch(deleteDirectWorkStart(data));
+    dispatch(getProductCardFetch(id));
     onClose();
   };
 

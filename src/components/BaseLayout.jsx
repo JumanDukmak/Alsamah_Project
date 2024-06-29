@@ -156,12 +156,12 @@ const BaseLayout = (props) => {
                                 <span>المشتربات</span>
                             </span>}
                     >
-                        <Menu.Item key='19'
+                        <Menu.Item key='21'
                         style={{ fontWeight: '600' }} 
                         onClick={() => navigate('/ShowPurchasesPlan')}>خطة المشتربات</Menu.Item>
                     </SubMenu>
 
-                    <Menu.Item key='21' onClick={() => navigate('/AddMaterialOnShipping')}>
+                    <Menu.Item key='22' onClick={() => navigate('/AddMaterialOnShipping')}>
                         <DropboxOutlined />
                         <span>البضاعة في الطريق </span>
                     </Menu.Item>
