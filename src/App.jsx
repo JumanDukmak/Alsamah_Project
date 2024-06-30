@@ -37,6 +37,7 @@ import UpdateInitialMaterialInventory from './features/components/InitialMateria
 import MachineProductivity from './features/components/MachineProductivity/MachineProductivity'
 import Actual_Expected from './features/components/MachineProductivity/Actual_Expected'
 import AddMaterialOnShipping from './features/components/MaterialOnShipping/AddMaterialOnShipping'
+import AddExpectSales from './features/components/Sales/AddExpectSales'
 
 function App() {
   return (  
@@ -85,6 +86,7 @@ function App() {
             <Route exact path='/MachineProductivity' element={<MachineProductivity />} />
             <Route exact path='/Actual_Expected' element={<Actual_Expected />} />
             <Route exact path='/AddMaterialOnShipping' element={<AddMaterialOnShipping />} />
+            <Route exact path='/AddExpectSales' element={<AddExpectSales />} />
         </Routes>
     </BaseLayout>
   </ConfigProvider>

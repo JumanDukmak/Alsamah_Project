@@ -10,3 +10,20 @@ export function uploadSalesFileApi(formData) {
     }
     ).then(response => (response)).catch(error =>(error.response.data.message) )
 }
+
+export function uploadExpectSalesFileApi(formData) {
+    return axios.post('http://127.0.0.1:8000/api/sales/import-expect-sales', formData, 
+    {
+        headers: {
+            'Authorization': `Bearer ${''}`,
+            'Content-Type': 'multipart/form-data'
+        }, 
+    }
+    ).then(response => (response)).catch(error =>(error.response.data.message) )
+}
+
+
+
+
+
+

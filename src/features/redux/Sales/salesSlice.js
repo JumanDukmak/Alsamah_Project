@@ -4,6 +4,7 @@ const salesSlice = createSlice({
     name: "sales",
     initialState: {
         sales: [],
+        expect_Sales:[],
         isLoading: false,
         done: false,
         id: 0,
@@ -39,6 +40,29 @@ const salesSlice = createSlice({
             state.error = action.payload.error;
             state.done = false;
         },
+        uploadExpectSalesFileFetch: (state) => {
+            console.log(`helloooooooo`)
+            state.isLoading = true;
+            state.error = null;
+            state.message = null;
+            state.done = false;
+        },
+        
+        uploadExpectSalesFileSuccess: (state, action) => {
+            state.isLoading = false;
+            state.error = null;
+            //state.expect_Sales.push(action.payload.data);
+            state.done = true;
+            console.log(`msg is ${action.payload.message}`)
+            state.message = action.payload.message;
+        },
+        
+        uploadExpectSalesFileFailure: (state, action) => {
+            state.isLoading = false;
+            state.message = null;
+            state.error = action.payload.error;
+            state.done = false;
+        },
     },
 });
 
@@ -46,6 +70,8 @@ export const {
     uploadSalesFileFetch,
     uploadSalesFileSuccess,
     uploadSalesFileFailure,
+    uploadExpectSalesFileFetch,
+    uploadExpectSalesFileSuccess,uploadExpectSalesFileFailure,
     resetData_sales
 } = salesSlice.actions;
 export default salesSlice.reducer;
